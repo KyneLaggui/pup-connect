@@ -5,7 +5,7 @@ import localFont from "next/font/local"
 
 const rubik = Rubik({ subsets: ["latin"] });
 
-const myFont = localFont({ src: '../fonts/digital-7.ttf' })
+const myFont = localFont({ src: '../fonts/InterDisplay-Black.ttf' })
 
 export const metadata = {
   title: "Create Next App",
