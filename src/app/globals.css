@@ -66,10 +66,10 @@
 
     --secondary: var(--blue-50);
     --secondary-foreground: var(--blue-900);
-    --secondary-border: var(--blue-100);
+    --secondary-border: var(--blue-200);
 
     --muted: var(--neutral-white-200);
-    --muted-foreground: var(--neutral-white-800);
+    --muted-foreground: var(--neutral-white-700);
 
     --accent: 210 40% 96.1%;
     --accent-foreground: #000000;
@@ -122,4 +122,14 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.truncate-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3; 
+  line-height: 0.869rem; 
+  max-height: 2.604rem; 
 }
