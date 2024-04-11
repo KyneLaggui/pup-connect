@@ -10,34 +10,36 @@ import {
 import Image from 'next/image'
 import TagsCard from './TagsCard'
 
-
-
-const JobCard = () => {
+const JobCard = ({ title, description }) => {
   return (
-    <Card className="max-w-[296px] max-h-[160px] min-w-[240px] flex justify-start items-center flex-col p-5 border border-blue-100 bg-background">
-      <div className='flex flex-col justify-start items-center gap-3'>
-        <div className='w-full flex items-center justify-start gap-2 flex-row'>
-            <Image
-                  src= '/assets/microsoft.jpg'
-                  width={20}
-                  height={20}
-                  alt='Company Logo'
-                  
-              />
-              <CardTitle className='text-base --obsidian-950 font-medium'>Microsoft Student Program</CardTitle>
+      <Card className="max-w-[296px] max-h-[160px] min-w-[240px] flex justify-start items-center flex-col p-5 border border-blue-100 bg-background">
+        
+            <div className='flex flex-col justify-start items-center gap-3'>
+          
+            <div className='w-full flex items-center justify-start gap-2 flex-row'>
+                <Image
+                      src= '/assets/microsoft.jpg'
+                      width={20}
+                      height={20}
+                      alt='Company Logo'
+                      
+                  />
+                  <CardTitle className='text-base --obsidian-950 font-medium'>{title}</CardTitle>
+              </div>
+              <CardDescription className="text-xs max-h-[42px] truncate-lines font-normal text-muted-foreground">
+                {description}
+              </CardDescription>
           </div>
-          <CardDescription className="text-xs max-h-[42px] truncate-lines font-normal text-muted-foreground">
-            Dive into the world of tech with Microsoft internships! Gain hands-on experience on real projects across various fields, from coding to design. 
-            Explore programs designed for your experience level and learn from industry experts. Visit their Careers website to launch your journey!
-          </CardDescription>
-      </div>
-      <div className='mt-3 w-full overflow-hidden'>
-        <TagsCard />
         
-      </div>
         
-    </Card>
+        <div className='mt-3 w-full overflow-hidden'>
+          <TagsCard />
+          
+        </div>
+          
+      </Card>
   )
+  
 }
 
 export default JobCard
