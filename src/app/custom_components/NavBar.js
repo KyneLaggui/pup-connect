@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 
 const NavBar = () => {
   return (
-    <div className="w-full flex justify-center backdrop-blur-sm fixed top-0 bg-background">
+    <div className="w-full flex justify-center backdrop-blur-sm fixed top-0 bg-background h-20">
       <div className="max-w-[1200px] flex w-full justify-between py-5 items-center">
         <div>
           <h1 className="text-logo font-semibold text-foreground">
