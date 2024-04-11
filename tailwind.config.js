@@ -80,6 +80,11 @@ module.exports = {
           DEFAULT: "var(--neutral-white-100)",
           foreground: "var(--obsidian-950)",
         },
+        tag: {
+          DEFAULT: "var(--blue-100)",
+          foreground: "var(--blue-950)",
+          border: "var(--blue-300)",
+        },
         checkbox: {
           border: "var(--obsidian-200)",
           text: "var(--obsidian-600)",
