@@ -23,9 +23,8 @@ module.exports = {
     },
     container: {
       center: true,
-      padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px",
       },
     },
     extend: {
@@ -38,15 +37,18 @@ module.exports = {
         primary: {
           DEFAULT: "var(--blue-600)",
           foreground: "var(--blue-50)",
+          hover: "var(--blue-500)",
         },
         secondary: {
           DEFAULT: "var(--blue-50)",
           foreground: "var(--blue-900)",
           border: "var(--blue-200)",
+          hover: "var(--neutral-white-50)",
         },
         tertiary: {
           DEFAULT: "var(--neutral-white-50)",
           foreground: "var(--obsidian-950)",
+          hover: "var(--neutral-white-100)",
         },
         destructive: {
           DEFAULT: "var(--red-600)",
