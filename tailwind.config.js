@@ -30,39 +30,43 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "var(--border)",
-        input: "var(--input)",
-        ring: "var(--ring)",
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        border: "var(--neutral-white-200)",
+        input: "var(--neutral-white-200)",
+        ring: "var(--blue-400)",
+        background: "var(--neutral-white-50)",
+        foreground: "var(--obsidian-950)",
         primary: {
-          DEFAULT: "var(--primary)",
-          foreground: "var(--primary-foreground)",
+          DEFAULT: "var(--blue-600)",
+          foreground: "var(--blue-50)",
         },
         secondary: {
-          DEFAULT: "var(--secondary)",
-          foreground: "var(--secondary-foreground)",
-          border: "var(--secondary-border)",
+          DEFAULT: "var(--blue-50)",
+          foreground: "var(--blue-900)",
+          border: "var(--blue-200)",
+        },
+        tertiary: {
+          DEFAULT: "var(--neutral-white-50)",
+          foreground: "var(--obsidian-950)",
         },
         destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
+          DEFAULT: "var(--red-600)",
+          foreground: "var(--neutral-white-50)",
         },
         muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
+          DEFAULT: "var(--neutral-white-200)",
+          foreground: "var(--neutral-white-700)",
         },
         accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
+          DEFAULT: "var(--blue-400)",
+          foreground: "var(--blue-950)",
         },
         popover: {
-          DEFAULT: "var(--popover)",
-          foreground: "var(--popover-foreground)",
+          DEFAULT: "var(--neutral-white-100)",
+          foreground: "var(--obsidian-950)",
         },
         card: {
-          DEFAULT: "var(--card)",
-          foreground: "var(--card-foreground)",
+          DEFAULT: "var(--neutral-white-100)",
+          foreground: "var(--obsidian-950)",
         },
       },
       borderRadius: {

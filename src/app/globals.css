@@ -66,10 +66,10 @@
 
     --secondary: var(--blue-50);
     --secondary-foreground: var(--blue-900);
-    --secondary-border: var(--red-600);
+    --secondary-border: var(--blue-200);
 
     --muted: var(--neutral-white-200);
-    --muted-foreground: var(--neutral-white-800);
+    --muted-foreground: var(--neutral-white-700);
 
     --accent: 210 40% 96.1%;
     --accent-foreground: #000000;
