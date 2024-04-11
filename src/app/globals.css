@@ -123,3 +123,13 @@
     @apply bg-background text-foreground;
   }
 }
+
+.truncate-lines {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 3; 
+  line-height: 0.869rem; 
+  max-height: 2.604rem; 
+}
