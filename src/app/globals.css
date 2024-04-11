@@ -66,7 +66,7 @@
 
     --secondary: var(--blue-50);
     --secondary-foreground: var(--blue-900);
-    --secondary-border: var(--blue-100);
+    --secondary-border: var(--red-600);
 
     --muted: var(--neutral-white-200);
     --muted-foreground: var(--neutral-white-800);
