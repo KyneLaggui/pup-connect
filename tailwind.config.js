@@ -41,7 +41,7 @@ module.exports = {
           foreground: "var(--obsidian-400)",
           border: "var(--obsidian-100)",
         },
-        ring: "var(--blue-400)",
+        ring: "var(--blue-600)",
         background: "var(--neutral-white-50)",
         foreground: "var(--obsidian-950)",
         primary: {
@@ -80,6 +80,10 @@ module.exports = {
           DEFAULT: "var(--neutral-white-100)",
           foreground: "var(--obsidian-950)",
         },
+        checkbox: {
+          border: "var(--obsidian-200)",
+          text: "var(--obsidian-600)",
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
