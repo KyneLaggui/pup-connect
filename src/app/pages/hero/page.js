@@ -9,7 +9,7 @@ const Hero = () => {
 
         <div className="w-full fixed ">
           <div className="container">
-            <div>© 2024 PUP Connect. All rights reserved.</div>
+            <div className="">© 2024 PUP Connect. All rights reserved.</div>
           </div>
         </div>
       </div>

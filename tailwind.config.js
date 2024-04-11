@@ -9,6 +9,12 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+    fontWeight: {
+      normal: "400",
+      medium: "500",
+      semibold: "600",
+      bold: "700",
+    },
     fontSize: {
       logo: "1.25rem",
       xs: "0.694rem",
