@@ -80,6 +80,11 @@ module.exports = {
           DEFAULT: "var(--neutral-white-100)",
           foreground: "var(--obsidian-950)",
         },
+        tag: {
+          DEFAULT: "var(--blue-100)",
+          foreground: "var(--blue-950)",
+          border: "var(--blue-300)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
