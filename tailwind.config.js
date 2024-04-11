@@ -36,7 +36,11 @@ module.exports = {
     extend: {
       colors: {
         border: "var(--neutral-white-200)",
-        input: "var(--neutral-white-200)",
+        input: {
+          DEFAULT: "var(--obsidian-50)",
+          foreground: "var(--obsidian-400)",
+          border: "var(--obsidian-100)",
+        },
         ring: "var(--blue-400)",
         background: "var(--neutral-white-50)",
         foreground: "var(--obsidian-950)",
