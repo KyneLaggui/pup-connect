@@ -10,7 +10,7 @@ import {
 import Image from 'next/image'
 import TagsCard from './TagsCard'
 
-const JobCard = ({ title, description }) => {
+const JobCard = ({ title, description, image }) => {
   return (
       <Card className="max-w-[296px] h-[160px] min-w-[240px] flex justify-between items-center flex-col p-5 border border-blue-100 bg-background">
         
@@ -18,7 +18,7 @@ const JobCard = ({ title, description }) => {
 
             <div className='w-full flex items-center justify-start gap-2 flex-row'>
                 <Image
-                      src= '/assets/microsoft.jpg'
+                      src= {image}
                       width={20}
                       height={20}
                       alt='Company Logo'
