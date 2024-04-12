@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 const Accordion = AccordionPrimitive.Root
 
 const AccordionItem = React.forwardRef(({ className, ...props }, ref) => (
-  <AccordionPrimitive.Item ref={ref} className={cn("border-b", className)} {...props} />
+  <AccordionPrimitive.Item ref={ref} className={cn("border-b rounded-md border-accent", className)} {...props} />
 ))
 AccordionItem.displayName = "AccordionItem"
 
@@ -18,7 +18,7 @@ const AccordionTrigger = React.forwardRef(({ className, children, ...props }, re
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        "flex flex-1 items-center justify-between py-2 px-4 bg-tag border border-accent rounded-md font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180",
+        "flex flex-1 items-center justify-between py-2 px-4 bg-tag border border-b-0 border-accent rounded-md font-medium transition-all hover:underline [&[data-state=open]>svg]:rotate-180 data-[state=open]:rounded-b-none",
         className
       )}
       {...props}>
