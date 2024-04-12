@@ -88,6 +88,9 @@ module.exports = {
         checkbox: {
           border: "var(--obsidian-200)",
           text: "var(--obsidian-600)",
+        },
+        accordion: {
+          DEFAULT: "var(--blue-800)"
         }
       },
       borderRadius: {
