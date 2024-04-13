@@ -38,11 +38,11 @@ const Explore = () => {
                 <JobCard key={job.number} {...job}/>
                 </DrawerTrigger>
 
-                <DrawerContent>
-                  <div className="flex justify-between p-12">
+                <DrawerContent className="lg:h-[95%] h-screen">
+                  <div className="flex justify-between p-12 overflow-y-scroll">
                     <div className="flex flex-col justify-center items-start gap-5">
 
-                      <div className="flex justify-between items-center lg:min-w-[940px] w-full">
+                      <div className="flex justify-between items-center lg:min-w-[940px] w-full ">
                         <h1 className="text-4xl font-semibold text-foreground">{job.title}</h1>
                         <div className="flex items-center gap-2">
                           <Button className='px-10 py-3 text-sm font-medium'>Contact Us</Button>
@@ -102,6 +102,10 @@ const Explore = () => {
                             )) }
                           </ul>
                       </div>
+
+                     
+
+                      
 
                       
                     </div>
