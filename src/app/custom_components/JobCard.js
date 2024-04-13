@@ -22,11 +22,12 @@ const JobCard = ({ title, description, image, tags }) => {
                       width={20}
                       height={20}
                       alt='Company Logo'
+                      className='rounded-[1px]'
                       
                   />
                   <CardTitle className='text-base --obsidian-950 font-medium'>{title}</CardTitle>
             </div>
-            <CardDescription className="text-xs max-h-[42px] truncate-lines font-normal text-muted-foreground">
+            <CardDescription className="text-xs max-h-[42px] truncate-lines font-normal text-muted-foreground text-start">
               {description}
             </CardDescription>
           </div>

@@ -16,7 +16,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button";
-import { Share2 } from "lucide-react";
+import { Navigation, Share2 } from "lucide-react";
+import Image from 'next/image'
 
 
 
@@ -41,7 +42,7 @@ const Explore = () => {
                   <div className="flex justify-between p-12">
                     <div className="flex flex-col justify-center items-start gap-5">
                       <div className="flex justify-between items-center lg:min-w-[940px] w-full">
-                        <h1 className="text-4xl font-semibold">{job.title}</h1>
+                        <h1 className="text-4xl font-semibold text-foreground">{job.title}</h1>
                         <div className="flex items-center gap-2">
                           <Button className='px-10 py-3 text-sm font-medium'>Contact Us</Button>
                           <div className="border border-buttonBorder p-3 rounded-md"> 
@@ -49,15 +50,28 @@ const Explore = () => {
                           </div>
                         </div>
                       </div>
-                      <div className="flex flex-row gap-3">
-                          
+                      <div className="flex flex-row gap-3">   
                           {job.tags.map((tag, index) => (
                             <div key={index} className="px-4 py-2 rounded-md bg-primary-foreground border border-tag">
                               <p className="text-sm font-medium text-secondary-foreground">{tag}</p>
                             </div>
                           ))}
-                          
+                      </div>
+                      <div className="flex items-center gap-5">
+                        <Image
+                        src={job.image} 
+                        className="rounded-sm"
+                        width={100}
+                        height={100}
+                        />
+                        <div className="flex flex-col gap-1">
+                          <h1 className="text-xl font-semibold text-foreground">{job.company}</h1>
+                          <div className="flex items-center gap-1">
+                            <Navigation fill size={12} className="text-drawer-icon" />
+                            <p className="text-sm text-drawer-icon font-normal">{job.location}</p>                            
+                          </div>
                         </div>
+                      </div>
                       
                     </div>
                     <div>
