@@ -39,7 +39,7 @@ const Explore = () => {
                 </DrawerTrigger>
 
                 <DrawerContent className="lg:h-[95%] h-screen ">
-                  <div className="flex justify-between xl:p-14 p-12 items-start overflow-y-scroll ">
+                  <div className="flex justify-evenly xl:p-14 p-12 items-start overflow-y-scroll ">
                     <div className="flex flex-col justify-center items-start gap-5 lg:min-w-[940px]">
 
                       <div className="flex justify-between items-center w-full ">
