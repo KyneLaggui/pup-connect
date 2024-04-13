@@ -38,19 +38,26 @@ const Explore = () => {
                 </DrawerTrigger>
 
                 <DrawerContent>
-                  <div className="flex justify-between">
-                    <div>
-                      <div>
-                        <h1 className="text-4xl font-semibold">Call Center Internship</h1>
+                  <div className="flex justify-between p-12">
+                    <div className="flex flex-col justify-center items-start gap-5">
+                      <div className="flex justify-between items-center lg:min-w-[940px] w-full">
+                        <h1 className="text-4xl font-semibold">{job.title}</h1>
                         <div className="flex items-center gap-2">
                           <Button className='px-10 py-3 text-sm font-medium'>Contact Us</Button>
                           <div className="border border-buttonBorder p-3 rounded-md"> 
                             <Share2 className="text-buttonBorder" size={17} />
                           </div>
+                        </div>
+                      </div>
+                      <div className="flex flex-row gap-3">
+                          
+                          {job.tags.map((tag, index) => (
+                            <div key={index} className="px-4 py-2 rounded-md bg-primary-foreground border border-tag">
+                              <p className="text-sm font-medium text-secondary-foreground">{tag}</p>
+                            </div>
+                          ))}
                           
                         </div>
-                        
-                      </div>
                       
                     </div>
                     <div>
