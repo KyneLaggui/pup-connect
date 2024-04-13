@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Image from "next/image";
-import TagsCard from "./TagsCard";
+import { Tag } from "@/app/custom_components/Tag";
 
 const JobCard = ({ title, description, image, tags }) => {
   return (
@@ -31,8 +31,12 @@ const JobCard = ({ title, description, image, tags }) => {
         </CardDescription>
       </div>
 
-      <div className="mt-3 w-full overflow-hidden">
-        <TagsCard tags={tags} />
+      <div className="mt-3 w-full overflow-hidden flex gap-1">
+        {tags.map((tag, index) => (
+          <Tag key={index} size="sm">
+            {tag}
+          </Tag>
+        ))}
       </div>
     </Card>
   );
