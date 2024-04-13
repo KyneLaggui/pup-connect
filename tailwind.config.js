@@ -95,6 +95,9 @@ module.exports = {
         },
         buttonBorder: {
           DEFAULT: "var(--neutral-white-300)"
+        },
+        drawer: {
+          icon: "var(--neutral-white-600)"
         }
       },
       borderRadius: {
