@@ -10,7 +10,7 @@ import {
 import Image from 'next/image'
 import TagsCard from './TagsCard'
 
-const JobCard = ({ title, description, image }) => {
+const JobCard = ({ title, description, image, tags }) => {
   return (
       <Card className="max-w-[296px] h-[160px] min-w-[240px] flex justify-between items-center flex-col p-5 border border-blue-100 bg-background">
         
@@ -33,7 +33,7 @@ const JobCard = ({ title, description, image }) => {
         
         
         <div className='mt-3 w-full overflow-hidden'>
-          <TagsCard />
+          <TagsCard tags={tags}/>
           
         </div>
           
