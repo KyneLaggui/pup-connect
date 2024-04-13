@@ -91,6 +91,9 @@ module.exports = {
         },
         accordion: {
           DEFAULT: "var(--blue-800)"
+        },
+        buttonBorder: {
+          DEFAULT: "var(--neutral-white-300)"
         }
       },
       borderRadius: {
