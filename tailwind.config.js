@@ -90,6 +90,12 @@ module.exports = {
           border: "var(--obsidian-200)",
           text: "var(--obsidian-600)",
         },
+        accordion: {
+          DEFAULT: "var(--blue-800)"
+        },
+        buttonBorder: {
+          DEFAULT: "var(--neutral-white-300)"
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
