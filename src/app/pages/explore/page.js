@@ -16,7 +16,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button";
-import { Navigation, Share2 } from "lucide-react";
+import { AlarmClock, Cog, Navigation, Share2, Star, WalletMinimal } from "lucide-react";
 import Image from 'next/image'
 
 
@@ -38,14 +38,14 @@ const Explore = () => {
                 <JobCard key={job.number} {...job}/>
                 </DrawerTrigger>
 
-                <DrawerContent className="lg:h-[95%] h-screen">
-                  <div className="flex justify-between p-12 overflow-y-scroll">
-                    <div className="flex flex-col justify-center items-start gap-5">
+                <DrawerContent className="lg:h-[95%] h-screen ">
+                  <div className="flex justify-between xl:p-14 p-12 items-start overflow-y-scroll ">
+                    <div className="flex flex-col justify-center items-start gap-5 lg:min-w-[940px]">
 
-                      <div className="flex justify-between items-center lg:min-w-[940px] w-full ">
-                        <h1 className="text-4xl font-semibold text-foreground">{job.title}</h1>
+                      <div className="flex justify-between items-center w-full ">
+                        <h1 className="text-3xl font-semibold text-foreground">{job.title}</h1>
                         <div className="flex items-center gap-2">
-                          <Button className='px-10 py-3 text-sm font-medium'>Contact Us</Button>
+                          <Button className='px-10 py-3 text-sm font-medium'>Apply</Button>
                           <div className="border border-buttonBorder p-3 rounded-md"> 
                             <Share2 className="text-buttonBorder" size={17} />
                           </div>
@@ -62,7 +62,8 @@ const Explore = () => {
 
                       <div className="flex items-center gap-5">
                         <Image
-                        src={job.image} 
+                        src={job.image}
+                        alt= "Job Company" 
                         className="rounded-sm"
                         width={100}
                         height={100}
@@ -70,22 +71,41 @@ const Explore = () => {
                         <div className="flex flex-col gap-1">
                           <h1 className="text-xl font-semibold text-foreground">{job.company}</h1>
                           <div className="flex items-center gap-1">
-                            <Navigation fill size={12} className="text-drawer-icon" />
-                            <p className="text-sm text-drawer-icon font-normal">{job.location}</p>                            
+                            <Star fill='currentColor' size={12} className="text-yellow-300" />
+                            <p className="text-sm text-drawer-icon font-normal">{job.ratings} | {job.reviews} reviews</p>                            
                           </div>
                         </div>
+                      </div>
+
+                      <div>
+                          <div className="flex items-center gap-2">
+                            <AlarmClock size={14} className="text-drawer-icon" />
+                            <p className="text-base text-drawer-icon font-base">{job.type}</p>                            
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Cog size={14} className="text-drawer-icon" />
+                            <p className="text-base text-drawer-icon font-base">{job.mode}</p>                            
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Navigation size={14} className="text-drawer-icon" />
+                            <p className="text-base text-drawer-icon font-base">{job.location}</p>                            
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <WalletMinimal size={14} className="text-drawer-icon" />
+                            <p className="text-base text-drawer-icon font-base">{job.salary}</p>                            
+                          </div>
                       </div>
                       
                       <div className="flex flex-col gap-3 lg:max-w-[740px] ">
                           <h1 className="text-lg font-medium text-foreground">About this Role</h1>
-                          <p className="text-sm leading-5 text-drawer-icon">{job.about}</p>
+                          <p className="text-base leading-6 text-drawer-icon">{job.about}</p>
                       </div>
 
                       <div className="flex flex-col gap-3 lg:max-w-[740px] ">
                           <h1 className="text-lg font-medium text-foreground">Qualification</h1>
                           <ul className="list-disc text-drawer-icon pl-6">
                             {job.qualifications.map((quali, index)=> (
-                              <li key={index} className="text-sm leading-5 text-drawer-icon">
+                              <li key={index} className="text-base leading-6 text-drawer-icon">
                                   {quali}
                               </li>
                             )) }
@@ -96,23 +116,51 @@ const Explore = () => {
                           <h1 className="text-lg font-medium text-foreground">Benefits</h1>
                           <ul className="list-disc text-drawer-icon pl-6">
                             {job.benefits.map((quali, index)=> (
-                              <li key={index} className="text-sm leading-5 text-drawer-icon">
+                              <li key={index} className="text-base leading-6 text-drawer-icon">
                                   {quali}
                               </li>
                             )) }
                           </ul>
                       </div>
 
-                     
+                      <div className="flex flex-col gap-3 lg:max-w-[740px] ">
+                          <h1 className="text-lg font-medium text-foreground">Attachments</h1>
+                          <iframe src="https://drive.google.com/file/d/1ZZcxn5ulphyXE7vL1yt5QpiuUXTew1_y/preview" className="rounded-md" width="150" height="150"></iframe>
+                          
+                      </div>
+
+                    </div>
+
+                    <div className="min-w-80 flex flex-col gap-5">
+                      <div>
+                        <h1 className="text-base font-medium mb-3">Similar Jobs</h1>
+                        <div className="flex flex-col gap-2">
+                            {jobCardInfo.map((similar) => (
+                                <JobCard {...similar}/>
+                            ))}
+
+                        </div>
+                      </div>
+
+                      <div>
+                        <h1 className="text-base font-medium mb-3">Other Jobs in {job.company}</h1>
+                        <div className="flex flex-col gap-2">
+                          {jobCardInfo.map(jobInfo => {
+                            
+                            if (jobInfo.company === job.company) {
+                              return <JobCard key={jobInfo.number} {...jobInfo} />;
+                              
+                            }
+                            return null; 
+                          })}
+                        </div>
+                      </div>
+                    </div>
 
                       
-
                       
-                    </div>
-                    <div>
-                      <h1>Similar Jobs</h1>
-                    </div>
                   </div>
+                  
                 </DrawerContent>
               </Drawer>
             ))}

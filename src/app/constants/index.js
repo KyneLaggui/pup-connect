@@ -4,6 +4,11 @@ import { microsoftLogo, oracleLogo, accentureLogo } from '@assets/index';
 export const jobCardInfo = [
     {
         number: '1',
+        ratings: '3.5',
+        mode: 'Remote',
+        type: 'Internship',
+        reviews: '20',
+        salary: '₱15,000 per month', 
         company: 'Microsoft Philippines Inc.',
         title: 'Microsoft Student Program',
         description: 'Dive into the world of tech with Microsoft internships! Gain hands-on experience on real projects across various fields, from coding to design. Explore programs designed for your experience level and learn from industry experts. Visit their Careers website to launch your journey!',
@@ -24,6 +29,11 @@ export const jobCardInfo = [
     },
     {
         number: '2',
+        ratings: '4.2',
+        mode: 'On-site',
+        type: 'Full-Time',
+        reviews: '13',
+        salary: '₱35,000 per month', 
         company: 'Oracle Philippines Inc.',
         title: 'Network Administrator',
         description: 'Our mission is to help people see data in new ways, discover insights, unlock endless possibilities.',
@@ -44,6 +54,11 @@ export const jobCardInfo = [
     },
     {
         number: '3',
+        ratings: '3.3',
+        mode: 'On-site',
+        reviews: '15',
+        type: 'Internship',
+        salary: '₱10,000 per month', 
         company: 'Accenture Philippines Inc.',
         title: 'Tech Support',
         description: 'Become a vital part of our team as a Tech Support specialist, providing efficient solutions and exceptional customer service to resolve hardware and software issues swiftly.',
@@ -65,6 +80,11 @@ export const jobCardInfo = [
     },
     {
         number: '4',
+        ratings: '3.3',
+        mode: 'On-site',
+        type: 'Part-Time',
+        reviews: '15',
+        salary: '₱15,000 per month', 
         company: 'Accenture Philippines Inc.',
         title: 'RJ 45 Maker',
         description: "Join us as an RJ45 Maker where you'll assemble connectors onto Ethernet cables with precision and ensure seamless connectivity for our clients.",
