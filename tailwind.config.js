@@ -81,14 +81,15 @@ module.exports = {
           foreground: "var(--obsidian-950)",
         },
         tag: {
-          DEFAULT: "var(--blue-100)",
-          foreground: "var(--blue-950)",
-          border: "var(--blue-300)",
+          DEFAULT: "var(--blue-50)",
+          foreground: "var(--blue-900)",
+          border: "var(--blue-100)",
+          hover: "var(--blue-200)",
         },
         checkbox: {
           border: "var(--obsidian-200)",
           text: "var(--obsidian-600)",
-        }
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
