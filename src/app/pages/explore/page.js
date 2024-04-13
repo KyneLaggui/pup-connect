@@ -41,6 +41,7 @@ const Explore = () => {
                 <DrawerContent>
                   <div className="flex justify-between p-12">
                     <div className="flex flex-col justify-center items-start gap-5">
+
                       <div className="flex justify-between items-center lg:min-w-[940px] w-full">
                         <h1 className="text-4xl font-semibold text-foreground">{job.title}</h1>
                         <div className="flex items-center gap-2">
@@ -50,6 +51,7 @@ const Explore = () => {
                           </div>
                         </div>
                       </div>
+
                       <div className="flex flex-row gap-3">   
                           {job.tags.map((tag, index) => (
                             <div key={index} className="px-4 py-2 rounded-md bg-primary-foreground border border-tag">
@@ -57,6 +59,7 @@ const Explore = () => {
                             </div>
                           ))}
                       </div>
+
                       <div className="flex items-center gap-5">
                         <Image
                         src={job.image} 
@@ -72,6 +75,34 @@ const Explore = () => {
                           </div>
                         </div>
                       </div>
+                      
+                      <div className="flex flex-col gap-3 lg:max-w-[740px] ">
+                          <h1 className="text-lg font-medium text-foreground">About this Role</h1>
+                          <p className="text-sm leading-5 text-drawer-icon">{job.about}</p>
+                      </div>
+
+                      <div className="flex flex-col gap-3 lg:max-w-[740px] ">
+                          <h1 className="text-lg font-medium text-foreground">Qualification</h1>
+                          <ul className="list-disc text-drawer-icon pl-6">
+                            {job.qualifications.map((quali, index)=> (
+                              <li key={index} className="text-sm leading-5 text-drawer-icon">
+                                  {quali}
+                              </li>
+                            )) }
+                          </ul>
+                      </div>
+
+                      <div className="flex flex-col gap-3 lg:max-w-[740px] ">
+                          <h1 className="text-lg font-medium text-foreground">Benefits</h1>
+                          <ul className="list-disc text-drawer-icon pl-6">
+                            {job.benefits.map((quali, index)=> (
+                              <li key={index} className="text-sm leading-5 text-drawer-icon">
+                                  {quali}
+                              </li>
+                            )) }
+                          </ul>
+                      </div>
+
                       
                     </div>
                     <div>
