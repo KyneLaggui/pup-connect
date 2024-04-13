@@ -16,6 +16,7 @@ module.exports = {
       bold: "700",
     },
     fontSize: {
+      icon: "1rem",
       logo: "1.25rem",
       xs: "0.694rem",
       sm: "0.833rem",
@@ -91,14 +92,14 @@ module.exports = {
           text: "var(--obsidian-600)",
         },
         accordion: {
-          DEFAULT: "var(--blue-800)"
+          DEFAULT: "var(--blue-800)",
         },
         buttonBorder: {
-          DEFAULT: "var(--neutral-white-300)"
+          DEFAULT: "var(--neutral-white-300)",
         },
         drawer: {
-          icon: "var(--neutral-white-600)"
-        }
+          icon: "var(--neutral-white-600)",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

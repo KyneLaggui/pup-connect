@@ -1,28 +1,28 @@
-"use client";
+// "use client";
 
 import NavBar from "@/app/custom_components/NavBar";
 import Footer from "@/app/custom_components/Footer";
+
 import Image from "next/image";
+
+import { heroBG } from "@assets/index";
 
 import { Briefcase } from "lucide-react";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
-import TagsCard from "@/app/custom_components/TagsCard";
 import { Tag } from "@/app/custom_components/Tag";
-
 import { tagList } from "../../tag_lists";
 
 const Hero = () => {
   return (
-    <div className="relative">
-      <div className="absolute">
-        <svg xmlns=""></svg>
-      </div>
+    <div className="relative ">
       <NavBar />
-      <div className="container min-h-screen flex flex-col justify-center items-center">
+      <div className="container min-h-screen flex flex-col justify-center items-center z-50 overflow-hidden max-h-screen">
+        <Image
+          className="absolute bg-fixed bg-clip-content top-0 left-0 w-full -z-50 max-h-screen"
+          src={heroBG}
+          alt="Company Logo"
+        />
         <div className="flex items-center gap-2 mb-2 p-2 bg-tag py-[6px] px-[16px] w-fit rounded-full border-[1px] border-tag-border">
           <span className="text-sm text-tag-foreground">
             Make it happen today!
