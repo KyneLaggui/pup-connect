@@ -1,11 +1,20 @@
+import Image from 'next/image'
 import React from 'react'
 
 const login = () => {
   return (
-    <div className="flex flex-col justify-center w-fit mx-auto">
-        <h1 className="text-logo font-bold">Login</h1>
-        <p className="font-medium">Hi, Welcome back</p>
-        <button className="font-semibold border-solid border rounded-sm border-">Login with Google</button>
+    <div className="flex flex-col justify-center w-fit mx-auto gap-2">
+        <h1 className="font-bold text-xl">Login</h1>
+        <p className="font-semibold text-xs">Hi, Welcome back</p>
+        <button className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-sm">
+            <Image
+                src="/assets/google_icon.svg"
+                width={15}
+                height={15}
+                alt="Google Logo"
+            />                
+            <span>Login with Google</span>            
+        </button>
         <p>or Login with Email</p>
         <div>
             <p>Email</p>
