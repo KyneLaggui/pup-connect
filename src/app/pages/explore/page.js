@@ -38,11 +38,11 @@ const Explore = () => {
                 <JobCard key={job.number} {...job}/>
                 </DrawerTrigger>
 
-                <DrawerContent className="lg:h-[95%] h-screen">
-                  <div className="flex justify-between p-12 overflow-y-scroll">
-                    <div className="flex flex-col justify-center items-start gap-5">
+                <DrawerContent className="lg:h-[95%] h-screen ">
+                  <div className="flex justify-between xl:p-14 p-12 items-start overflow-y-scroll ">
+                    <div className="flex flex-col justify-center items-start gap-5 lg:min-w-[940px]">
 
-                      <div className="flex justify-between items-center lg:min-w-[940px] w-full ">
+                      <div className="flex justify-between items-center w-full ">
                         <h1 className="text-3xl font-semibold text-foreground">{job.title}</h1>
                         <div className="flex items-center gap-2">
                           <Button className='px-10 py-3 text-sm font-medium'>Apply</Button>
@@ -62,7 +62,8 @@ const Explore = () => {
 
                       <div className="flex items-center gap-5">
                         <Image
-                        src={job.image} 
+                        src={job.image}
+                        alt= "Job Company" 
                         className="rounded-sm"
                         width={100}
                         height={100}
@@ -122,16 +123,44 @@ const Explore = () => {
                           </ul>
                       </div>
 
-                     
+                      <div className="flex flex-col gap-3 lg:max-w-[740px] ">
+                          <h1 className="text-lg font-medium text-foreground">Attachments</h1>
+                          <iframe src="https://drive.google.com/file/d/1ZZcxn5ulphyXE7vL1yt5QpiuUXTew1_y/preview" className="rounded-md" width="150" height="150"></iframe>
+                          
+                      </div>
+
+                    </div>
+
+                    <div className="min-w-80 flex flex-col gap-5">
+                      <div>
+                        <h1 className="text-base font-medium mb-3">Similar Jobs</h1>
+                        <div className="flex flex-col gap-2">
+                            {jobCardInfo.map((similar) => (
+                                <JobCard {...similar}/>
+                            ))}
+
+                        </div>
+                      </div>
+
+                      <div>
+                        <h1 className="text-base font-medium mb-3">Other Jobs in {job.company}</h1>
+                        <div className="flex flex-col gap-2">
+                          {jobCardInfo.map(jobInfo => {
+                            
+                            if (jobInfo.company === job.company) {
+                              return <JobCard key={jobInfo.number} {...jobInfo} />;
+                              
+                            }
+                            return null; 
+                          })}
+                        </div>
+                      </div>
+                    </div>
 
                       
-
                       
-                    </div>
-                    <div>
-                      <h1>Similar Jobs</h1>
-                    </div>
                   </div>
+                  
                 </DrawerContent>
               </Drawer>
             ))}
