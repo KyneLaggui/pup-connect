@@ -4,6 +4,8 @@ import {
     AccordionItem,
     AccordionTrigger,
   } from "@/components/ui/accordion"
+import StepperAccordion from "./StepperAccordion"
+
   
   export function AccordionProgress() {
     return (
@@ -11,7 +13,7 @@ import {
         <AccordionItem value="item-1">
           <AccordionTrigger className='text-sm font-medium text-accordion'>Memorandum of Agreement Status Progress</AccordionTrigger>
           <AccordionContent className='py-9 px-4 bg-tag rounded-b-md border border-accent border-t-0 border-b-0 flex justify-center items-center'>
-            Progress Stuffs
+            <StepperAccordion />
           </AccordionContent>
         </AccordionItem>
       </Accordion>
