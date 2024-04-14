@@ -25,6 +25,7 @@ import {
   WalletMinimal,
 } from "lucide-react";
 import Image from "next/image";
+import { Tag } from "@/app/custom_components/Tag";
 
 const Explore = () => {
   return (
@@ -62,14 +63,7 @@ const Explore = () => {
 
                         <div className="flex flex-row gap-3">
                           {job.tags.map((tag, index) => (
-                            <div
-                              key={index}
-                              className="px-4 py-2 rounded-md bg-primary-foreground border border-tag"
-                            >
-                              <p className="text-sm font-medium text-secondary-foreground">
-                                {tag}
-                              </p>
-                            </div>
+                            <Tag key={index}>{tag}</Tag>
                           ))}
                         </div>
 

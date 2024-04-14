@@ -129,7 +129,30 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 3; 
-  line-height: 0.869rem; 
-  max-height: 2.604rem; 
+  -webkit-line-clamp: 3;
+  line-height: 0.869rem;
+  max-height: 2.604rem;
+}
+
+@keyframes infinite-slide {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.slide-container {
+  overflow: hidden;
+}
+
+.slide {
+  white-space: nowrap;
+  animation: infinite-slide 8s linear infinite;
+  animation-play-state: paused;
+}
+
+.slide-parent:hover .slide {
+  animation-play-state: running;
 }
