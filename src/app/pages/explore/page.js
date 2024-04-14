@@ -193,7 +193,7 @@ const Explore = () => {
                             Similar Jobs
                           </h1>
                           <div className="flex flex-col gap-2">
-                            {jobCardInfo.map((similar) => (
+                            {jobCardInfo.slice(0, 3).map((similar) => (
                               <JobCard {...similar} />
                             ))}
                           </div>
