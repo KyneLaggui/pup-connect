@@ -187,7 +187,7 @@ const Explore = () => {
                             Similar Jobs
                           </h1>
                           <div className="flex flex-col gap-2">
-                            {jobCardInfo.map((similar) => (
+                            {jobCardInfo.slice(0, 3).map((similar) => (
                               <JobCard {...similar} />
                             ))}
                           </div>
@@ -198,8 +198,8 @@ const Explore = () => {
                             Other Jobs in {job.company}
                           </h1>
                           <div className="flex flex-col gap-2">
-                            {jobCardInfo.map((jobInfo) => {
-                              if (jobInfo.company === job.company) {
+                            {jobCardInfo.map((jobInfo, index) => {
+                              if ( index > 3 && jobInfo.company === job.company) {
                                 return (
                                   <JobCard key={jobInfo.number} {...jobInfo} />
                                 );
