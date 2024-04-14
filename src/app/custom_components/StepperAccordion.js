@@ -8,10 +8,11 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Check from '@mui/icons-material/Check';
-import SettingsIcon from '@mui/icons-material/Settings';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import VideoLabelIcon from '@mui/icons-material/VideoLabel';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
+import FileOpenIcon from '@mui/icons-material/FileOpen';
+import FindInPageIcon from '@mui/icons-material/FindInPage';
+import TaskIcon from '@mui/icons-material/Task';
+
 
 
 const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
@@ -113,9 +114,9 @@ function ColorlibStepIcon(props) {
   const { active, completed, className } = props;
 
   const icons = {
-    1: <SettingsIcon />,
-    2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
+    1: <FileOpenIcon  />,
+    2: <FindInPageIcon />,
+    3: <TaskIcon  />,
   };
 
   return (
@@ -151,7 +152,9 @@ export default function CustomizedSteppers() {
       <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
         {steps.map((label) => (
           <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon} >{label}</StepLabel>
+                <StepLabel StepIconComponent={ColorlibStepIcon} >
+                    <div className='text-xs text-accordion'>{label}</div>
+                </StepLabel>    
           </Step>
         ))}
       </Stepper>
