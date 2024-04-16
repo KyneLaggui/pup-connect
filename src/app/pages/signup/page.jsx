@@ -6,8 +6,6 @@ import NavBar from "@/app/custom_components/NavBar";
 import InputBox from "@/app/custom_components/InputBox";
 import Image from 'next/image';
 import Link from 'next/link';
-import { supabase } from '@/supabase/config';
-
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
