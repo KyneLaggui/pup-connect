@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from 'react';
-import { ArrowUpRight, Eye, EyeOff, Handshake } from 'lucide-react';
+import { ArrowUpRight, Eye, EyeOff } from 'lucide-react';
 import NavBar from "@/app/custom_components/NavBar";
 import InputBox from "@/app/custom_components/InputBox";
 import Link from 'next/link';
@@ -29,6 +29,23 @@ const Login = () => {
     })
   }
 
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: formData['email'],
+        password: formData['password']
+      }) 
+
+      if (error) throw error;
+      console.log(data)
+
+    } catch (error) {
+      console.log(error)
+    }
+
+  }
 
   return (
     <>
@@ -61,13 +78,14 @@ const Login = () => {
           <div className="relative">
             <p className="font-bold">Password</p>
             <div className="relative flex items-center">
-            <InputBox type="text"/>
+            <InputBox type={showPassword ? "text" : "password"}
+              name="password"
+              onChange={onInputHandleChange}
+            />
               <button
                 type="button"
                 className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
-                onClick={handleTogglePassword}
-                name="password"
-                onChange={onInputHandleChange}
+                onClick={handleTogglePassword}                
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 
