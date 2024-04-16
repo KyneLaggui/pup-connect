@@ -1,6 +1,7 @@
 // "use client";
 
 import NavBar from "@/app/custom_components/NavBar";
+
 import Footer from "@/app/custom_components/Footer";
 
 import Image from "next/image";
