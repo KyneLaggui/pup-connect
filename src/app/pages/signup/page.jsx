@@ -4,11 +4,12 @@ import React, { useState } from 'react';
 import { ArrowUpRight, Eye, EyeOff, PenLine, SquarePen } from 'lucide-react';
 import NavBar from "@/app/custom_components/NavBar";
 import InputBox from "@/app/custom_components/InputBox";
-import Image from 'next/image';
+import { supabase } from "@/supabase/config"
 import Link from 'next/link';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [formData, setFormData] =  useState({
     email: '',
@@ -21,6 +22,10 @@ const Signup = () => {
 
   const handleTogglePassword = () => {
     setShowPassword((prevState) => !prevState);
+  };
+
+  const toggleCOnfirmPassword = () => {
+    setShowConfirmPassword((prevState) => !prevState);
   };
 
     // Form methods
@@ -37,26 +42,26 @@ const Signup = () => {
     console.log('okay')
     try {
       console.log(formData)
-        // const { data, error } = await supabase.auth.signUp(
-        //     // Need to lowercase email to safely compare it in the future
-        //     {
-        //         email: formData.email.toLowerCase(),
-        //         password: formData.password,
-        //         options: {
-        //             data: {
-        //                 full_name: formData.fullName,
-        //                 role: formData.role,
-        //                 firstName: formData.firstName,
-        //                 middleName: formData.middleName,
-        //                 lastName: formData.lastName,
-        //             }
-        //         }
-        //     }
-        // )
-        // if (error) throw error;
+        const { data, error } = await supabase.auth.signUp(
+            // Need to lowercase email to safely compare it in the future
+            {
+                email: formData.email.toLowerCase(),
+                password: formData.password,
+                options: {
+                    data: {
+                        full_name: formData.fullName,
+                        role: formData.role,
+                        firstName: formData.firstName,
+                        middleName: formData.middleName,
+                        lastName: formData.lastName,
+                    }
+                }
+            }
+        )
+        if (error) throw error;
 
     } catch(error) {
-      console.log("There has been an error in the sign up.")
+      console.log(error)
     }
   }
 
@@ -102,15 +107,15 @@ const Signup = () => {
             <p className="font-bold mb-1">Password</p>
             <div className="relative flex items-center">
             <InputBox 
-              type="password"
+              type={showPassword ? "text" : "password"}
               className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
-              onClick={handleTogglePassword}
-              name="confirmPassword" 
+              name="password" 
               onInputHandleChange={onInputHandleChange}  
             />
               <button
                 type="button"  
-                className="absolute right-2 top-1/2 transform -translate-y-1/2"              
+                className="absolute right-2 top-1/2 transform -translate-y-1/2"    
+                onClick={handleTogglePassword}          
               >
                 {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
@@ -120,17 +125,17 @@ const Signup = () => {
             <p className="font-bold mb-1">Confirm Password</p>
             <div className="relative flex items-center">
             <InputBox 
-              type="password"
+              type={showConfirmPassword ? "text" : "password"}
               className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
-              onClick={handleTogglePassword}
               name="confirmPassword" 
               onInputHandleChange={onInputHandleChange}
             />
               <button
                 type="button"
                 className="absolute right-2 top-1/2 transform -translate-y-1/2"    
+                onClick={toggleCOnfirmPassword}          
               >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
               </button>
             </div>
           </div>
@@ -150,7 +155,7 @@ const Signup = () => {
             Sign Up
           </button>
           <div className="flex justify-center mt-4">
-            Already have an account?&nbsp;<Link href="/pages/signup" className="flex justify-center items-center text-forgotPassword"><p className="text-forgotPassword font-semibold">Login</p><ArrowUpRight /></Link>
+            Already have an account?&nbsp;<Link href="/pages/login" className="flex justify-center items-center text-forgotPassword"><p className="text-forgotPassword font-semibold">Login</p><ArrowUpRight /></Link>
           </div>
         </form>
       </div>
