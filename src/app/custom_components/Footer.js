@@ -7,15 +7,38 @@ const Footer = () => {
         <div className="text-sm">©2024 PUP Connect. All rights reserved.</div>
         <div className="flex items-center gap-2">
           <div className="h-[24px] w-[24px] bg-primary rounded-full flex items-center justify-center">
-            <Globe className="h-[14px] w-[14px] text-primary-foreground" />
+            <a
+              href="https://www.pup.edu.ph/"
+              target="_blank"
+              className="flex items-center justify-center text-center"
+            >
+              <span class="material-symbols-outlined text-sm text-primary-foreground">
+                public
+              </span>
+            </a>
           </div>
           <div className="h-[24px] w-[24px] bg-primary rounded-full flex items-center justify-center">
-            <Facebook className="h-[14px] w-[14px] text-primary-foreground" />
+            <a
+              href="https://www.facebook.com/ThePUPOfficial"
+              target="_blank"
+              className="flex items-center justify-center text-center"
+            >
+              <Facebook
+                fill="currentColor"
+                className="h-[14px] w-[14px] text-primary-foreground"
+              />
+            </a>
           </div>
           <div className="h-[24px] w-[24px] bg-primary rounded-full flex items-center justify-center">
-            <span className="material-symbols-outlined text-sm text-primary-foreground">
-              public
-            </span>
+            <a
+              href="https://www.facebook.com/pupcareer"
+              target="_blank"
+              className="flex items-center justify-center text-center"
+            >
+              <span class="material-symbols-outlined text-sm text-primary-foreground">
+                handshake
+              </span>
+            </a>
           </div>
         </div>
       </div>

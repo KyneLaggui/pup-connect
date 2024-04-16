@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const NavBar = () => {
   return (
@@ -10,8 +11,12 @@ const NavBar = () => {
           </h1>
         </div>
         <div className="flex gap-2">
-          <Button variant="tertiary">Home</Button>
-          <Button variant="tertiary">Explore</Button>
+          <Link href="/">
+            <Button variant="tertiary">Home</Button>
+          </Link>
+          <Link href="/pages/explore">
+            <Button variant="tertiary">Explore</Button>
+          </Link>
         </div>
         <div className="flex gap-2 w-40">
           <Button variant="secondary">Sign up</Button>

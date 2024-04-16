@@ -7,7 +7,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 const FilterJob = () => {
   return (
-    <div className="max-w-[240px] py-5 pr-5 flex flex-col justify-start items-start gap-4 border-r-[1.8px] border-muted ">
+    <div className="max-w-[240px] w-full py-5 pr-5 flex flex-col justify-start items-start gap-4 border-r-[1.8px] border-muted ">
       {/* Start of Search  */}
       <div className="grid w-full max-w-sm items-center gap-[10px] border-b-[1.5px] border-muted pb-4">
         <Label htmlFor="search" className="text-sm font-medium text-foreground">
