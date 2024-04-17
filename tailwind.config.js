@@ -100,6 +100,7 @@ module.exports = {
         drawer: {
           icon: "var(--neutral-white-600)",
         },
+        forgotPassword: "var(--purple-50)"
       },
       borderRadius: {
         lg: "var(--radius)",
