@@ -30,15 +30,31 @@ const page = () => {
 
             <div className='flex flex-col gap-2 p-5'>
                 <h1>Basic Information</h1>
-                <div className='flex justify-evenly border border-red-500 w-full'>
-                    <div border border-red-500>
+                <div className='flex justify-start gap-6 '>
+                    <div className='flex flex-col gap-2'>
                         <FormsLabel text="First Name" label="firstname" />
                         <FormsInput type="text" inputName="f_name"/>
                     </div>
-                    <div>
+                    <div className='flex flex-col gap-2'>
                         <FormsLabel text="Last Name" label="lastname" />
                         <FormsInput type="text" inputName="l_name"/>
                     </div>
+                </div>
+
+                <div className='flex justify-start gap-6 '>
+                    <div className='flex flex-col gap-2'>
+                        <FormsLabel text="Email" label="email" />
+                        <FormsInput type="email" inputName="email"/>
+                    </div>
+                    <div className='flex flex-col gap-2'>
+                        <FormsLabel text="Phone (Optional)" label="phone" />
+                        <FormsInput type="tel" inputName="phone"/>
+                    </div>
+                </div>
+
+                <div >
+                    <FormsLabel text="Address" label="address" />
+                    <FormsInput type="text" inputName="address"/>
                 </div>
                 
 
