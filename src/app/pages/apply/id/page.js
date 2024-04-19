@@ -4,6 +4,7 @@ import Image from "next/image";
 import { microsoftLogo } from '@assets/index';
 import FormsLabel from '@/app/custom_components/FormsLabel';
 import FormsInput from '@/app/custom_components/FormsInput';
+import { Textarea } from "@/components/ui/textarea"
 
 
 const page = () => {
@@ -80,15 +81,15 @@ const page = () => {
                 <h1 className='mb-3 text-lg font-medium'>Cover Letter and Resume</h1>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Cover Letter" label="coverLetter" />
-                    <FormsInput type="text" inputName="coverLetter"/>
+                    <Textarea className=" border border-input-border bg-input resize-none min-h-[120px]" name="coverLetter" />
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Resume / Curriculum Vitae" label="formsLetter" />
-                    <FormsInput type="text" inputName="formsLetter"/>
+                    <FormsInput type="file" inputName="formsLetter"/>
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Additional Notes" label="additionalLetter" />
-                    <FormsInput type="text" inputName="additionalLetter"/>
+                    <Textarea className=" border border-input-border bg-input resize-none min-h-[120px]" name="additionalLetter" />
                 </div>
             </div>
 

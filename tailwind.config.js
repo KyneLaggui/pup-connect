@@ -102,6 +102,7 @@ module.exports = {
         },
         forms: {
           label: "var(--obsidian-800)",
+          file: "var(--neutral-white-500)"
         },
         forgotPassword: "var(--purple-50)"
       },
