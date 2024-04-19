@@ -7,22 +7,31 @@ import FormsLabel from '@/app/custom_components/FormsLabel';
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+import LinkIcon from '@mui/icons-material/Link';
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 
 
 const page = () => {
-    const [socialLinks, setSocialLinks] = useState(['']); // Initial state with one input field
+    const [socialLinks, setSocialLinks] = useState(['']); 
 
-  // Function to handle adding a new social link input field
   const addSocialLinkInput = () => {
-    setSocialLinks([...socialLinks, '']); // Add a new empty input to the socialLinks array
+    setSocialLinks([...socialLinks, '']); 
   };
 
-  // Function to handle social link input change
+  const removeSocialLinkInput = (index) => {
+    if (socialLinks.length > 1) {
+      const newSocialLinks = [...socialLinks];
+      newSocialLinks.splice(index, 1); 
+      setSocialLinks(newSocialLinks); 
+    }
+  };
+
+  
   const handleSocialLinkInputChange = (index, event) => {
-    const newSocialLinks = [...socialLinks]; // Create a copy of the socialLinks array
-    newSocialLinks[index] = event.target.value; // Update the value of the input at the specified index
-    setSocialLinks(newSocialLinks); // Update the state with the new socialLinks array
+    const newSocialLinks = [...socialLinks]; 
+    newSocialLinks[index] = event.target.value; 
+    setSocialLinks(newSocialLinks); 
   };
 
   return (
@@ -121,17 +130,22 @@ const page = () => {
                 <h1 className='mb-3 text-lg font-medium'>Social Links</h1>
                 <div className='flex flex-col gap-2 '>
                     {socialLinks.map((link, index) => (
-                        <div key={index}>
-                        <FormsLabel text={`Social Link ${index + 1}`} label={`socialLink-${index}`} />
-                        <Input
-                            type="text"
-                            value={link}
-                            onChange={(event) => handleSocialLinkInputChange(index, event)}
-                            name={`socialLink-${index}`}
-                        />
+                        <div key={index} className='flex items-center rounded-md border border-input-border bg-input'>
+                            <div className='p-1 h-full border-r border-muted' >
+                                <LinkIcon className='rotate-90 w-[20px] h-[20px] text-drawer-icon'/>
+                            </div>
+                            <Input
+                                type="text"
+                                value={link}
+                                onChange={(event) => handleSocialLinkInputChange(index, event)}
+                                name={`socialLink-${index}`}
+                                className="border-0 "/>
+                            <div className='p-2'>
+                                <RemoveCircleIcon className='w-[15px] h-[15px] text-drawer-icon' onClick={() => removeSocialLinkInput(index)}/>
+                            </div>
                         </div>
                     ))}
-                    <button onClick={addSocialLinkInput}>Add Social Link</button>
+                    <button onClick={addSocialLinkInput} className='text-xs text-checkbox-text'>Add Social Link</button>
                 </div>
                 
                 
