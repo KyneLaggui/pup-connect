@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input"
 
 const FormsInput = ({type, inputName}) => {
   return (
-    <Input type={type} placeholder="" name={inputName} className="min-w-[350px]" />
+    <Input type={type} placeholder="" name={inputName} className="" />
   )
 }
 
