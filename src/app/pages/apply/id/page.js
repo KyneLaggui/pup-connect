@@ -85,7 +85,7 @@ const page = () => {
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Resume / Curriculum Vitae" label="formsLetter" />
-                    <Input type="file" name="formsLetter" />
+                    <Input type="file" name="formsLetter" className="text-forms-placeholder"/>
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Additional Notes" label="additionalLetter" />
