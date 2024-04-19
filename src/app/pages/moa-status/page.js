@@ -1,12 +1,11 @@
-import NavBar from "@/app/custom_components/NavBar";
-import React from "react";
+"use client";
+
+import Sidebar from "@/app/custom_components/Sidebar";
 
 const MOAStatus = () => {
   return (
     <div>
-      <NavBar />
-
-      <div className="container mt-20 p-4"></div>
+      <Sidebar />
     </div>
   );
 };

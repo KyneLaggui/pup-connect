@@ -64,6 +64,7 @@ module.exports = {
         destructive: {
           DEFAULT: "var(--red-600)",
           foreground: "var(--neutral-white-50)",
+          hover: "var(--red-500)",
         },
         muted: {
           DEFAULT: "var(--neutral-white-200)",
@@ -100,7 +101,7 @@ module.exports = {
         drawer: {
           icon: "var(--neutral-white-600)",
         },
-        forgotPassword: "var(--purple-50)"
+        forgotPassword: "var(--purple-50)",
       },
       borderRadius: {
         lg: "var(--radius)",
