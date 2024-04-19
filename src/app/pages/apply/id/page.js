@@ -34,28 +34,28 @@ const page = () => {
                 <div className='flex justify-between gap-6  '>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="First Name" label="firstname" />
-                        <Input type="text" inputName="firstName"/>
+                        <Input type="text" name="firstName"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Last Name" label="lastname" />
-                        <Input type="text" inputName="lastName"/>
+                        <Input type="text" name="lastName"/>
                     </div>
                 </div>
 
                 <div className='flex justify-start gap-6 '>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Email" label="email" />
-                        <Input type="email" inputName="emailAdd"/>
+                        <Input type="email" name="emailAdd"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Phone (Optional)" label="phone" />
-                        <Input type="tel" inputName="phoneNum"/>
+                        <Input type="tel" name="phoneNum"/>
                     </div>
                 </div>
 
                 <div >
                     <FormsLabel text="Address" label="address" />
-                    <Input type="text" inputName="address"/>
+                    <Input type="text" name="address"/>
                 </div>
             </div>
 
@@ -64,15 +64,15 @@ const page = () => {
                 <div className='flex justify-between gap-6  '>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Branch" label="branchSchool" />
-                        <Input type="text" inputName="branchSchool"/>
+                        <Input type="text" name="branchSchool"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Course" label="courseSchool" />
-                        <Input type="text" inputName="courseSchool"/>
+                        <Input type="text" name="courseSchool"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Year" label="yearSchool" />
-                        <Input type="text" inputName="yearSchool"/>
+                        <Input type="text" name="yearSchool"/>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@ const page = () => {
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Resume / Curriculum Vitae" label="formsLetter" />
-                    <Input type="file" inputName="formsLetter" />
+                    <Input type="file" name="formsLetter" />
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Additional Notes" label="additionalLetter" />
@@ -95,8 +95,8 @@ const page = () => {
 
             <div className='flex flex-col gap-2 p-5 border border-checkbox-border rounded-md'>
                 <h1 className='mb-3 text-lg font-medium'>Social Links</h1>
-                <Input type="text" inputName="coverLetter"/>
-                <Input type="text" inputName="coverLetter"/>
+                <Input type="text" name="coverLetter"/>
+                <Input type="text" name="coverLetter"/>
                 
             </div>
 
