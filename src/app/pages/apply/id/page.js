@@ -13,26 +13,27 @@ import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 
 
 const page = () => {
+
     const [socialLinks, setSocialLinks] = useState(['']); 
 
-  const addSocialLinkInput = () => {
-    setSocialLinks([...socialLinks, '']); 
-  };
+    const addSocialLinkInput = () => {
+        setSocialLinks([...socialLinks, '']); 
+    };
 
-  const removeSocialLinkInput = (index) => {
-    if (socialLinks.length > 1) {
-      const newSocialLinks = [...socialLinks];
-      newSocialLinks.splice(index, 1); 
-      setSocialLinks(newSocialLinks); 
-    }
-  };
+    const removeSocialLinkInput = (index) => {
+        if (socialLinks.length > 1) {
+        const newSocialLinks = [...socialLinks];
+        newSocialLinks.splice(index, 1); 
+        setSocialLinks(newSocialLinks); 
+        }
+    };
 
-  
-  const handleSocialLinkInputChange = (index, event) => {
-    const newSocialLinks = [...socialLinks]; 
-    newSocialLinks[index] = event.target.value; 
-    setSocialLinks(newSocialLinks); 
-  };
+    
+    const handleSocialLinkInputChange = (index, event) => {
+        const newSocialLinks = [...socialLinks]; 
+        newSocialLinks[index] = event.target.value; 
+        setSocialLinks(newSocialLinks); 
+    };
 
   return (
     <div className=''>
