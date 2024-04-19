@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { ArrowUpRight, Eye, EyeOff, PenLine, SquarePen } from 'lucide-react';
 import NavBar from "@/app/custom_components/NavBar";
 import InputBox from "@/app/custom_components/InputBox";
-import { supabase } from "@/supabase/config"
+import { signUpWithEmailAndPassword } from '@/supabase/actions'
 import Link from 'next/link';
 
 const Signup = () => {
@@ -39,29 +39,13 @@ const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('okay')
-    try {
-      console.log(formData)
-        const { data, error } = await supabase.auth.signUp(
-            // Need to lowercase email to safely compare it in the future
-            {
-                email: formData.email.toLowerCase(),
-                password: formData.password,
-                options: {
-                    data: {
-                        full_name: formData.fullName,
-                        role: formData.role,
-                        firstName: formData.firstName,
-                        middleName: formData.middleName,
-                        lastName: formData.lastName,
-                    }
-                }
-            }
-        )
-        if (error) throw error;
 
-    } catch(error) {
-      console.log(error)
+    const result = await signUpWithEmailAndPassword(formData.email, formData.password, formData.confirmPassword, 
+        formData.firstName, formData.middleName, formData.lastName, formData.role)
+    const { error } = JSON.parse(result)
+
+    if (error) {
+      console.log(error.message)
     }
   }
 
