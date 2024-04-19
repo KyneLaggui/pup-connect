@@ -3,8 +3,8 @@ import NavBar from '@/app/custom_components/NavBar';
 import Image from "next/image";
 import { microsoftLogo } from '@assets/index';
 import FormsLabel from '@/app/custom_components/FormsLabel';
-import FormsInput from '@/app/custom_components/FormsInput';
 import { Textarea } from "@/components/ui/textarea"
+import { Input } from "@/components/ui/input"
 
 
 const page = () => {
@@ -34,28 +34,28 @@ const page = () => {
                 <div className='flex justify-between gap-6  '>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="First Name" label="firstname" />
-                        <FormsInput type="text" inputName="firstName"/>
+                        <Input type="text" inputName="firstName"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Last Name" label="lastname" />
-                        <FormsInput type="text" inputName="lastName"/>
+                        <Input type="text" inputName="lastName"/>
                     </div>
                 </div>
 
                 <div className='flex justify-start gap-6 '>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Email" label="email" />
-                        <FormsInput type="email" inputName="emailAdd"/>
+                        <Input type="email" inputName="emailAdd"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Phone (Optional)" label="phone" />
-                        <FormsInput type="tel" inputName="phoneNum"/>
+                        <Input type="tel" inputName="phoneNum"/>
                     </div>
                 </div>
 
                 <div >
                     <FormsLabel text="Address" label="address" />
-                    <FormsInput type="text" inputName="address"/>
+                    <Input type="text" inputName="address"/>
                 </div>
             </div>
 
@@ -64,15 +64,15 @@ const page = () => {
                 <div className='flex justify-between gap-6  '>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Branch" label="branchSchool" />
-                        <FormsInput type="text" inputName="branchSchool"/>
+                        <Input type="text" inputName="branchSchool"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Course" label="courseSchool" />
-                        <FormsInput type="text" inputName="courseSchool"/>
+                        <Input type="text" inputName="courseSchool"/>
                     </div>
                     <div className='flex flex-col gap-2 w-full'>
                         <FormsLabel text="Year" label="yearSchool" />
-                        <FormsInput type="text" inputName="yearSchool"/>
+                        <Input type="text" inputName="yearSchool"/>
                     </div>
                 </div>
             </div>
@@ -85,7 +85,7 @@ const page = () => {
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Resume / Curriculum Vitae" label="formsLetter" />
-                    <FormsInput type="file" inputName="formsLetter"/>
+                    <Input type="file" inputName="formsLetter" />
                 </div>
                 <div className='flex flex-col gap-2 w-full'>
                     <FormsLabel text="Additional Notes" label="additionalLetter" />
@@ -95,8 +95,8 @@ const page = () => {
 
             <div className='flex flex-col gap-2 p-5 border border-checkbox-border rounded-md'>
                 <h1 className='mb-3 text-lg font-medium'>Social Links</h1>
-                <FormsInput type="text" inputName="coverLetter"/>
-                <FormsInput type="text" inputName="coverLetter"/>
+                <Input type="text" inputName="coverLetter"/>
+                <Input type="text" inputName="coverLetter"/>
                 
             </div>
 
