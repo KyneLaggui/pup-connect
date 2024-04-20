@@ -1,3 +1,7 @@
+// Components
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+// Custom component
 import Sidebar from "@/app/custom_components/Sidebar";
 
 // Data Table
@@ -31,7 +35,7 @@ export default async function DemoPage() {
       <Sidebar />
       <div className="flex">
         <div className="w-full flex justify-center container-sidebar">
-          <DataTable columns={columns} data={data} />
+          {/* <DataTable columns={columns} data={data} /> */}
         </div>
       </div>
     </>
