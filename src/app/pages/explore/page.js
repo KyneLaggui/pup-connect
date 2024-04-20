@@ -1,3 +1,5 @@
+"use client"
+
 import JobCard from "@/app/custom_components/JobCard";
 import React from "react";
 import { jobCardInfo } from "../../constants";
@@ -26,6 +28,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { Tag } from "@/app/custom_components/Tag";
+import Link from "next/link";
+
 
 const Explore = () => {
   return (
@@ -52,9 +56,9 @@ const Explore = () => {
                             {job.title}
                           </h1>
                           <div className="flex items-center gap-2">
-                            <Button className="px-10 py-3 text-sm font-medium">
+                            <Link key={job.number} href={`/pages/apply/${job.number}`} className="px-10 py-3 text-sm font-medium">
                               Apply
-                            </Button>
+                            </Link>
                             <div className="border border-buttonBorder p-3 rounded-md">
                               <Share2 className="text-buttonBorder" size={17} />
                             </div>
@@ -201,6 +205,7 @@ const Explore = () => {
                             {jobCardInfo.map((jobInfo, index) => {
                               if ( index > 3 && jobInfo.company === job.company) {
                                 return (
+
                                   <JobCard key={jobInfo.number} {...jobInfo} />
                                 );
                               }

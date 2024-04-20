@@ -21,12 +21,24 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 // Images
 import { PUPLogo } from "@assets/index";
 import roleButtons from "@/app/nav_buttons/index";
+import { useRouter } from "next/navigation";
+import { signOut } from "@/supabase/actions";
+import { LoggedInOnlyComponent } from "../layouts/ComponentRestrictions";
 
 const Sidebar = () => {
   let role = "admin"; // Change this to "admin", "faculty", and "user" to see different buttons
   const [buttons, setButtons] = useState(roleButtons[role] || []);
 
+  const router = useRouter();
+
+  const handleSignOut = () => {
+      console.log('okay')
+      signOut();
+      router.push("/pages/login")
+  }
+  
   return (
+    <LoggedInOnlyComponent>
     <div>
       <aside className="fixed hidden inset-y-0 left-0 z-50 w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -58,13 +70,13 @@ const Sidebar = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link
-                  href="/"
+                <p
+                  onClick={() => handleSignOut()}
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-destructive-foreground bg-destructive transition-colors hover:bg-destructive-hover md:h-8 md:w-8"
                 >
                   <LogoutOutlinedIcon className="w-5 h-5" />
                   <span className="sr-only">Sign out</span>
-                </Link>
+                </p>
               </TooltipTrigger>
               <TooltipContent side="right">Sign out</TooltipContent>
             </Tooltip>
@@ -106,13 +118,14 @@ const Sidebar = () => {
             <nav className="grid gap-3 text-lg font-medium">
               <Button size="lg" variant="destructive" className="text-lg gap-2">
                 <LogoutOutlinedIcon />
-                <Link href="/">Sign out</Link>
+                <p onClick={() => handleSignOut()}>Sign out</p>
               </Button>
             </nav>
           </SheetContent>
         </Sheet>
       </header>
     </div>
+    </LoggedInOnlyComponent>
   );
 };
 

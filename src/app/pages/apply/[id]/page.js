@@ -1,6 +1,5 @@
 "use client"
-import React, { useState } from 'react';
-import NavBar from '@/app/custom_components/NavBar';
+import React, { useEffect, useState } from 'react';
 import Image from "next/image";
 import { microsoftLogo } from '@assets/index';
 import FormsLabel from '@/app/custom_components/FormsLabel';
@@ -9,13 +8,21 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import LinkIcon from '@mui/icons-material/Link';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
+import { useParams, useRouter } from 'next/navigation';
+import { jobCardInfo } from "../../../constants";
 
 
 
-const page = () => {
-
+const page = ({ job }) => {
     const [socialLinks, setSocialLinks] = useState(['']); 
+    const [jobInfo, setJobInfo] = useState({
+        title: '',
+        company: '',        
+        image: ''
+    })
 
+    const params = useParams();
+    
     const addSocialLinkInput = () => {
         setSocialLinks([...socialLinks, '']); 
     };
@@ -27,32 +34,42 @@ const page = () => {
         setSocialLinks(newSocialLinks); 
         }
     };
-
-    
+ 
     const handleSocialLinkInputChange = (index, event) => {
         const newSocialLinks = [...socialLinks]; 
         newSocialLinks[index] = event.target.value; 
         setSocialLinks(newSocialLinks); 
     };
 
+    useEffect(() => {
+        const designatedJob = jobCardInfo.filter((item) => {
+            return parseInt(item.number) === parseInt(params.id) 
+        })
+
+        setJobInfo({
+            title: designatedJob[0].title,
+            company: designatedJob[0].company,
+            image: designatedJob[0].image            
+        })
+    }, [])
+
   return (
     <div className=''>
-        <NavBar />
       <div className='mt-20 container flex items-center justify-center '>
         <div className='flex flex-col gap-6 max-w-[800px] w-full px-2 pt-10 pb-[80px]'>
 
             <div className='flex flex-col gap-3 justify-center items-center'>
                 <div className='flex gap-3 items-center'>
                     <Image 
-                    src={microsoftLogo}
+                    src={jobInfo.image}
                     alt='Company logo'
                     className='w-[30px] h-[30px]'
                     
                     />
-                    <h1 className='text-2xl font-semibold text-color-foreground '>Microsoft Student</h1>
+                    <h1 className='text-2xl font-semibold text-color-foreground '>{jobInfo.company}</h1>
                 </div>
                 <div>
-                    <p className='text-xl font-semibold text-color-foreground'>Front-end Developer</p>
+                    <p className='text-xl font-semibold text-color-foreground'>{jobInfo.title}</p>
                 </div>
             </div>
 

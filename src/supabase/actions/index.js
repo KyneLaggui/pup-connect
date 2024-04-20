@@ -35,11 +35,23 @@ export const signInWithEmailAndPassword = async(email, password) => {
         email, 
         password
     })
-
     return JSON.stringify(result)
+}
+
+export const signOut = async() => {
+    const supabase = await createSupabaseServerClient();
+    await supabase.auth.signOut();
 }
 
 export const readUserSession = async() => {
     const supabase = await createSupabaseServerClient();
     return supabase.auth.getSession();
 }
+
+// export const retrieveUser = async() => {
+//     const supabase = await createSupabaseServerClient();
+//     const user = await supabase.auth.getUser();
+//     console.log(user)
+//     return JSON.stringify(user);
+// }
+
