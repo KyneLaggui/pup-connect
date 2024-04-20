@@ -3,19 +3,18 @@
 import React from 'react'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
-import { retrieveUser } from '@/supabase/actions'
-import { readUserSession } from '../../../supabase/actions'
+import { retrieveUser } from '../../../supabase/actions'
 
-const LoggedOutOnly = ({ children }) => {
+const ApplicantOnlyPage = ({ children }) => {
   const router = useRouter()
 
   useEffect(() => {
+    console.log(children)
     const checkUser = async() => {
       const result = await readUserSession();
-      const { data, error } = result
-      if (data.session) {
-        console.log(data.session)
-        router.push("/")
+      const { data, error } = result;
+      if (!data.session) {
+        router.push("/pages/login")
       } 
     }
     
@@ -29,4 +28,4 @@ const LoggedOutOnly = ({ children }) => {
   )
 }
 
-export default LoggedOutOnly
+export default ApplicantOnlyPage

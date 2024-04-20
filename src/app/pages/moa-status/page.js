@@ -1,12 +1,13 @@
 "use client";
 
 import Sidebar from "@/app/custom_components/Sidebar";
+import ApplicantOnlyPage from "@/app/layouts/ApplicantOnlyPage"
 
 const MOAStatus = () => {
   return (
-    <div>
-      <Sidebar />
-    </div>
+    <ApplicantOnlyPage>
+      okayyyyyy
+    </ApplicantOnlyPage>
   );
 };
 

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 // Components
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,9 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 
+// Wrappers
+import { LoggedInOnlyComponent } from '@/app/layouts/ComponentRestrictions'
+
 // Icons
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
@@ -22,12 +26,25 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { PUPLogo } from "@assets/index";
 import roleButtons from "@/app/nav_buttons/index";
 
+// Functions
+import { signOut } from "@/supabase/actions";
+
+
 const Sidebar = () => {
   let role = "admin"; // Change this to "admin", "faculty", and "user" to see different buttons
   const [buttons, setButtons] = useState(roleButtons[role] || []);
+  
+  const router = useRouter();
+
+  const handleSignOut = () => {
+      console.log('okay')
+      signOut();
+      router.push("/pages/login")
+  }
 
   return (
-    <div className="flex min-h-screen w-full flex-col bg-muted/40">
+    <LoggedInOnlyComponent>
+    <div className="fixed flex min-h-screen w-full flex-col bg-muted/40 z-50">
       <aside className="fixed inset-y-0 left-0 z-10 hidden w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link
@@ -59,14 +76,14 @@ const Sidebar = () => {
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link
-                  href="/"
+                <p
                   className="flex h-9 w-9 items-center justify-center rounded-lg text-destructive-foreground bg-destructive transition-colors hover:bg-destructive-hover md:h-8 md:w-8"
+                  onClick={() => handleSignOut()}
                 >
                   {/* <Settings className="h-5 w-5" /> */}
                   <LogoutOutlinedIcon className="w-5 h-5" />
                   <span className="sr-only">Sign out</span>
-                </Link>
+                </p>
               </TooltipTrigger>
               <TooltipContent side="right">Sign out</TooltipContent>
             </Tooltip>
@@ -116,7 +133,7 @@ const Sidebar = () => {
                   className="text-lg gap-2"
                 >
                   <LogoutOutlinedIcon />
-                  <Link href="/">Sign out</Link>
+                  <p onClick={() => handleSignOut()}>Sign outtt</p>
                 </Button>
               </nav>
             </SheetContent>
@@ -124,6 +141,7 @@ const Sidebar = () => {
         </header>
       </div>
     </div>
+    </LoggedInOnlyComponent>
   );
 };
 
