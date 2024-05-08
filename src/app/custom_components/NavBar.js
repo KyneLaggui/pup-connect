@@ -6,7 +6,7 @@ import { LoggedOutOnlyComponent } from "../layouts/ComponentRestrictions";
 const NavBar = () => {
 
   return (
-    <LoggedOutOnlyComponent>
+    // <LoggedOutOnlyComponent>
       <div className="w-full flex justify-center backdrop-blur-sm fixed top-0 bg-background h-20 z-50">
         <div className="max-w-[1200px] flex w-full justify-between py-5 items-center">
           <div className="w-40">
@@ -32,7 +32,7 @@ const NavBar = () => {
           </div>
         </div>
       </div>
-    </LoggedOutOnlyComponent>
+    // </LoggedOutOnlyComponent>
 
   );
 };

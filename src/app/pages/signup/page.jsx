@@ -6,6 +6,7 @@ import InputBox from "@/app/custom_components/InputBox";
 import { signUpWithEmailAndPassword } from '@/supabase/actions'
 import Link from 'next/link';
 import LoggedOutOnly from '@/app/layouts/LoggedOutOnly';
+import { useRouter } from 'next/navigation';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -20,6 +21,7 @@ const Signup = () => {
     lastName: ''
   })
 
+  const router = useRouter();
   const handleTogglePassword = () => {
     setShowPassword((prevState) => !prevState);
   };
@@ -40,17 +42,25 @@ const Signup = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (formData.password !== formData.confirmPassword) {
+      console.log('password does not match')
+      return;
+    }
+
     const result = await signUpWithEmailAndPassword(formData.email, formData.password, formData.confirmPassword, 
         formData.firstName, formData.middleName, formData.lastName, formData.role)
     const { error } = JSON.parse(result)
 
     if (error) {
       console.log(error.message)
+    } else {
+      router.push("/")
     }
   }
-
+  
   return (
-    <LoggedOutOnly>
+    <>
+    {/* <LoggedOutOnly> */}
       <div className="relative *:flex flex-col justify-center max-w-md mx-auto gap-1 mt-20 sm:px-0 px-4">
         <h1 className="font-bold text-3xl">Sign Up</h1>
         <p className="font-medium text-s">Create your account&nbsp; <SquarePen className="w-[18px]"/></p>
@@ -142,7 +152,8 @@ const Signup = () => {
           </div>
         </form>
       </div>
-    </LoggedOutOnly>
+      </>
+    // </LoggedOutOnly>
     
   );
 };
