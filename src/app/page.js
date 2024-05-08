@@ -1,7 +1,5 @@
 // "use client";
 
-import NavBar from "@/app/custom_components/NavBar";
-
 import Footer from "@/app/custom_components/Footer";
 
 import Image from "next/image";
@@ -17,7 +15,6 @@ import { tagList } from "./tag_lists";
 const Hero = () => {
   return (
     <div className="relative ">
-      <NavBar />
       <div className="container min-h-screen flex flex-col justify-center items-center z-50 overflow-hidden max-h-screen">
         <Image
           className="absolute bg-fixed bg-clip-content top-0 left-0 w-full -z-50 max-h-screen"

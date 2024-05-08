@@ -1,20 +1,26 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useTransition } from 'react';
 import { ArrowUpRight, Eye, EyeOff } from 'lucide-react';
-import NavBar from "@/app/custom_components/NavBar";
 import InputBox from "@/app/custom_components/InputBox";
 import Link from 'next/link';
 import WavingHandIcon from '@mui/icons-material/WavingHand';
-
+import { signInWithEmailAndPassword, signUpWithEmailAndPassword } from '@/supabase/actions';
+import { CircularProgress } from '@mui/material';
+import LoggedOutOnly from '@/app/layouts/LoggedOutOnly'
+import { redirect, useRouter } from 'next/navigation';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  
+  const router = useRouter();
 
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
+
+  const [isPending, startTransition] = useTransition();
 
   const handleTogglePassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -29,27 +35,15 @@ const Login = () => {
     })
   }
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData['email'],
-        password: formData['password']
-      }) 
-
-      if (error) throw error;
-      console.log(data)
-
-    } catch (error) {
-      console.log(error)
-    }
-
+    const result = await signInWithEmailAndPassword(formData.email, formData.password)
+    const { data, error } = JSON.parse(result)
+    router.push('/')
   }
 
   return (
-    <>
-      <NavBar />
+    <LoggedOutOnly>
       <div className="relative *:flex flex-col justify-center max-w-sm mx-auto gap-1 mt-20 sm:px-0 px-4">
         <h1 className="font-bold text-3xl">Login</h1>
         <p className="font-medium text-s">Hi, Welcome back &nbsp; <WavingHandIcon className="w-[18px]"/></p>
@@ -70,49 +64,48 @@ const Login = () => {
             </p>
           </div>
         </div> */}
-        <form className="flex flex-col gap-2 mt-3">
+        <form className="flex flex-col gap-2 mt-3" onSubmit={handleSubmit}>
           <div>
             <p className="font-bold">Email</p>
-            <InputBox type="text" name="email" onChange={onInputHandleChange}/>
+            <InputBox type="text" name="email" onInputHandleChange={onInputHandleChange}/>
           </div>
           <div className="relative">
             <p className="font-bold">Password</p>
             <div className="relative flex items-center">
             <InputBox type={showPassword ? "text" : "password"}
               name="password"
-              onChange={onInputHandleChange}
+              onInputHandleChange={onInputHandleChange}
             />
               <button
                 type="button"
                 className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
                 onClick={handleTogglePassword}                
               >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                
+                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}                
               </button>
             </div>
           </div>
-        </form>
 
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center">
-            <input type="checkbox" className="mr-2" />
-            <p className="font-bold">Remember Me</p>
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center">
+              <input type="checkbox" className="mr-2" />
+              <p className="font-bold">Remember Me</p>
+            </div>
+            <Link href="/pages/forgot_password
+            ">
+              <p className="text-forgotPassword font-semibold">Forgot Password?</p>        
+            </Link>
           </div>
-          <Link href="/pages/forgot_password
-          ">
-            <p className="text-forgotPassword font-semibold">Forgot Password?</p>        
-          </Link>
-        </div>
-        <button className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full text-white bg-forgotPassword">
-          Login
-        </button>
-        <div className="flex justify-center mt-4">
-          Not registered yet?&nbsp;<Link href="/pages/signup" className="flex justify-center items-center text-forgotPassword"><p className="text-forgotPassword font-semibold">Create an account</p><ArrowUpRight /></Link>
-        </div>
+          <button type="submit"className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full text-white bg-forgotPassword">
+            Login 
+            {/* <CircularProgress className={isPending ? "animate-spin" : "hidden"}/> */}
+          </button>
+          <div className="flex justify-center mt-4">
+            Not registered yet?&nbsp;<Link href="/pages/signup" className="flex justify-center items-center text-forgotPassword"><p className="text-forgotPassword font-semibold">Create an account</p><ArrowUpRight /></Link>
+          </div>
+        </form>
       </div>
-    </>
-    
+    </LoggedOutOnly>
   );
 };
 
