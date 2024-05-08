@@ -6,7 +6,7 @@ import InputBox from "@/app/custom_components/InputBox";
 import { signUpWithEmailAndPassword } from "@/supabase/actions";
 import Link from "next/link";
 import LoggedOutOnly from "@/app/layouts/LoggedOutOnly";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -49,10 +49,10 @@ const Signup = () => {
     event.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
-      console.log('password does not match')
+      console.log("password does not match");
       return;
     }
-    
+
     const result = await signUpWithEmailAndPassword(
       formData.email,
       formData.password,
@@ -64,15 +64,16 @@ const Signup = () => {
     );
     const { error } = JSON.parse(result);
 
+    console.log(JSON.parse(result));
     if (error) {
-      console.log(error.message)
+      console.log(error.message);
     } else {
-      router.push("/")
+      router.push("/");
     }
   };
 
   return (
-    <LoggedOutOnly>
+    <>
       <div className="relative wrapper">
         <div className="flex flex-col justify-center gap-1 max-w-lg mx-auto border py-10 px-8 rounded-xl bg-background shadow-sm mb-20">
           <h1 className="font-bold text-2xl">Sign up</h1>
@@ -206,9 +207,7 @@ const Signup = () => {
           </form>
         </div>
       </div>
-
-      </>
-    // </LoggedOutOnly>
+    </>
   );
 };
 

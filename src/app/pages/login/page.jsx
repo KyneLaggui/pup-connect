@@ -50,16 +50,16 @@ const Login = () => {
       formData.password
     );
     const { data, error } = JSON.parse(result);
-    
+
     if (!error) {
-    router.push('/')
+      router.push("/");
     } else {
-      console.log(error)
+      console.log(error);
     }
   };
 
   return (
-    <LoggedOutOnly>
+    <>
       <div className="relative wrapper">
         <div className="flex flex-col justify-center gap-1 max-w-lg mx-auto border py-10 px-8 rounded-xl bg-background shadow-sm">
           <h1 className="font-bold text-2xl">Login</h1>
