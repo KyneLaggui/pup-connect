@@ -23,7 +23,7 @@ import { PUPLogo } from "@assets/index";
 import roleButtons from "@/app/nav_buttons/index";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/supabase/actions";
-import { LoggedInOnlyComponent } from "../layouts/ComponentRestrictions";
+
 
 const Sidebar = () => {
   let role = "admin"; // Change this to "admin", "faculty", and "user" to see different buttons
@@ -38,7 +38,6 @@ const Sidebar = () => {
   }
   
   return (
-    <LoggedInOnlyComponent>
     <div>
       <aside className="fixed hidden inset-y-0 left-0 z-50 w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
@@ -125,7 +124,6 @@ const Sidebar = () => {
         </Sheet>
       </header>
     </div>
-    </LoggedInOnlyComponent>
   );
 };
 

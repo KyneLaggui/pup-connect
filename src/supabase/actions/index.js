@@ -1,14 +1,17 @@
 "use server";
 
-import { createSupabaseServerClient } from "../config"
+import { createClient } from "@/supabase/server"
+import { headers } from "next/headers";
 
 export async function signUpWithEmailAndPassword(email, password, confirmPassword, firstName, middleName, lastName, role) {
-    const supabase = await createSupabaseServerClient();
+    const supabase = createClient();
 
     if (password !== confirmPassword) {
         console.log("Password does not match")
         return
     }
+
+    const origin = headers().get('origin')
 
     const result = await supabase.auth.signUp(
         // Need to lowercase email to safely compare it in the future
@@ -21,6 +24,9 @@ export async function signUpWithEmailAndPassword(email, password, confirmPasswor
                     firstName: firstName,
                     middleName: middleName,
                     lastName: lastName,
+                },
+                options: {
+                    emailRedirectTo: `${origin}/auth/callback`
                 }
             }
         }
@@ -30,7 +36,7 @@ export async function signUpWithEmailAndPassword(email, password, confirmPasswor
 }
 
 export const signInWithEmailAndPassword = async(email, password) => {
-    const supabase = await createSupabaseServerClient();
+    const supabase = await createClient();
     const result = await supabase.auth.signInWithPassword({
         email, 
         password
@@ -39,14 +45,14 @@ export const signInWithEmailAndPassword = async(email, password) => {
 }
 
 export const signOut = async() => {
-    const supabase = await createSupabaseServerClient();
+    const supabase = await createClient();
     await supabase.auth.signOut();
 }
 
-export const readUserSession = async() => {
-    const supabase = await createSupabaseServerClient();
-    return supabase.auth.getSession();
-}
+// export const readUserSession = async() => {
+//     const supabase = await createClient();
+//     return supabase.auth.getSession();
+// }
 
 // export const retrieveUser = async() => {
 //     const supabase = await createSupabaseServerClient();
@@ -54,4 +60,20 @@ export const readUserSession = async() => {
 //     console.log(user)
 //     return JSON.stringify(user);
 // }
+
+// export const listenAuthState = async() => {
+//     const supabase = await createSupabaseServerClient();
+//     supabase.auth.onAuthStateChange((_event, session) => {
+//         if (session) {
+//             console.log("logged in!")
+//         } else {
+//             console.log("logged out!")
+//         }
+
+//     })     
+// }
+
+
+
+
 

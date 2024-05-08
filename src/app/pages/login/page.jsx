@@ -3,6 +3,7 @@
 import React, { useState, useTransition } from "react";
 import { ArrowUpRight, Eye, EyeOff } from "lucide-react";
 import InputBox from "@/app/custom_components/InputBox";
+
 import Link from "next/link";
 import WavingHandIcon from "@mui/icons-material/WavingHand";
 import {
@@ -49,7 +50,12 @@ const Login = () => {
       formData.password
     );
     const { data, error } = JSON.parse(result);
-    router.push("/");
+    
+    if (!error) {
+    router.push('/')
+    } else {
+      console.log(error)
+    }
   };
 
   return (
@@ -62,6 +68,23 @@ const Login = () => {
             <WavingHandIcon className="w-[18px] text-yellow-400" />
           </div>
           {/* <div className="flex flex-col items-center w-full gap-4 my-4 mb-8">
+
+    const result = await signInWithEmailAndPassword(formData.email, formData.password)
+    const { data, error } = JSON.parse(result)
+
+    if (!error) {
+    router.push('/')
+    } else {
+      console.log(error)
+    }
+  }
+
+  return (
+    <>
+      <div className="relative *:flex flex-col justify-center max-w-sm mx-auto gap-1 mt-20 sm:px-0 px-4">
+        <h1 className="font-bold text-3xl">Login</h1>
+        <p className="font-medium text-s">Hi, Welcome back &nbsp; <WavingHandIcon className="w-[18px]"/></p>
+        {/* <div className="flex flex-col items-center w-full gap-4 my-4 mb-8">
           <button className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full">
             <Image
               src="/assets/google_icon.svg"
@@ -168,7 +191,7 @@ const Login = () => {
           </form>
         </div>
       </div>
-    </LoggedOutOnly>
+    </>
   );
 };
 

@@ -1,26 +1,27 @@
-"use client"
-
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { retrieveUser } from '@/supabase/actions'
-import { readUserSession } from '../../../supabase/actions'
 
-const LoggedOutOnly = ({ children }) => {
+const LoggedOutOnly = async ({ children }) => {
   const router = useRouter()
+ 
+  const { data: { session }} = await supabase.auth.getSession();
 
-  useEffect(() => {
-    const checkUser = async() => {
-      const result = await readUserSession();
-      const { data, error } = result
-      if (data.session) {
-        console.log(data.session)
-        router.push("/")
-      } 
-    }
+  if (session) {
+    router.push("/")
+  }
+  
+  // useEffect(() => {
+  //   const checkUser = async() => {
+  //     const result = await readUserSession();
+  //     const { data, error } = result
+  //     if (data.session) {
+  //       console.log(data.session)
+  //       router.push("/")
+  //     } 
+  //   }
     
-    checkUser()
-  }, [])
+  //   checkUser()
+  // }, [])
 
   return (
     <div>

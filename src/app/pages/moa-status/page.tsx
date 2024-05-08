@@ -35,7 +35,6 @@ export default async function DemoPage() {
 
   return (
     <ApplicantOnlyPage>
-      <Sidebar />
       <div className="flex">
         <div className="w-full flex justify-center container-sidebar">
           {/* <DataTable columns={columns} data={data} /> */}
