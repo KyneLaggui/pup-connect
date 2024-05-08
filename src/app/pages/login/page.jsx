@@ -8,7 +8,7 @@ import WavingHandIcon from '@mui/icons-material/WavingHand';
 import { signInWithEmailAndPassword, signUpWithEmailAndPassword } from '@/supabase/actions';
 import { CircularProgress } from '@mui/material';
 import LoggedOutOnly from '@/app/layouts/LoggedOutOnly'
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,11 +39,16 @@ const Login = () => {
     event.preventDefault();
     const result = await signInWithEmailAndPassword(formData.email, formData.password)
     const { data, error } = JSON.parse(result)
+
+    if (!error) {
     router.push('/')
+    } else {
+      console.log(error)
+    }
   }
 
   return (
-    <LoggedOutOnly>
+    <>
       <div className="relative *:flex flex-col justify-center max-w-sm mx-auto gap-1 mt-20 sm:px-0 px-4">
         <h1 className="font-bold text-3xl">Login</h1>
         <p className="font-medium text-s">Hi, Welcome back &nbsp; <WavingHandIcon className="w-[18px]"/></p>
@@ -105,7 +110,7 @@ const Login = () => {
           </div>
         </form>
       </div>
-    </LoggedOutOnly>
+    </>
   );
 };
 

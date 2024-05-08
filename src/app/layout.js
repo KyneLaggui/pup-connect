@@ -4,6 +4,7 @@ import "./globalicon.css";
 import localFont from "next/font/local";
 import Sidebar from "./custom_components/Sidebar";
 import NavBar from "./custom_components/NavBar";
+import { LoggedInOnlyComponent, LoggedOutOnlyComponent } from "./layouts/ComponentRestrictions";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -40,8 +41,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={myFont.className}>
-        <NavBar />
-        <Sidebar />
+        <LoggedOutOnlyComponent>
+          <NavBar />
+        </LoggedOutOnlyComponent>
+        <LoggedInOnlyComponent>
+          <Sidebar />
+        </LoggedInOnlyComponent>
         {children}
       </body>
     </html>
