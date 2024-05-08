@@ -1,24 +1,31 @@
-"use client"
+"use client";
 
-import React, { useState, useTransition } from 'react';
-import { ArrowUpRight, Eye, EyeOff } from 'lucide-react';
+import React, { useState, useTransition } from "react";
+import { ArrowUpRight, Eye, EyeOff } from "lucide-react";
 import InputBox from "@/app/custom_components/InputBox";
-import Link from 'next/link';
-import WavingHandIcon from '@mui/icons-material/WavingHand';
-import { signInWithEmailAndPassword, signUpWithEmailAndPassword } from '@/supabase/actions';
-import { CircularProgress } from '@mui/material';
-import LoggedOutOnly from '@/app/layouts/LoggedOutOnly'
-import { redirect, useRouter } from 'next/navigation';
+import Link from "next/link";
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import {
+  signInWithEmailAndPassword,
+  signUpWithEmailAndPassword,
+} from "@/supabase/actions";
+import { CircularProgress } from "@mui/material";
+import LoggedOutOnly from "@/app/layouts/LoggedOutOnly";
+import { redirect, useRouter } from "next/navigation";
+
+import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  
+
   const router = useRouter();
 
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
-  })
+    email: "",
+    password: "",
+  });
 
   const [isPending, startTransition] = useTransition();
 
@@ -26,28 +33,35 @@ const Login = () => {
     setShowPassword((prevState) => !prevState);
   };
 
-  // Form functions 
+  // Form functions
   const onInputHandleChange = (event) => {
-    const {name, value} = event.target;
+    const { name, value } = event.target;
     setFormData({
       ...formData,
-      [name]: value
-    })
-  }
+      [name]: value,
+    });
+  };
 
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = await signInWithEmailAndPassword(formData.email, formData.password)
-    const { data, error } = JSON.parse(result)
-    router.push('/')
-  }
+    const result = await signInWithEmailAndPassword(
+      formData.email,
+      formData.password
+    );
+    const { data, error } = JSON.parse(result);
+    router.push("/");
+  };
 
   return (
     <LoggedOutOnly>
-      <div className="relative *:flex flex-col justify-center max-w-sm mx-auto gap-1 mt-20 sm:px-0 px-4">
-        <h1 className="font-bold text-3xl">Login</h1>
-        <p className="font-medium text-s">Hi, Welcome back &nbsp; <WavingHandIcon className="w-[18px]"/></p>
-        {/* <div className="flex flex-col items-center w-full gap-4 my-4 mb-8">
+      <div className="relative wrapper">
+        <div className="flex flex-col justify-center gap-1 max-w-lg mx-auto border py-10 px-8 rounded-xl bg-background shadow-sm">
+          <h1 className="font-bold text-2xl">Login</h1>
+          <div className="flex items-center gap-2">
+            <span className="text-sm">Hi, Welcome back</span>
+            <WavingHandIcon className="w-[18px] text-yellow-400" />
+          </div>
+          {/* <div className="flex flex-col items-center w-full gap-4 my-4 mb-8">
           <button className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full">
             <Image
               src="/assets/google_icon.svg"
@@ -64,46 +78,95 @@ const Login = () => {
             </p>
           </div>
         </div> */}
-        <form className="flex flex-col gap-2 mt-3" onSubmit={handleSubmit}>
-          <div>
-            <p className="font-bold">Email</p>
-            <InputBox type="text" name="email" onInputHandleChange={onInputHandleChange}/>
-          </div>
-          <div className="relative">
-            <p className="font-bold">Password</p>
-            <div className="relative flex items-center">
-            <InputBox type={showPassword ? "text" : "password"}
-              name="password"
-              onInputHandleChange={onInputHandleChange}
-            />
-              <button
-                type="button"
-                className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
-                onClick={handleTogglePassword}                
-              >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}                
-              </button>
+          <form className="flex flex-col gap-2 mt-3" onSubmit={handleSubmit}>
+            <div className="mb-2">
+              <label htmlFor="email" className="font-semibold">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="e.g. johndoe@email.com"
+                name="email"
+                className="mt-2"
+                onInputHandleChange={onInputHandleChange}
+              ></Input>
             </div>
-          </div>
 
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center">
-              <input type="checkbox" className="mr-2" />
-              <p className="font-bold">Remember Me</p>
+            <div className="relative">
+              <label htmlFor="password" className="font-semibold">
+                Password
+              </label>
+              <div className="relative flex items-center">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="mt-2"
+                  onInputHandleChange={onInputHandleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 mt-1 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
+                  onClick={handleTogglePassword}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
-            <Link href="/pages/forgot_password
-            ">
-              <p className="text-forgotPassword font-semibold">Forgot Password?</p>        
-            </Link>
-          </div>
-          <button type="submit"className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full text-white bg-forgotPassword">
-            Login 
-            {/* <CircularProgress className={isPending ? "animate-spin" : "hidden"}/> */}
-          </button>
-          <div className="flex justify-center mt-4">
-            Not registered yet?&nbsp;<Link href="/pages/signup" className="flex justify-center items-center text-forgotPassword"><p className="text-forgotPassword font-semibold">Create an account</p><ArrowUpRight /></Link>
-          </div>
-        </form>
+
+            <div className="flex items-center justify-between mt-4 mb-4">
+              <div className="flex items-center gap-2 cursor-pointer">
+                {/* <input type="checkbox" className="mr-2" />
+              <p className="font-bold">Remember Me</p> */}
+                <Checkbox id="remember-me" />
+                <label
+                  htmlFor="remember-me"
+                  className="text-checkbox-text text-sm font-normal cursor-pointer select-none"
+                >
+                  Remember me
+                </label>
+              </div>
+              <Link
+                href="/pages/forgot_password
+            "
+              >
+                {/* <p className="text-forgotPassword font-semibold">
+                Forgot Password?
+              </p> */}
+                <Button variant="link" size="link">
+                  Forgot password?
+                </Button>
+              </Link>
+            </div>
+            <Button type="submit" variant="default" size="xl">
+              Login
+            </Button>
+            {/* <button
+            type="submit"
+            className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full text-white bg-forgotPassword"
+          >
+            Login
+            <CircularProgress className={isPending ? "animate-spin" : "hidden"}/>
+          </button> */}
+            <div className="flex justify-center mt-4 gap-2">
+              <span>Not registered yet?</span>
+              <Link
+                href="/pages/signup"
+                className="flex justify-center items-center text-forgotPassword"
+              >
+                <Button variant="link" size="link-md">
+                  Create an account
+                </Button>
+                {/* <ArrowUpRight /> */}
+              </Link>
+            </div>
+          </form>
+        </div>
       </div>
     </LoggedOutOnly>
   );

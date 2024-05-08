@@ -10,13 +10,17 @@ const tagVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-tag text-tag-foreground hover:bg-tag-hover border border-tag-border",
+          "bg-secondary text-secondary-foreground hover:bg-secondary-hover border border-secondary-border-alt",
+        static:
+          "bg-secondary text-secondary-foreground border border-secondary-border-alt",
       },
       size: {
         default: "px-4 py-2",
         sm: "text-xs px-2 py-[4px]",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        static:
+          "flex items-center gap-2 py-[6px] px-[16px] w-fit rounded-full font-normal cursor-default",
       },
     },
     defaultVariants: {

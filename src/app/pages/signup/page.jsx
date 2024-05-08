@@ -1,24 +1,30 @@
-"use client"
+"use client";
 
-import React, { useState } from 'react';
-import { ArrowUpRight, Eye, EyeOff, PenLine, SquarePen } from 'lucide-react';
+import React, { useState } from "react";
+import { ArrowUpRight, Eye, EyeOff, PenLine, SquarePen } from "lucide-react";
 import InputBox from "@/app/custom_components/InputBox";
-import { signUpWithEmailAndPassword } from '@/supabase/actions'
-import Link from 'next/link';
-import LoggedOutOnly from '@/app/layouts/LoggedOutOnly';
+import { signUpWithEmailAndPassword } from "@/supabase/actions";
+import Link from "next/link";
+import LoggedOutOnly from "@/app/layouts/LoggedOutOnly";
+
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+
+import WavingHandIcon from "@mui/icons-material/WavingHand";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [formData, setFormData] =  useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'applicant',
-    firstName: '',
-    lastName: ''
-  })
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    role: "applicant",
+    firstName: "",
+    lastName: "",
+  });
 
   const handleTogglePassword = () => {
     setShowPassword((prevState) => !prevState);
@@ -28,33 +34,44 @@ const Signup = () => {
     setShowConfirmPassword((prevState) => !prevState);
   };
 
-    // Form methods
-    const onInputHandleChange = (event) => {
-      const {name, value} = event.target;
-      setFormData({
-        ...formData,
-        [name]: value
-      })
-    }
+  // Form methods
+  const onInputHandleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const result = await signUpWithEmailAndPassword(formData.email, formData.password, formData.confirmPassword, 
-        formData.firstName, formData.middleName, formData.lastName, formData.role)
-    const { error } = JSON.parse(result)
+    const result = await signUpWithEmailAndPassword(
+      formData.email,
+      formData.password,
+      formData.confirmPassword,
+      formData.firstName,
+      formData.middleName,
+      formData.lastName,
+      formData.role
+    );
+    const { error } = JSON.parse(result);
 
     if (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
 
   return (
     <LoggedOutOnly>
-      <div className="relative *:flex flex-col justify-center max-w-md mx-auto gap-1 mt-20 sm:px-0 px-4">
-        <h1 className="font-bold text-3xl">Sign Up</h1>
-        <p className="font-medium text-s">Create your account&nbsp; <SquarePen className="w-[18px]"/></p>
-        {/* <div className="flex flex-col items-center w-full gap-4 my-4 mb-8">
+      <div className="relative wrapper">
+        <div className="flex flex-col justify-center gap-1 max-w-lg mx-auto border py-10 px-8 rounded-xl bg-background shadow-sm mb-20">
+          <h1 className="font-bold text-2xl">Sign up</h1>
+          <div className="flex items-center gap-2">
+            <span className="text-sm">Create your account</span>
+            <WavingHandIcon className="w-[18px] text-yellow-400" />
+          </div>
+          {/* <div className="flex flex-col items-center w-full gap-4 my-4 mb-8">
           <button className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full">
             <Image
               src="/assets/google_icon.svg"
@@ -71,79 +88,116 @@ const Signup = () => {
             </p>
           </div>
         </div> */}
-        <form className="flex flex-col gap-2 mt-3" onSubmit={handleSubmit}>
-          <div className="flex gap-2">
-            <div>
-              <p className="font-bold mb-1">First name</p>
-              <InputBox type="text" name="firstName" onInputHandleChange={onInputHandleChange}/>
+          <form className="flex flex-col gap-2 mt-3" onSubmit={handleSubmit}>
+            <div className="flex gap-4 justify-between mb-2">
+              <div className="w-full">
+                <label htmlFor="firstName" className="font-semibold">
+                  First name
+                </label>
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="e.g. John"
+                  name="firstName"
+                  className="mt-2"
+                  onInputHandleChange={onInputHandleChange}
+                ></Input>
+              </div>
+              <div className="w-full">
+                <label htmlFor="lastName" className="font-semibold">
+                  Last name
+                </label>
+                <Input
+                  id="lastName"
+                  type="text"
+                  placeholder="e.g. Doe"
+                  name="lastName"
+                  className="mt-2"
+                  onInputHandleChange={onInputHandleChange}
+                ></Input>
+              </div>
             </div>
-            <div>
-              <p className="font-bold mb-1" name="lastName">Last name</p>
-              <InputBox type="text" name="lastName" onInputHandleChange={onInputHandleChange}/>
+            <div className="mb-2">
+              <label htmlFor="email" className="font-semibold">
+                Email
+              </label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="e.g. johndoe@email.com"
+                name="email"
+                className="mt-2"
+                onInputHandleChange={onInputHandleChange}
+              ></Input>
             </div>
-          </div>
-          <div>
-            <p className="font-bold mb-1" name="email">Email</p>
-            <InputBox type="text" name="email" onInputHandleChange={onInputHandleChange}/>
-          </div>
-          <div className="relative">
-            <p className="font-bold mb-1">Password</p>
-            <div className="relative flex items-center">
-            <InputBox 
-              type={showPassword ? "text" : "password"}
-              className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
-              name="password" 
-              onInputHandleChange={onInputHandleChange}  
-            />
-              <button
-                type="button"  
-                className="absolute right-2 top-1/2 transform -translate-y-1/2"    
-                onClick={handleTogglePassword}          
-              >
-                {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-              </button>
+            <div className="relative mb-2">
+              <p className="font-bold mb-1">Password</p>
+              <div className="relative flex items-center">
+                <Input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  className="mt-2"
+                  placeholder="********"
+                  onInputHandleChange={onInputHandleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 mt-1 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
+                  onClick={handleTogglePassword}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="relative">
-            <p className="font-bold mb-1">Confirm Password</p>
-            <div className="relative flex items-center">
-            <InputBox 
-              type={showConfirmPassword ? "text" : "password"}
-              className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
-              name="confirmPassword" 
-              onInputHandleChange={onInputHandleChange}
-            />
-              <button
-                type="button"
-                className="absolute right-2 top-1/2 transform -translate-y-1/2"    
-                onClick={toggleCOnfirmPassword}          
-              >
-                {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-              </button>
+            <div className="relative mb-2">
+              <p className="font-bold mb-1">Confirm Password</p>
+              <div className="relative flex items-center">
+                <Input
+                  id="confirmPassword"
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  className="mt-2"
+                  placeholder="********"
+                  onInputHandleChange={onInputHandleChange}
+                />
+                <button
+                  type="button"
+                  className="absolute max-h-full inset-y-0 right-0 flex items-center justify-center w-10 mt-1 h-full text-gray-400 hover:text-gray-600 focus:outline-none"
+                  onClick={toggleCOnfirmPassword}
+                >
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-        
 
-          <div className="flex items-center justify-between mt-4">
-            <div className="flex items-center">
-              <input type="checkbox" className="mr-2" />
-              <p className="font-bold">Remember Me</p>
+            <Button type="submit" variant="default" size="xl" className="mt-2">
+              Sign up
+            </Button>
+            <div className="flex justify-center mt-4 gap-2">
+              <span>Already have an account?</span>
+              <Link
+                href="/pages/signup"
+                className="flex justify-center items-center text-forgotPassword"
+              >
+                <Button variant="link" size="link-md">
+                  Sign in
+                </Button>
+                {/* <ArrowUpRight /> */}
+              </Link>
             </div>
-            <Link href="/pages/forgot_password
-            ">
-              <p className="text-forgotPassword font-semibold">Forgot Password?</p>        
-            </Link>
-          </div>
-          <button type="submit" className="flex justify-center items-center gap-4 font-semibold border-solid border rounded-sm border-buttonColor py-2 text-s mt-3 w-full text-white bg-forgotPassword">
-            Sign Up
-          </button>
-          <div className="flex justify-center mt-4">
-            Already have an account?&nbsp;<Link href="/pages/login" className="flex justify-center items-center text-forgotPassword"><p className="text-forgotPassword font-semibold">Login</p><ArrowUpRight /></Link>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </LoggedOutOnly>
-    
   );
 };
 
