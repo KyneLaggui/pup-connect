@@ -34,13 +34,16 @@ export default async function DemoPage() {
   const data = await getData();
 
   return (
-    <ApplicantOnlyPage>
+    // <ApplicantOnlyPage>
+    <>
       <div className="flex">
         <div className="w-full flex justify-center container-sidebar">
+          okay
           {/* <DataTable columns={columns} data={data} /> */}
         </div>
       </div>
-    </ApplicantOnlyPage>
+    </>
+    // </ApplicantOnlyPage>
   );
 }
 

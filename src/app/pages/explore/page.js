@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import JobCard from "@/app/custom_components/JobCard";
 import React from "react";
