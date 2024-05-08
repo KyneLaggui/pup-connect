@@ -31,7 +31,7 @@ export async function signUpWithEmailAndPassword(email, password, confirmPasswor
             }
         }
     )
-
+    console.log(result)
     return JSON.stringify(result)
 }
 

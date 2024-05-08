@@ -53,6 +53,7 @@ const Signup = () => {
       return;
     }
 
+    console.log(formData)
     const result = await signUpWithEmailAndPassword(
       formData.email,
       formData.password,
