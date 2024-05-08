@@ -36,43 +36,66 @@ module.exports = {
     },
     extend: {
       colors: {
-        border: "var(--neutral-white-200)",
-        input: {
-          DEFAULT: "var(--obsidian-50)",
-          foreground: "var(--obsidian-400)",
-          border: "var(--obsidian-100)",
-        },
-        ring: "var(--blue-600)",
+        // Main colors
         background: "var(--neutral-white-50)",
         foreground: "var(--obsidian-950)",
+
+        // Other colors
+        border: "var(--neutral-white-200)",
+        input: {
+          DEFAULT: "var(--neutral-white-50)",
+          foreground: "var(--obsidian-950)",
+          border: "var(--neutral-white-200)",
+          placeholder: "var(--obsidian-400)",
+          ring: "var(--blue-600)",
+        },
+        ring: "var(--blue-600)",
+
+        // Hierarchical colors
         primary: {
           DEFAULT: "var(--blue-600)",
           foreground: "var(--blue-50)",
+          border: "var(--blue-600)",
           hover: "var(--blue-500)",
         },
         secondary: {
           DEFAULT: "var(--blue-50)",
           foreground: "var(--blue-900)",
-          border: "var(--blue-200)",
-          hover: "var(--neutral-white-50)",
+          border: {
+            DEFAULT: "var(--blue-500)",
+            alt: "var(--blue-100)",
+          },
+          hover: "var(--blue-100)",
         },
         tertiary: {
           DEFAULT: "var(--neutral-white-50)",
           foreground: "var(--obsidian-950)",
+          border: "var(--neutral-white-50)",
           hover: "var(--neutral-white-100)",
         },
+        neutral: {
+          DEFAULT: "var(--obsidian-50)",
+          foreground: "var(--obsidian-700)",
+          border: "var(--obsidian-100)",
+          hover: "var(--obsidian-100)",
+        },
         destructive: {
-          DEFAULT: "var(--red-600)",
+          DEFAULT: "var(--red-500)",
           foreground: "var(--neutral-white-50)",
-          hover: "var(--red-500)",
+          border: "var(--red-500)",
+          hover: "var(--red-400)",
         },
         muted: {
-          DEFAULT: "var(--neutral-white-200)",
-          foreground: "var(--neutral-white-700)",
+          DEFAULT: "var(--obsidian-100)",
+          foreground: "var(--obsidian-300)",
+          border: "var(--obsidian-100)",
+          hover: "var(--obsidian-200)",
         },
         accent: {
-          DEFAULT: "var(--blue-400)",
-          foreground: "var(--blue-950)",
+          DEFAULT: "var(--blue-100)",
+          foreground: "var(--blue-800)",
+          border: "var(--blue-400)",
+          hover: "var(--blue-200)",
         },
         popover: {
           DEFAULT: "var(--neutral-white-100)",
@@ -104,9 +127,9 @@ module.exports = {
         forms: {
           label: "var(--obsidian-800)",
           file: "var(--neutral-white-500)",
-          placeholder: "var(--obsidian-500)"
+          placeholder: "var(--obsidian-500)",
         },
-        forgotPassword: "var(--purple-50)"
+        forgotPassword: "var(--purple-50)",
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -19,13 +19,18 @@ const FilterJob = () => {
           placeholder="Search Company..."
           className="bg-input border-input-border font-medium"
         />
-        <Button>Search</Button>
+        <Button variant="default" size="default">
+          Search
+        </Button>
       </div>
       {/* End of Search */}
 
       {/* Start of Allowance Switch */}
       <div className="flex justify-between w-full items-center border-b-[1.5px] border-muted pb-4">
-        <Label htmlFor="allowance" className="text-foreground">
+        <Label
+          htmlFor="allowance-switch"
+          className="text-foreground cursor-pointer"
+        >
           With Allowance
         </Label>
         <Switch id="allowance-switch" />
@@ -41,20 +46,29 @@ const FilterJob = () => {
           Job Mode
         </Label>
         <div className="flex justify-start items-center gap-2 pl-4">
-          <Checkbox />
-          <label className="text-checkbox-text text-sm font-normal">
+          <Checkbox id="remote" />
+          <label
+            htmlFor="remote"
+            className="text-checkbox-text text-sm font-normal cursor-pointer select-none"
+          >
             Remote
           </label>
         </div>
         <div className="flex justify-start items-center gap-2 pl-4">
-          <Checkbox />
-          <label className="text-checkbox-text text-sm font-normal">
+          <Checkbox id="on-site" />
+          <label
+            htmlFor="on-site"
+            className="text-checkbox-text text-sm font-normal cursor-pointer select-none"
+          >
             On-site
           </label>
         </div>
         <div className="flex justify-start items-center gap-2 pl-4">
-          <Checkbox />
-          <label className="text-checkbox-text text-sm font-normal">
+          <Checkbox id="hybrid" />
+          <label
+            htmlFor="hybrid"
+            className="text-checkbox-text text-sm font-normal cursor-pointer select-none"
+          >
             Hybrid
           </label>
         </div>
@@ -70,20 +84,29 @@ const FilterJob = () => {
           Job Type
         </Label>
         <div className="flex justify-start items-center gap-2 pl-4">
-          <Checkbox />
-          <label className="text-checkbox-text text-sm font-normal">
+          <Checkbox id="internship" />
+          <label
+            htmlFor="internship"
+            className="text-checkbox-text text-sm font-normal cursor-pointer select-none"
+          >
             Internship
           </label>
         </div>
         <div className="flex justify-start items-center gap-2 pl-4">
-          <Checkbox />
-          <label className="text-checkbox-text text-sm font-normal">
+          <Checkbox id="part-time" />
+          <label
+            htmlFor="part-time"
+            className="text-checkbox-text text-sm font-normal cursor-pointer select-none"
+          >
             Part-Time
           </label>
         </div>
         <div className="flex justify-start items-center gap-2 pl-4">
-          <Checkbox />
-          <label className="text-checkbox-text text-sm font-normal">
+          <Checkbox id="full-time" />
+          <label
+            htmlFor="full-time"
+            className="text-checkbox-text text-sm font-normal cursor-pointer select-none"
+          >
             Full-Time
           </label>
         </div>

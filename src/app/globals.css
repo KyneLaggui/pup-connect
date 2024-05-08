@@ -159,6 +159,10 @@
   animation-play-state: running;
 }
 
+.wrapper {
+  @apply xl:max-w-[1200px] xl:px-0 mx-auto mt-24 px-4;
+}
+
 .container-sidebar {
   @apply w-full flex flex-col px-5 sm:flex sm:max-w-[2048px] sm:py-8 sm:px-8 sm:ml-14;
 }
