@@ -1,8 +1,11 @@
+"use client"
+
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
+// import ComponentStyle from "styled-components/dist/models/ComponentStyle";
 
 const tagVariants = cva(
   "h-fit inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
@@ -32,13 +35,26 @@ const tagVariants = cva(
 
 const Tag = React.forwardRef(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+    // const Comp = asChild ? Slot : Button;
     return (
-      <Comp
-        className={cn(tagVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      />
+      <>
+       {
+        asChild ? (
+          <Slot
+          className={cn(tagVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+        />
+        ) : (
+          <div
+          className={cn(tagVariants({ variant, size, className }))}
+          ref={ref}
+          {...props}
+          >            
+          </div>
+        )
+      }
+      </>
     );
   }
 );

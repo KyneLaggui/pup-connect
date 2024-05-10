@@ -1,27 +1,15 @@
-import React from 'react'
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
+import { createClient } from '@/supabase/server'
 
 const LoggedOutOnly = async ({ children }) => {
-  const router = useRouter()
- 
+
+  const supabase = createClient();
   const { data: { session }} = await supabase.auth.getSession();
 
   if (session) {
-    router.push("/")
-  }
-  
-  // useEffect(() => {
-  //   const checkUser = async() => {
-  //     const result = await readUserSession();
-  //     const { data, error } = result
-  //     if (data.session) {
-  //       console.log(data.session)
-  //       router.push("/")
-  //     } 
-  //   }
-    
-  //   checkUser()
-  // }, [])
+    console.log(session)
+    redirect("/")
+  } 
 
   return (
     <div>

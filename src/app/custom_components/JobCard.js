@@ -11,6 +11,12 @@ import {
 import Image from "next/image";
 import { Tag } from "@/app/custom_components/Tag";
 import { useEffect } from "react";
+import dynamic from 'next/dynamic'
+
+// const TagWithNoSSR = dynamic(
+//   () => import('@/app/custom_components/Tag'),
+//   { ssr: false }
+// )
 
 const JobCard = ({ title, description, image, tags }) => {
   // useEffect(() => {
