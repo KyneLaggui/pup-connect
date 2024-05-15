@@ -86,10 +86,10 @@ module.exports = {
           hover: "var(--red-400)",
         },
         muted: {
-          DEFAULT: "var(--obsidian-100)",
-          foreground: "var(--obsidian-300)",
-          border: "var(--obsidian-100)",
-          hover: "var(--obsidian-200)",
+          DEFAULT: "var(--neutral-white-200)",
+          foreground: "var(--neutral-white-500)",
+          border: "var(--neutral-white-200)",
+          hover: "var(--neutral-white-200)",
         },
         accent: {
           DEFAULT: "var(--blue-100)",
@@ -98,7 +98,7 @@ module.exports = {
           hover: "var(--blue-200)",
         },
         popover: {
-          DEFAULT: "var(--neutral-white-100)",
+          DEFAULT: "var(--neutral-white-50)",
           foreground: "var(--obsidian-950)",
         },
         card: {

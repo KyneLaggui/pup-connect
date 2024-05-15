@@ -77,7 +77,7 @@ const Sidebar = () => {
                   <span className="sr-only">Sign out</span>
                 </p>
               </TooltipTrigger>
-              <TooltipContent side="right">Sign out</TooltipContent>
+              <TooltipContent side="right" className="bg-destructive text-destructive-foreground border-destructive-border">Sign out</TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </nav>

@@ -33,7 +33,7 @@ const JobCard = ({ title, description, image, tags }) => {
             {title}
           </CardTitle>
         </div>
-        <CardDescription className="text-xs max-h-[42px] truncate-lines font-normal text-muted-foreground text-start">
+        <CardDescription className="text-xs max-h-[42px] truncate-lines font-normal text-muted-foreground text-start tracking-wide">
           {description}
         </CardDescription>
       </div>
