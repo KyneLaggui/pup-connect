@@ -1,6 +1,5 @@
 import React from 'react'
 import { listenAuthState, readUserSession } from '@/supabase/actions'
-import { retrieveUser } from '../../../supabase/actions'
 import { createClient } from '@/supabase/server'
 
 export const LoggedInOnlyComponent = async ({ children }) => {
@@ -52,10 +51,11 @@ export const LoggedOutOnlyComponent = async ({ children }) => {
   // }, [])
 
   const supabase = createClient();
-  const { data: { session }} = await supabase.auth.getSession();
-  
+  const { data: { session }} = await supabase.auth.getSession();    
+  console.log(session)
+
   if (session) {
-    return undefined
+    return null
   }
 
   return (  

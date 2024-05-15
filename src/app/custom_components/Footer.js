@@ -12,7 +12,7 @@ const Footer = () => {
               target="_blank"
               className="flex items-center justify-center text-center"
             >
-              <span class="material-symbols-outlined text-sm text-primary-foreground">
+              <span className="material-symbols-outlined text-sm text-primary-foreground">
                 public
               </span>
             </a>
@@ -35,7 +35,7 @@ const Footer = () => {
               target="_blank"
               className="flex items-center justify-center text-center"
             >
-              <span class="material-symbols-outlined text-sm text-primary-foreground">
+              <span className="material-symbols-outlined text-sm text-primary-foreground">
                 handshake
               </span>
             </a>
