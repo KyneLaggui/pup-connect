@@ -6,11 +6,13 @@ import BasicInformation from './userSteps/BasicInformation'
 import Experience from './userSteps/Experience'
 import CoverLetterResume from './userSteps/CoverLetterResume'
 import Final from './userSteps/Final'
-
+import {StepperContext} from './StepperContext'
 
 const FormUser = () => {
 
-  const [currentStep, setCurrent] = useState(1)  
+  const [currentStep, setCurrentStep] = useState(1)  
+  const [userData, setUserData] = useState("")
+  const [finalData, setFinalData] = useState([]);
   const steps = [
     "Basic Information",
     "Experience",
@@ -18,7 +20,7 @@ const FormUser = () => {
     "Complete"
   ];  
 
-  const displaySteps = (step) => {
+  const displayStep = (step) => {
     switch(step) {
         case 1:
             return < BasicInformation />
@@ -32,13 +34,30 @@ const FormUser = () => {
     }
   }
 
+  const handleClick = (direction) => {
+    let newStep = currentStep;
+    direction === "next" ? newStep++ : newStep--;
+    newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
+  }
+
   return (
     <div className='md: w-1/2 mx-auto shadow-xl rounded-2xl pb-2 bg-white'>
         <div className='container horizontal mt-5'>
             <StepperForm steps={steps} currentStep={currentStep}/>
         </div>
         
-        <StepperControl />
+        <div className='my-10 py-10'>
+            <StepperContext.Provider value={{
+                userData,
+                setUserData,
+                finalData,
+                setFinalData
+            }}>
+                {displayStep(currentStep)}
+            </StepperContext.Provider>
+        </div>
+
+        <StepperControl handleClick={handleClick} currentStep={currentStep} steps={steps} />
     </div>
   )
 }

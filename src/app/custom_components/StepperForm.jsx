@@ -71,7 +71,7 @@ const StepperForm = ({steps, currentStep}) => {
             
           </div>
         </div>
-        <div className='flex-auto border-t-2 transition duration-500 ease-in-out'></div>
+        <div className={`flex-auto border-t-2 transition duration-500 ease-in-out ${step.completed ? 'border-primary': 'border-gray-300' }`}></div>
       </div>
     );
   });
