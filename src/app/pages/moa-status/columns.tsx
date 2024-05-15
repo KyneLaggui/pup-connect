@@ -2,7 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 import {
   DropdownMenu,
@@ -11,11 +11,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { Tag } from "@/app/custom_components/Tag";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -27,10 +28,29 @@ export type User = {
   date: string;
 };
 
+const statusVariantMap = {
+  Approved: "static-success",
+  Pending: "static-warning",
+  Cancelled: "static-destructive",
+};
+
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "status",
     header: "Status",
+    cell: ({ row }) => {
+      const user = row.original;
+
+      return (
+        <Tag
+          variant={statusVariantMap[user.status] || "static"}
+          size="sm"
+          className={`cursor-default`}
+        >
+          {user.status}
+        </Tag>
+      );
+    },
   },
   {
     accessorKey: "company_name",
@@ -44,7 +64,7 @@ export const columns: ColumnDef<User>[] = [
           Company
           <ArrowUpDown className="h-4 w-4" />
         </Button>
-      )
+      );
     },
   },
   {
@@ -57,10 +77,13 @@ export const columns: ColumnDef<User>[] = [
   },
   {
     accessorKey: "action",
-    header: "Actions",
+    // header: "Actions",
+    header: ({ column }) => {
+      return <p className="w-4">Action</p>;
+    },
     cell: ({ row }) => {
-      const user = row.original
- 
+      const user = row.original;
+
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -79,12 +102,12 @@ export const columns: ColumnDef<User>[] = [
             <DropdownMenuSeparator />
 
             {/* Backend: Add necessary action buttons here
-                Also, add the necessary functions */}
+                  Also, add the necessary functions */}
             <DropdownMenuItem>Edit user</DropdownMenuItem>
             <DropdownMenuItem>Delete user</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
-  }
+  },
 ];

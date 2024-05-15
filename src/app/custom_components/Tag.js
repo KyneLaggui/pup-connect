@@ -13,6 +13,12 @@ const tagVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary-hover border border-secondary-border-alt",
         static:
           "bg-secondary text-secondary-foreground border border-secondary-border-alt",
+        "static-destructive":
+          "bg-destructive text-destructive-foreground border border-destructive-border",
+        "static-warning":
+          "bg-amber-300 text-foreground border border-amber-300",
+        "static-success":
+          "bg-green-500 text-background border border-green-500",
       },
       size: {
         default: "px-4 py-2",

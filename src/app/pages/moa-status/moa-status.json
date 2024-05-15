@@ -1,7 +1,7 @@
 [{
   "id": 1,
   "company_name": "Ooba",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "veydel0@jigsy.com",
   "date": "2/4/2024"
 }, {
@@ -19,7 +19,7 @@
 }, {
   "id": 4,
   "company_name": "Photofeed",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "ablois3@google.ca",
   "date": "5/10/2024"
 }, {
@@ -61,7 +61,7 @@
 }, {
   "id": 11,
   "company_name": "Yata",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "dkryzhova@noaa.gov",
   "date": "7/26/2023"
 }, {
@@ -85,7 +85,7 @@
 }, {
   "id": 15,
   "company_name": "Kwideo",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "ulilburne@cam.ac.uk",
   "date": "1/31/2024"
 }, {
@@ -97,7 +97,7 @@
 }, {
   "id": 17,
   "company_name": "Jatri",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "gcrosig@fotki.com",
   "date": "6/15/2023"
 }, {
@@ -109,7 +109,7 @@
 }, {
   "id": 19,
   "company_name": "Wordware",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "ealsobrooki@ucla.edu",
   "date": "10/2/2023"
 }, {
@@ -127,7 +127,7 @@
 }, {
   "id": 22,
   "company_name": "Divavu",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "ejurgesl@ucoz.ru",
   "date": "9/10/2023"
 }, {
@@ -139,7 +139,7 @@
 }, {
   "id": 24,
   "company_name": "Vinte",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "pvaunn@netlog.com",
   "date": "5/16/2023"
 }, {
@@ -157,7 +157,7 @@
 }, {
   "id": 27,
   "company_name": "Feedmix",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "obastieq@hp.com",
   "date": "2/22/2024"
 }, {
@@ -175,7 +175,7 @@
 }, {
   "id": 30,
   "company_name": "Oozz",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "achatwint@ftc.gov",
   "date": "12/29/2023"
 }, {
@@ -199,13 +199,13 @@
 }, {
   "id": 34,
   "company_name": "Omba",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "achaudretx@yellowpages.com",
   "date": "6/27/2023"
 }, {
   "id": 35,
   "company_name": "Riffwire",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "bflarityy@google.com.hk",
   "date": "8/2/2023"
 }, {
@@ -229,7 +229,7 @@
 }, {
   "id": 39,
   "company_name": "Vinder",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "wstaten12@gravatar.com",
   "date": "10/20/2023"
 }, {
@@ -253,13 +253,13 @@
 }, {
   "id": 43,
   "company_name": "Twimbo",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "bchellenham16@edublogs.org",
   "date": "5/17/2023"
 }, {
   "id": 44,
   "company_name": "Reallinks",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "lkeattch17@desdev.cn",
   "date": "1/22/2024"
 }, {
@@ -283,7 +283,7 @@
 }, {
   "id": 48,
   "company_name": "Oyope",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "fmizzen1b@bigcartel.com",
   "date": "8/16/2023"
 }, {
@@ -295,31 +295,31 @@
 }, {
   "id": 50,
   "company_name": "Flipstorm",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "bjullian1d@ucsd.edu",
   "date": "5/1/2024"
 }, {
   "id": 51,
   "company_name": "Eimbee",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "mleopold1e@nytimes.com",
   "date": "1/23/2024"
 }, {
   "id": 52,
   "company_name": "Flashpoint",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "mscrooby1f@yahoo.co.jp",
   "date": "10/18/2023"
 }, {
   "id": 53,
   "company_name": "Plambee",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "rbischoff1g@europa.eu",
   "date": "12/18/2023"
 }, {
   "id": 54,
   "company_name": "Pixoboo",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "lkezourec1h@nba.com",
   "date": "8/7/2023"
 }, {
@@ -331,7 +331,7 @@
 }, {
   "id": 56,
   "company_name": "Voolia",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "rspraggon1j@mac.com",
   "date": "9/4/2023"
 }, {
@@ -343,7 +343,7 @@
 }, {
   "id": 58,
   "company_name": "Blogtags",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "fkaser1l@de.vu",
   "date": "12/10/2023"
 }, {
@@ -355,19 +355,19 @@
 }, {
   "id": 60,
   "company_name": "Twitterworks",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "aabethell1n@odnoklassniki.ru",
   "date": "7/3/2023"
 }, {
   "id": 61,
   "company_name": "Skyba",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "kgeaney1o@networksolutions.com",
   "date": "11/2/2023"
 }, {
   "id": 62,
   "company_name": "Dabtype",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "mdavley1p@dyndns.org",
   "date": "5/9/2024"
 }, {
@@ -385,7 +385,7 @@
 }, {
   "id": 65,
   "company_name": "Yata",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "hlinsley1s@exblog.jp",
   "date": "3/31/2024"
 }, {
@@ -397,7 +397,7 @@
 }, {
   "id": 67,
   "company_name": "Realbuzz",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "lcarbin1u@fastcompany.com",
   "date": "2/4/2024"
 }, {
@@ -415,7 +415,7 @@
 }, {
   "id": 70,
   "company_name": "Innotype",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "earchell1x@noaa.gov",
   "date": "12/13/2023"
 }, {
@@ -433,61 +433,61 @@
 }, {
   "id": 73,
   "company_name": "Oyope",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "ppresswell20@cornell.edu",
   "date": "12/20/2023"
 }, {
   "id": 74,
   "company_name": "Rhynyx",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "sadamski21@newsvine.com",
   "date": "5/7/2024"
 }, {
   "id": 75,
   "company_name": "Edgeclub",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "nswadlinge22@senate.gov",
   "date": "4/22/2024"
 }, {
   "id": 76,
   "company_name": "Feedbug",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "geccleshare23@yolasite.com",
   "date": "2/13/2024"
 }, {
   "id": 77,
   "company_name": "Flashspan",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "bpettegre24@apple.com",
   "date": "3/7/2024"
 }, {
   "id": 78,
   "company_name": "Meevee",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "mmawer25@sciencedaily.com",
   "date": "11/25/2023"
 }, {
   "id": 79,
   "company_name": "Trunyx",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "rpaulet26@wikispaces.com",
   "date": "2/26/2024"
 }, {
   "id": 80,
   "company_name": "Aivee",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "grichardon27@altervista.org",
   "date": "5/18/2023"
 }, {
   "id": 81,
   "company_name": "Rhynoodle",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "rpervew28@google.fr",
   "date": "6/11/2023"
 }, {
   "id": 82,
   "company_name": "Cogilith",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "mperkinson29@bloglovin.com",
   "date": "7/11/2023"
 }, {
@@ -505,7 +505,7 @@
 }, {
   "id": 85,
   "company_name": "Browseblab",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "etuiller2c@howstuffworks.com",
   "date": "9/14/2023"
 }, {
@@ -517,13 +517,13 @@
 }, {
   "id": 87,
   "company_name": "Quaxo",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "lbrahan2e@theglobeandmail.com",
   "date": "6/23/2023"
 }, {
   "id": 88,
   "company_name": "Jabbercube",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "zlowater2f@oakley.com",
   "date": "4/27/2024"
 }, {
@@ -541,7 +541,7 @@
 }, {
   "id": 91,
   "company_name": "Rhynyx",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "fteresa2i@thetimes.co.uk",
   "date": "6/7/2023"
 }, {
@@ -553,25 +553,25 @@
 }, {
   "id": 93,
   "company_name": "Kanoodle",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "cwhymark2k@a8.net",
   "date": "6/30/2023"
 }, {
   "id": 94,
   "company_name": "Jabberbean",
-  "status": "Rejected",
+  "status": "Cancelled",
   "email": "mbeckhurst2l@istockphoto.com",
   "date": "8/27/2023"
 }, {
   "id": 95,
   "company_name": "BlogXS",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "bturnpenny2m@quantcast.com",
   "date": "6/10/2023"
 }, {
   "id": 96,
   "company_name": "Skaboo",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "eaddeycott2n@mail.ru",
   "date": "10/15/2023"
 }, {
@@ -595,7 +595,7 @@
 }, {
   "id": 100,
   "company_name": "Skiba",
-  "status": "Under Review",
+  "status": "Pending",
   "email": "glupson2r@harvard.edu",
   "date": "7/24/2023"
 }]
