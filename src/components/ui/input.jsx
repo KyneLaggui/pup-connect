@@ -14,7 +14,6 @@ const Input = React.forwardRef(({ className, type, onInputHandleChange, name, ..
       {...props}
       name={name}
       onChange={onInputHandleChange}
-      placeholder="E.g. johndoe@email.com"
     />
   );
 });

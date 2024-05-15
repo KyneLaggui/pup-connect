@@ -13,26 +13,14 @@ import Sidebar from "@/app/custom_components/Sidebar";
 import { User, columns } from "./columns";
 import { DataTable } from "./data-table";
 
+import moaStatusJSON from "@/app/pages/moa-status/moa-status.json"
+
 // Wrapper
 import ApplicantOnlyPage from "@/app/layouts/ApplicantOnlyPage"
 
 async function getData(): Promise<User[]> {
   // Fetch data from your API here.
-  return [
-    {
-      id: "a1b2c3d4",
-      amount: 59.99,
-      status: "pending",
-      email: "johndoe@mail.com",
-    },
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "peterparker@mail.com",
-    },
-    // ...
-  ];
+  return moaStatusJSON;
 }
 
 export default async function DemoPage() {

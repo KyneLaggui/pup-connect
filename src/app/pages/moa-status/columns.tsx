@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button"
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,13 +15,16 @@ import {
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type User = {
   id: string;
-  amount: number;
-  status: "pending" | "processing" | "success" | "failed";
+  company_name: string;
+  status: string;
   email: string;
+  date: string;
 };
 
 export const columns: ColumnDef<User>[] = [
@@ -29,8 +33,19 @@ export const columns: ColumnDef<User>[] = [
     header: "Status",
   },
   {
-    accessorKey: "company",
-    header: "Company",
+    accessorKey: "company_name",
+    header: ({ column }) => {
+      return (
+        <Button
+          className="flex items-center gap-2"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Company
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      )
+    },
   },
   {
     accessorKey: "email",
@@ -62,8 +77,11 @@ export const columns: ColumnDef<User>[] = [
               Copy user ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View user details</DropdownMenuItem>
+
+            {/* Backend: Add necessary action buttons here
+                Also, add the necessary functions */}
+            <DropdownMenuItem>Edit user</DropdownMenuItem>
+            <DropdownMenuItem>Delete user</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
