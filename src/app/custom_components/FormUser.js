@@ -1,65 +1,74 @@
-"use client"
-import React, { useState } from 'react'
-import StepperControl from './StepperControl'
-import StepperForm from './StepperForm'
-import BasicInformation from './userSteps/BasicInformation'
-import Experience from './userSteps/Experience'
-import CoverLetterResume from './userSteps/CoverLetterResume'
-import Final from './userSteps/Final'
-import {StepperContext} from './StepperContext'
+"use client";
+import React, { useState } from "react";
+import StepperControl from "./StepperControl";
+import StepperForm from "./StepperForm";
+import BasicInformation from "./userSteps/BasicInformation";
+import ContactInfo from "./userSteps/ContactInfo";
+import Experience from "./userSteps/Experience";
+import CoverLetterResume from "./userSteps/CoverLetterResume";
+import Final from "./userSteps/Final";
+import { StepperContext } from "./StepperContext";
 
 const FormUser = () => {
+  const [currentStep, setCurrentStep] = useState(1); // track current step
+  const [userData, setUserData] = useState(""); // store user data
+  const [finalData, setFinalData] = useState([]); // store final data
 
-  const [currentStep, setCurrentStep] = useState(1)  
-  const [userData, setUserData] = useState("")
-  const [finalData, setFinalData] = useState([]);
-  const steps = [
-    "Basic Information",
-    "Experience",
-    "Cover Letter and Resume",
-    "Complete"
-  ];  
+  // Initializing all the possible steps titles
+  const steps = ["Basic Info", "Contact Info", "CV & Resume", "Complete"];
 
+  // Displaying the step based on the current step
   const displayStep = (step) => {
-    switch(step) {
-        case 1:
-            return < BasicInformation />
-        case 2:
-            return < Experience />
-        case 3:
-            return < CoverLetterResume />
-        case 4:
-            return < Final />
-        default:
+    switch (step) {
+      case 1:
+        return <BasicInformation />;
+      case 2:
+        return <ContactInfo />;
+      case 3:
+        return <CoverLetterResume />;
+      case 4:
+        return <Final />;
+      default:
     }
-  }
+  };
 
+  // Handling the next and previous button
   const handleClick = (direction) => {
     let newStep = currentStep;
     direction === "next" ? newStep++ : newStep--;
-    newStep > 0 && newStep <= steps.length && setCurrentStep(newStep);
-  }
+    newStep > 0 && newStep <= steps.length && setCurrentStep(newStep); // update the current step
+  };
 
   return (
-    <div className='md: w-1/2 mx-auto shadow-xl rounded-2xl pb-2 bg-white'>
-        <div className='container horizontal mt-5'>
-            <StepperForm steps={steps} currentStep={currentStep}/>
-        </div>
-        
-        <div className='my-10 py-10'>
-            <StepperContext.Provider value={{
+    <div className="wrapper">
+      <div className="flex flex-col justify-between w-full md:w-[40rem] h-fit mx-auto py-10 px-8 bg-background border shadow-sm rounded-xl">
+        <div className="">
+          <div className="container horizontal mt-5 mb-20">
+            <StepperForm steps={steps} currentStep={currentStep} />
+          </div>
+
+          <div className="mb-6 pb-4 px-10">
+            <StepperContext.Provider
+              value={{
                 userData,
                 setUserData,
                 finalData,
-                setFinalData
-            }}>
-                {displayStep(currentStep)}
+                setFinalData,
+              }}
+            >
+              {displayStep(currentStep)}
             </StepperContext.Provider>
+          </div>
         </div>
 
-        <StepperControl handleClick={handleClick} currentStep={currentStep} steps={steps} />
+        <StepperControl
+          handleClick={handleClick}
+          currentStep={currentStep}
+          steps={steps}
+        />
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default FormUser
+export default FormUser;
