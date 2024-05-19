@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import LinkIcon from "@mui/icons-material/Link";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { useParams, useRouter } from "next/navigation";
-import { jobCardInfo } from "../../../constants";
+import { jobCardInfo } from "../../constants";
 
 const page = ({ job }) => {
   const [socialLinks, setSocialLinks] = useState([""]);
@@ -44,11 +44,11 @@ const page = ({ job }) => {
       return parseInt(item.number) === parseInt(params.id);
     });
 
-    setJobInfo({
-      title: designatedJob[0].title,
-      company: designatedJob[0].company,
-      image: designatedJob[0].image,
-    });
+    // setJobInfo({
+    //   title: designatedJob[0].title,
+    //   company: designatedJob[0].company,
+    //   image: designatedJob[0].image,
+    // });
   }, []);
 
   return (
