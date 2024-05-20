@@ -6,6 +6,7 @@ import { StepperContext } from "../StepperContext";
 
 import FormsLabel from "../FormsLabel";
 import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
 
 // Icons
 import LinkIcon from "@mui/icons-material/Link";
@@ -58,7 +59,7 @@ const ContactInfo = () => {
         <Input
           id="email"
           type="text"
-          placeholder="e.g. John"
+          placeholder="e.g. johndoe@mail.com"
           name="email"
           onChange={handleChange}
           value={userData["email"] || ""}
@@ -71,7 +72,7 @@ const ContactInfo = () => {
         <Input
           id="phoneNumber"
           type="text"
-          placeholder="e.g. John"
+          placeholder="e.g. 09XXXXXXXXX"
           name="phoneNumber"
           onChange={handleChange}
           value={userData["phoneNumber"] || ""}
@@ -79,21 +80,88 @@ const ContactInfo = () => {
         ></Input>
       </div>
 
-      <div className="w-full mb-2">
-        <FormsLabel text="Address" label="address" />
-        <Input
-          id="address"
-          type="text"
-          placeholder="e.g. John"
-          name="address"
-          onChange={handleChange}
-          value={userData["address"] || ""}
-          className="mt-1"
-        ></Input>
+      <Separator />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="col-span-2">
+          <h3 className="text-base font-semibold">Address</h3>
+        </div>
+        <div className="w-full mb-2">
+          <FormsLabel text="Region" label="region" />
+          <Input
+            id="region"
+            type="text"
+            // placeholder="e.g. John"
+            name="region"
+            onChange={handleChange}
+            value={userData["region"] || ""}
+            className="mt-1"
+          ></Input>
+        </div>
+        <div className="w-full mb-2">
+          <FormsLabel text="Province" label="province" />
+          <Input
+            id="province"
+            type="text"
+            // placeholder="e.g. John"
+            name="province"
+            onChange={handleChange}
+            value={userData["province"] || ""}
+            className="mt-1"
+          ></Input>
+        </div>
+        <div className="w-full mb-2">
+          <FormsLabel text="City / Municipality" label="city" />
+          <Input
+            id="city"
+            type="text"
+            // placeholder="e.g. John"
+            name="city"
+            onChange={handleChange}
+            value={userData["city"] || ""}
+            className="mt-1"
+          ></Input>
+        </div>
+        <div className="w-full mb-2">
+          <FormsLabel text="Barangay" label="barangay" />
+          <Input
+            id="barangay"
+            type="text"
+            // placeholder="e.g. John"
+            name="barangay"
+            onChange={handleChange}
+            value={userData["barangay"] || ""}
+            className="mt-1"
+          ></Input>
+        </div>
+        <div className="w-full mb-2 col-span-2">
+          <FormsLabel
+            text="Street address (Building number & Street name)"
+            label="streetAddress"
+          />
+          <Input
+            id="streetAddress"
+            type="text"
+            // placeholder="e.g. John"
+            name="streetAddress"
+            onChange={handleChange}
+            value={userData["streetAddress"] || ""}
+            className="mt-1"
+          ></Input>
+        </div>
       </div>
 
+      <Separator />
+
       <div className="w-full mb-2">
-        <FormsLabel text="Social links" label="social" />
+        <div className="mb-3">
+          <h3 className="text-base font-semibold">Social links</h3>
+
+          <p className="text-sm text-muted-foreground">
+            Add your all social URLs.
+          </p>
+        </div>
+        {/* <FormsLabel text="Social links" label="social" /> */}
         <div className="flex flex-col gap-2 mt-1">
           {socialLinks.map((link, index) => (
             <div

@@ -99,6 +99,7 @@ const BasicInformation = () => {
           <SelectContent>
             <SelectItem value="male">Male</SelectItem>
             <SelectItem value="female">Female</SelectItem>
+            <SelectItem value="others">Others</SelectItem>
             <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
           </SelectContent>
         </Select>
