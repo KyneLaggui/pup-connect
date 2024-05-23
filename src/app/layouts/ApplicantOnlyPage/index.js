@@ -1,26 +1,14 @@
-"use client"
+import { redirect } from 'next/navigation'
+import { createClient } from '@/supabase/server'
 
-import React from 'react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { readUserSession, retrieveUser } from '../../../supabase/actions'
+const ApplicantOnlyPage = async ({ children }) => {
+  const supabase = createClient();
+  const { data: { session }} = await supabase.auth.getSession();
 
-const ApplicantOnlyPage = ({ children }) => {
-  const router = useRouter()
-
-  // useEffect(() => {
-  //   console.log(children)
-  //   const checkUser = async() => {
-  //     const result = await readUserSession();
-  //     const { data, error } = result;
-  //     if (!data.session) {
-  //       router.push("/pages/login")
-  //     } 
-  //   }
-    
-  //   checkUser()
-  // }, [])
-  
+  if (!session) {
+    console.log(session)
+    redirect("/")
+  } 
 
   return (
     <div>

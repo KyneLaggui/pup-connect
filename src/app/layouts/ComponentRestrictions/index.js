@@ -22,7 +22,6 @@ export const LoggedInOnlyComponent = async ({ children }) => {
 
   const supabase = createClient();
   const { data: { session }} = await supabase.auth.getSession();
-  
   if (!session) {
     return undefined
   }
@@ -52,7 +51,7 @@ export const LoggedOutOnlyComponent = async ({ children }) => {
 
   const supabase = createClient();
   const { data: { session }} = await supabase.auth.getSession();    
-  console.log(session)
+  // console.log(session)
 
   if (session) {
     return null

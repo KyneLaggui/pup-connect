@@ -65,7 +65,7 @@ const Sidebar = () => {
             </TooltipProvider>
           ))}
         </nav>
-        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
+        <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5 cursor-pointer">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

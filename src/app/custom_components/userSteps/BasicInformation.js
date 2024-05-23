@@ -38,7 +38,7 @@ const BasicInformation = () => {
           type="text"
           placeholder="e.g. John"
           name="firstName"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
           value={userData["firstName"] || ""}
           className="mt-1"
         ></Input>
@@ -51,7 +51,7 @@ const BasicInformation = () => {
           type="text"
           placeholder="e.g. Middle"
           name="middleName"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
           value={userData["middleName"] || ""}
           className="mt-1"
         ></Input>
@@ -64,7 +64,7 @@ const BasicInformation = () => {
           type="text"
           placeholder="e.g. Doe"
           name="lastName"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
           value={userData["lastName"] || ""}
           className="mt-1"
         ></Input>
@@ -77,7 +77,7 @@ const BasicInformation = () => {
           type="date"
           // placeholder="e.g. Doe"
           name="birthDate"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
           value={userData["birthDate"] || ""}
           className="mt-1"
         ></Input>
