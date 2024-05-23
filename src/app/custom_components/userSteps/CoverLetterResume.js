@@ -48,7 +48,7 @@ const CoverLetterResume = () => {
           id="formsLetter"
           name="formsLetter"
           className="text-forms-placeholder mt-1"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
         />
         {userData["formsLetter"] && (
           <p className="mt-2 text-sm text-muted-foreground tracking-wide">
@@ -65,7 +65,7 @@ const CoverLetterResume = () => {
           id="additionalLetter"
           name="additionalLetter"
           className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
           value={userData["additionalLetter"] || ""}
         />
       </div>

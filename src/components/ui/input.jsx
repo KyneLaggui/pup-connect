@@ -14,7 +14,7 @@ const Input = React.forwardRef(
         ref={ref}
         {...props}
         name={name}
-        // onChange={onInputHandleChange}
+        onChange={onInputHandleChange}
       />
     );
   }

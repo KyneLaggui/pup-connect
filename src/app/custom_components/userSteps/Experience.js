@@ -66,7 +66,7 @@ const Experience = () => {
             <Input
               type="text"
               value={link}
-              onChange={(event) => handleSocialLinkInputChange(index, event)}
+              onInputHandleChange={(event) => handleSocialLinkInputChange(index, event)}
               name={`socialLink-${index}`}
               className="border-0 "
             />
