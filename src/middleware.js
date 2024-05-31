@@ -1,4 +1,4 @@
-import { updateSession } from "@/supabase/actions/middleware" 
+import { updateSession } from "@/supabase/middleware" 
 
 export async function middleware(request) {
   return await updateSession(request);
