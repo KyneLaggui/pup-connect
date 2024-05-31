@@ -1,14 +1,14 @@
 import React from "react";
-import ApplicantOnly from "@/app/layouts/ApplicantOnly";
+import ApplicantOnlyPage from '@/app/layouts/ApplicantOnlyPage'
 
 const Profile = () => {
 
   return (
-    <ApplicantOnly>
+    <ApplicantOnlyPage>
       <div>
         Profile
       </div>
-    </ApplicantOnly>
+    </ApplicantOnlyPage>
   )
 
 };

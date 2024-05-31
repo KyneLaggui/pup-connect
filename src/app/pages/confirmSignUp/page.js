@@ -1,12 +1,15 @@
 import React from 'react'
 import FormUser from '../../custom_components/FormUser'
+import ApplicantOnlyPage from '@/app/layouts/ApplicantOnlyPage'
 
-const page = () => {
+const Page = async () => {
   return (
-    <div className='mt-20'>
-      <FormUser />
-    </div>
+    <ApplicantOnlyPage>
+      <div className='mt-20'>
+        <FormUser />
+      </div>
+    </ApplicantOnlyPage>
   )
 }
 
-export default page
+export default Page
