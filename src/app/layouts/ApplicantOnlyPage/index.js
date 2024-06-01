@@ -1,26 +1,27 @@
-"use client"
+import { redirect } from 'next/navigation'
+import { createClient } from '@/supabase/server'
+import { headers } from "next/headers"
 
-import React from 'react'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
-import { readUserSession, retrieveUser } from '../../../supabase/actions'
+const ApplicantOnlyPage = async ({ children }) => {
+  const supabase = createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  const heads = headers();
+  const pathname = heads.get('x-current-path');
 
-const ApplicantOnlyPage = ({ children }) => {
-  const router = useRouter()
+  const resultData = await supabase
+  .from('profile')
+  .select()
+  .eq('email', session.user.email)
+  .single()
 
-  // useEffect(() => {
-  //   console.log(children)
-  //   const checkUser = async() => {
-  //     const result = await readUserSession();
-  //     const { data, error } = result;
-  //     if (!data.session) {
-  //       router.push("/pages/login")
-  //     } 
-  //   }
-    
-  //   checkUser()
-  // }, [])
-  
+  if (!session) {
+    redirect("/")
+  } 
+
+  if (pathname !== "/pages/confirmSignUp"  && !resultData.data.setup_finished)  {
+    console.log('okay')
+    redirect("/pages/confirmSignUp");
+  }
 
   return (
     <div>

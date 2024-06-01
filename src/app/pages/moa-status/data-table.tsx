@@ -65,7 +65,7 @@ export function DataTable<TData, TValue>({
         <Input
           placeholder="Search for company"
           value={(table.getColumn("company_name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
+          onInputHandleChange={(event) =>
             table.getColumn("company_name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"

@@ -61,7 +61,7 @@ const ContactInfo = () => {
           type="text"
           placeholder="e.g. johndoe@mail.com"
           name="email"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
           value={userData["email"] || ""}
           className="mt-1"
         ></Input>
@@ -74,7 +74,7 @@ const ContactInfo = () => {
           type="text"
           placeholder="e.g. 09XXXXXXXXX"
           name="phoneNumber"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
           value={userData["phoneNumber"] || ""}
           className="mt-1"
         ></Input>
@@ -93,7 +93,7 @@ const ContactInfo = () => {
             type="text"
             // placeholder="e.g. John"
             name="region"
-            onChange={handleChange}
+            onInputHandleChange={handleChange}
             value={userData["region"] || ""}
             className="mt-1"
           ></Input>
@@ -105,7 +105,7 @@ const ContactInfo = () => {
             type="text"
             // placeholder="e.g. John"
             name="province"
-            onChange={handleChange}
+            onInputHandleChange={handleChange}
             value={userData["province"] || ""}
             className="mt-1"
           ></Input>
@@ -117,7 +117,7 @@ const ContactInfo = () => {
             type="text"
             // placeholder="e.g. John"
             name="city"
-            onChange={handleChange}
+            onInputHandleChange={handleChange}
             value={userData["city"] || ""}
             className="mt-1"
           ></Input>
@@ -129,7 +129,7 @@ const ContactInfo = () => {
             type="text"
             // placeholder="e.g. John"
             name="barangay"
-            onChange={handleChange}
+            onInputHandleChange={handleChange}
             value={userData["barangay"] || ""}
             className="mt-1"
           ></Input>
@@ -144,7 +144,7 @@ const ContactInfo = () => {
             type="text"
             // placeholder="e.g. John"
             name="streetAddress"
-            onChange={handleChange}
+            onInputHandleChange={handleChange}
             value={userData["streetAddress"] || ""}
             className="mt-1"
           ></Input>
@@ -174,7 +174,7 @@ const ContactInfo = () => {
               <Input
                 type="text"
                 value={link}
-                onChange={(event) => handleSocialLinkInputChange(index, event)}
+                onInputHandleChange={(event) => handleSocialLinkInputChange(index, event)}
                 name={`socialLink-${index}`}
                 className="border-0 "
               />
