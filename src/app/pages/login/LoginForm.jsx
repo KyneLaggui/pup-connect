@@ -6,7 +6,6 @@ import Link from "next/link";
 
 import {
   signInWithEmailAndPassword,
-  signUpWithEmailAndPassword,
 } from "@/supabase/actions";
 import { CircularProgress } from "@mui/material";
 

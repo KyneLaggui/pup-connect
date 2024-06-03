@@ -11,7 +11,7 @@ import React, { useContext, useEffect } from "react";
 import FormsLabel from "@/app/custom_components/FormsLabel";
 import { StepperContext } from "../StepperContext";
 
-const BasicInformation = () => {
+const BasicInformation = ({ firstName, lastName }) => {
   const { userData, setUserData } = useContext(StepperContext);
 
   const handleChange = (e, name) => {
@@ -26,8 +26,12 @@ const BasicInformation = () => {
   };
 
   useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+    setUserData({
+      ...userData,
+      firstName,
+      lastName
+    })
+  }, []);
 
   return (
     <div className="flex flex-col gap-4">
