@@ -25,9 +25,9 @@ const CoverLetterResume = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(userData);
-  }, [userData]);
+  // useEffect(() => {
+  //   console.log(userData);
+  // }, [userData]);
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -48,7 +48,7 @@ const CoverLetterResume = () => {
           id="formsLetter"
           name="formsLetter"
           className="text-forms-placeholder mt-1"
-          onInputHandleChange={handleChange}
+          onChange={handleChange}
         />
         {userData["formsLetter"] && (
           <p className="mt-2 text-sm text-muted-foreground tracking-wide">
@@ -65,7 +65,7 @@ const CoverLetterResume = () => {
           id="additionalLetter"
           name="additionalLetter"
           className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
-          onInputHandleChange={handleChange}
+          onChange={handleChange}
           value={userData["additionalLetter"] || ""}
         />
       </div>

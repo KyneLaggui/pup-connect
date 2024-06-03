@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StepperControl from "./StepperControl";
 import StepperForm from "./StepperForm";
 import BasicInformation from "./userSteps/BasicInformation";
@@ -9,25 +9,40 @@ import CoverLetterResume from "./userSteps/CoverLetterResume";
 import Final from "./userSteps/Final";
 import { StepperContext } from "./StepperContext";
 
-const FormUser = () => {
+const FormUser = ({ email, firstName, lastName }) => {
   const [currentStep, setCurrentStep] = useState(1); // track current step
-  const [userData, setUserData] = useState(""); // store user data
+  const [userData, setUserData] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    birthDate: null,
+    gender: "",
+    email: "",
+    phone: "",
+    address: "",
+    region: "",
+    province: "",
+    cityOrMunicipality: "",
+    barangay: "",
+    address: "",
+    socialLinks: []
+  }); // store user data
   const [finalData, setFinalData] = useState([]); // store final data
 
   // Initializing all the possible steps titles
   const steps = ["Basic Info", "Contact Info", "CV & Resume", "Complete"];
 
-  // Displaying the step based on the current step
+  // Displaying the step based on the current step  
   const displayStep = (step) => {
     switch (step) {
       case 1:
-        return <BasicInformation />;
+        return <BasicInformation firstName={firstName} lastName={lastName} />;
       case 2:
-        return <ContactInfo />;
+        return <ContactInfo email={email}/>;
       case 3:
         return <CoverLetterResume />;
       case 4:
-        return <Final />;
+        return <Final email={email} />;
       default:
     }
   };
@@ -38,6 +53,10 @@ const FormUser = () => {
     direction === "next" ? newStep++ : newStep--;
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep); // update the current step
   };
+
+  useEffect(() => {
+    
+  }, [])
 
   return (
     <div className="wrapper">
