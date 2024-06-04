@@ -4,11 +4,9 @@ import "./globalicon.css";
 import localFont from "next/font/local";
 import Sidebar from "./custom_components/Sidebar";
 import NavBar from "./custom_components/NavBar";
-import {
-  LoggedInOnlyComponent,
-  LoggedOutOnlyComponent,
-} from "./layouts/ComponentRestrictions";
 import { Toaster } from "@/components/ui/toaster";
+import { LoggedInOnlyComponent, LoggedOutOnlyComponent } from "./layouts/ComponentRestrictions";
+import VerificationCheck from "./layouts/VerificationCheck";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -40,6 +38,8 @@ const myFont = localFont({
 export const metadata = {
   title: "PUP Connect",
 };
+
+
 
 export default function RootLayout({ children }) {
   return (

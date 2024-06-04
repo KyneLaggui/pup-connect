@@ -3,7 +3,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@assets/*": ["./public/assets/*"],
-      "@/supabase/*": ["./src/utils/supabase/*"]
+      "@/supabase/*": ["./src/utils/supabase/*"],
+      "@/customHooks/*": ["./src/app/custom_hooks/*"],
     }
   }
 }
