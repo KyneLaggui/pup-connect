@@ -4,6 +4,7 @@ import "./globalicon.css";
 import localFont from "next/font/local";
 import Sidebar from "./custom_components/Sidebar";
 import NavBar from "./custom_components/NavBar";
+import { Toaster } from "@/components/ui/toaster";
 import { LoggedInOnlyComponent, LoggedOutOnlyComponent } from "./layouts/ComponentRestrictions";
 import VerificationCheck from "./layouts/VerificationCheck";
 
@@ -49,8 +50,9 @@ export default function RootLayout({ children }) {
         </LoggedOutOnlyComponent>
         <LoggedInOnlyComponent>
           <Sidebar />
-        </LoggedInOnlyComponent>        
-          {children}        
+        </LoggedInOnlyComponent>
+        {children}
+        <Toaster />
       </body>
     </html>
   );
