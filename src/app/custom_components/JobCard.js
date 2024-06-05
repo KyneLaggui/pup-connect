@@ -11,7 +11,7 @@ import {
 import Image from "next/image";
 import { Tag } from "@/app/custom_components/Tag";
 import { useEffect } from "react";
-import dynamic from 'next/dynamic'
+import dynamic from "next/dynamic";
 
 // const TagWithNoSSR = dynamic(
 //   () => import('@/app/custom_components/Tag'),
@@ -64,4 +64,23 @@ const JobCard = ({ title, description, image, tags }) => {
   );
 };
 
-export default JobCard;
+const JobCardSmall = ({ title, image, company, location }) => {
+  return (
+    <div className="flex items-center p-4 border shadow-sm rounded-lg hover:shadow-md transition-shadow ease-in-out cursor-pointer mb-4">
+      <Image src={image} alt="logo" className="h-[56px] w-[56px] rounded-lg" />
+      <div className="ml-4 overflow-hidden">
+        <h3 className="text-base font-semibold truncate max-w-[55ch]">
+          {title}
+        </h3>
+        <p className="text-sm tracking-wide">{company}</p>
+        <p className="text-sm text-muted-foreground tracking-wide">
+          {location}
+        </p>
+      </div>
+
+      {/* <div className="ml-auto">H</div> */}
+    </div>
+  );
+};
+
+export { JobCard, JobCardSmall };
