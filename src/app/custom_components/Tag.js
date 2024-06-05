@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
@@ -31,35 +31,41 @@ const tagVariants = cva(
         static:
           "flex items-center gap-2 py-[6px] px-[16px] w-fit rounded-full font-normal cursor-default",
       },
+      state: {
+        default: "bg-secondary-hover text-secondary-foreground",
+        active: "bg-secondary-hover text-secondary-foreground",
+        disabled: "bg-gray-300 text-gray-500 border-gray-300",
+        focus: "ring ring-primary",
+        hover: "hover:bg-secondary-hover",
+        selected: "bg-primary text-background",
+      },
     },
     defaultVariants: {
       variant: "default",
       size: "default",
+      state: "default",
     },
   }
 );
 
 const Tag = React.forwardRef(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+  ({ className, variant, size, state, asChild = false, ...props }, ref) => {
     // const Comp = asChild ? Slot : Button;
     return (
       <>
-       {
-        asChild ? (
+        {asChild ? (
           <Slot
-          className={cn(tagVariants({ variant, size, className }))}
-          ref={ref}
-          {...props}
-        />
+            className={cn(tagVariants({ variant, size, state, className }))}
+            ref={ref}
+            {...props}
+          />
         ) : (
           <div
-          className={cn(tagVariants({ variant, size, className }))}
-          ref={ref}
-          {...props}
-          >            
-          </div>
-        )
-      }
+            className={cn(tagVariants({ variant, size, state, className }))}
+            ref={ref}
+            {...props}
+          ></div>
+        )}
       </>
     );
   }

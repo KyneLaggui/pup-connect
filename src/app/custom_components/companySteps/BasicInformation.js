@@ -1,24 +1,14 @@
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import React, { useContext, useEffect, useState, useRef } from "react";
 import FormsLabel from "@/app/custom_components/FormsLabel";
-import { StepperContext } from "../StepperContext";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { dummyImage } from "@assets/index";
 import LinkIcon from "@mui/icons-material/Link";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import Image from "next/image";
-
-import { dummyImage } from "@assets/index";
-import { useToast } from "@/components/ui/use-toast";
+import { useContext, useRef, useState } from "react";
+import { StepperContext } from "../StepperContext";
 
 const BasicInformation = () => {
-  const { toast } = useToast();
   const imageInputRef = useRef(null);
   const { companyData, setCompanyData } = useContext(StepperContext);
   const [socialLinks, setSocialLinks] = useState(
@@ -35,32 +25,17 @@ const BasicInformation = () => {
       } else if (e.target.type === "password") {
         // For password input events
         if (e.target.value.length < 8) {
-          toast({
-            title: "Password too short",
-            description:
-              "Please enter a password that is at least 8 characters.",
-          });
+          console.log("Password too short");
         } else if (e.target.value.length > 32) {
-          toast({
-            title: "Password too long",
-            description:
-              "Please enter a password that is less than 32 characters.",
-          });
+          console.log("Password too long");
         }
       } else {
         // For regular input events
         const { name, value } = e.target;
         setCompanyData({ ...companyData, [name]: value });
       }
-    } else if (name) {
-      // For Select component
-      setCompanyData({ ...companyData, [name]: e });
     }
   };
-
-  // useEffect(() => {
-  //   console.log(companyData);
-  // }, [companyData]);
 
   const addSocialLinkInput = () => {
     setSocialLinks([...socialLinks, ""]);
@@ -90,10 +65,7 @@ const BasicInformation = () => {
     const file = e.target.files[0];
 
     if (file.size > 200000) {
-      toast({
-        title: "File size too large",
-        description: "Please upload a file that is less than 200KB.",
-      });
+      console.log("File size exceeds 200KB");
       return;
     } else {
       setCompanyData({ ...companyData, logo: file });
@@ -178,65 +150,15 @@ const BasicInformation = () => {
         ></Input>
       </div>
 
-      <div className="w-full mb-2">
-        <FormsLabel text="Middle name" label="middleName" />
-        <Input
-          id="middleName"
-          type="text"
-          placeholder="e.g. Middle"
-          name="middleName"
+      <div className="mb-2">
+        <FormsLabel text="About / Description" label="additionalLetter" />
+        <Textarea
+          id="additionalLetter"
+          name="additionalLetter"
+          className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
           onInputHandleChange={handleChange}
-          value={companyData["middleName"] || ""}
-          className="mt-1"
-        ></Input>
-      </div>
-
-      <div className="w-full mb-2">
-        <FormsLabel text="Last name" label="lastName" />
-        <Input
-          id="lastName"
-          type="text"
-          placeholder="e.g. Doe"
-          name="lastName"
-          onInputHandleChange={handleChange}
-          value={companyData["lastName"] || ""}
-          className="mt-1"
-        ></Input>
-      </div>
-
-      <div className="w-full mb-2">
-        <FormsLabel text="Birthdate" label="birthDate" />
-        <Input
-          id="birthDate"
-          type="date"
-          // placeholder="e.g. Doe"
-          name="birthDate"
-          onInputHandleChange={handleChange}
-          value={companyData["birthDate"] || ""}
-          className="mt-1"
-        ></Input>
-      </div>
-
-      <div className="w-full mb-2">
-        <FormsLabel text="Gender" label="gender" />
-        <Select
-          id="gender"
-          name="gender"
-          onValueChange={(value) => {
-            handleChange(value, "gender");
-          }}
-          defaultValue={companyData["gender"] || ""}
-        >
-          <SelectTrigger className="mt-1">
-            <SelectValue placeholder="Please select..." />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="male">Male</SelectItem>
-            <SelectItem value="female">Female</SelectItem>
-            <SelectItem value="others">Others</SelectItem>
-            <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
-          </SelectContent>
-        </Select>
+          value={companyData["additionalLetter"] || ""}
+        />
       </div>
 
       <div className="w-full mb-2">
