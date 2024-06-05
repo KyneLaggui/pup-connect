@@ -1,13 +1,6 @@
 "use client";
 
 import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
-
-import {
   Table,
   TableBody,
   TableCell,
@@ -15,6 +8,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import * as React from "react";
+import { useState } from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -25,10 +31,24 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
   });
 
   return (
@@ -70,15 +90,7 @@ export function DataTable<TData, TValue>({
               >
                 {row.getVisibleCells().map((cell, index) => (
                   <TableCell key={cell.id}>
-                    <p
-                      className={
-                        index === 0
-                          ? "apply-id"
-                          : index === columns.length - 2
-                          ? "apply-badge"
-                          : ""
-                      }
-                    >
+                    <p className={index === 0 ? "apply-id" : ""}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

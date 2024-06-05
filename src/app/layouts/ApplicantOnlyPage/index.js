@@ -4,7 +4,6 @@ import { selectEmail, selectRole } from '@/redux/slice/authSlice'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 
-
 const ApplicantOnlyPage = ({ children }) => {
   const router = useRouter()  
   const userEmail = useSelector(selectEmail)
@@ -23,4 +22,4 @@ const ApplicantOnlyPage = ({ children }) => {
   )
 }
 
-export default ApplicantOnlyPage
+export default ApplicantOnlyPage;

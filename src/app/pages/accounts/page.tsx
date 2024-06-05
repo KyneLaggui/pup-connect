@@ -24,57 +24,10 @@ import { Search } from "lucide-react";
 // Data Table
 import { Accounts, columns } from "./columns";
 import { DataTable } from "./data-table";
+import accountsJSON from "@/app/pages/accounts/accounts.json";
 
 async function getData(): Promise<Accounts[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52fdwajfiwajfwaijfwaifjawifwajfiwjfawifjwaijfwi9ajfawifjawdjwiadjiwadjwaidjwaidjwaidwajdiwajdiawjdaw",
-      first_name: "John",
-      middle_name: "Bing",
-      last_name: "Cena",
-      email: "johncena@mail.com",
-      role: "user",
-      action: "",
-    },
-    {
-      id: "728ed52fdwajfiwajfwaijfwaifjawifwajfiwjfawifjwaijfwi9ajfawifjawdjwiadjiwadjwaidjwaidjwaidwajdiwajdiawjdaw",
-      first_name: "John",
-      middle_name: "Bing",
-      last_name: "Cena",
-      email: "johncena@mail.com",
-      role: "user",
-      action: "",
-    },
-    {
-      id: "728ed52fdwajfiwajfwaijfwaifjawifwajfiwjfawifjwaijfwi9ajfawifjawdjwiadjiwadjwaidjwaidjwaidwajdiwajdiawjdaw",
-      first_name: "John",
-      middle_name: "Bing",
-      last_name: "Cena",
-      email: "johncena@mail.com",
-      role: "user",
-      action: "",
-    },
-    {
-      id: "728ed52fdwajfiwajfwaijfwaifjawifwajfiwjfawifjwaijfwi9ajfawifjawdjwiadjiwadjwaidjwaidjwaidwajdiwajdiawjdaw",
-      first_name: "John",
-      middle_name: "Bing",
-      last_name: "Cena",
-      email: "johncena@mail.com",
-      role: "user",
-      action: "",
-    },
-    {
-      id: "728ed52fdwajfiwajfwaijfwaifjawifwajfiwjfawifjwaijfwi9ajfawifjawdjwiadjiwadjwaidjwaidjwaidwajdiwajdiawjdaw",
-      first_name: "John",
-      middle_name: "Bing",
-      last_name: "Cena",
-      email: "johncena@mail.com",
-      role: "user",
-      action: "",
-    },
-    // ...
-  ];
+  return accountsJSON;
 }
 
 export default async function DemoPage() {
@@ -82,7 +35,7 @@ export default async function DemoPage() {
 
   return (
     <>
-      <Sidebar />
+      {/* <Sidebar /> */}
       <div className="flex">
         <div className="w-full flex flex-col justify-center container-sidebar">
           <div className="w-full mb-5 flex items-center">

@@ -1,10 +1,8 @@
 "use client";
 
-import * as React from "react"
+import * as React from "react";
 
 import { useState } from "react";
-
-
 
 import {
   ColumnDef,
@@ -18,8 +16,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 import {
   Table,
@@ -39,10 +37,10 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([])
+  const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
 
   const table = useReactTable({
     data,
@@ -57,14 +55,16 @@ export function DataTable<TData, TValue>({
       sorting,
       columnFilters,
     },
-  })
+  });
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center py-4">
         <Input
           placeholder="Search for company"
-          value={(table.getColumn("company_name")?.getFilterValue() as string) ?? ""}
+          value={
+            (table.getColumn("company_name")?.getFilterValue() as string) ?? ""
+          }
           onInputHandleChange={(event) =>
             table.getColumn("company_name")?.setFilterValue(event.target.value)
           }
@@ -100,14 +100,20 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="tracking-wide">
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -136,4 +142,3 @@ export function DataTable<TData, TValue>({
     </div>
   );
 }
-
