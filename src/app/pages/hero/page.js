@@ -6,6 +6,8 @@ import Image from "next/image";
 
 import { heroBG } from "@assets/index";
 
+import VerificationCheck from "@/app/layouts/VerificationCheck";
+
 import { Briefcase } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -14,6 +16,7 @@ import { tagList } from "../../tag_lists";
 
 const Hero = () => {
   return (
+    <VerificationCheck>
     <div className="relative ">
       <div className="container min-h-screen flex flex-col justify-center items-center z-50 overflow-hidden max-h-screen">
         <Image
@@ -71,6 +74,7 @@ const Hero = () => {
 
       <Footer />
     </div>
+    </VerificationCheck>
   );
 };
 

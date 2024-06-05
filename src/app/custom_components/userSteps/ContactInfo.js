@@ -7,14 +7,25 @@ import { StepperContext } from "../StepperContext";
 import FormsLabel from "../FormsLabel";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 // Icons
 import LinkIcon from "@mui/icons-material/Link";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-const ContactInfo = () => {
+const ContactInfo = ({ email }) => {
   const { userData, setUserData } = useContext(StepperContext);
   const [socialLinks, setSocialLinks] = useState(userData.socialLinks || [""]);
+  const [regionsState, setRegionsState] = useState([]);
+  const [provincesState, setProvincesState] = useState([]);
+  const [cityOrMunicipalityState, setCityOrMunicipalityState] = useState([]);
+  const [barangaysState, setBarangaysState] = useState([]);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
@@ -23,6 +34,22 @@ const ContactInfo = () => {
       setUserData({ ...userData, [name]: value });
     } else if (name) {
       // For Select component
+      setUserData({ ...userData, [name]: e });
+    }
+  };
+
+  const handleLocationChange = (e, name) => {
+    if (name == "region") {
+      // For Select component
+      setUserData({ ...userData, [name]: e });
+      findProvince(e.code)
+    } else if (name == "province") {
+      setUserData({ ...userData, [name]: e });
+      findMunicipality(e.code)
+    } else if (name == "cityOrMunicipality") {
+      setUserData({ ...userData, [name]: e });
+      findBarangay(e.code)
+    } else if (name == "barangay") {
       setUserData({ ...userData, [name]: e });
     }
   };
@@ -48,9 +75,99 @@ const ContactInfo = () => {
   };
 
   useEffect(() => {
-    console.log(userData);
-    console.log(socialLinks);
-  }, [userData, socialLinks]);
+    setUserData({
+      ...userData,
+      email
+    })
+  }, []);
+
+  async function findBarangay(municipalityCode) {
+    const response = await fetch(`https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays.json`);
+    const barangays = await response.json();
+    const barangaysStorage = barangays.map((barangay) => {
+        return {
+          name: barangay['name'],
+          code: barangay['code']
+        }
+      })
+
+      setBarangaysState(barangaysStorage)
+
+      barangays.map((barangay) => {
+        if (barangay['name'] === userData.barangay) {
+          findBarangay(barangay['code'])
+        }
+      })
+  }
+
+  async function findMunicipality(provinceCode) {
+    const response = await fetch(`https://psgc.gitlab.io/api/provinces/${provinceCode}/municipalities.json`);
+    const municipalities = await response.json();
+
+    const cityOrMunicipalityStorage = municipalities.map((municipality) => {
+      return {
+        name: municipality['name'],
+        code: municipality['code']
+      }
+    })
+
+    setCityOrMunicipalityState(cityOrMunicipalityStorage)
+
+    municipalities.map((municipality) => {
+      if (municipality['name'] === userData.cityOrMunicipality) {
+        findBarangay(municipality['code'])
+      }
+    })
+  }
+
+  async function findProvince(regionCode) {
+    const response = await fetch(`https://psgc.gitlab.io/api/regions/${regionCode}/provinces.json`);
+    const provinces = await response.json();
+    const provincesStorage = provinces.map((province) => {
+      return {
+        name: province['name'],
+        code: province['code']
+      }
+    })
+
+    setProvincesState(provincesStorage)
+
+    provinces.map((province) => {
+      if (province['name'] === userData.province) {
+        findProvince(province['code'])
+      }
+    })
+  }
+
+  async function generateRegions() {
+    const response = await fetch(`https://psgc.gitlab.io/api/regions.json`);
+    const regions = await response.json();
+    const regionsStorage = regions.map((region) => {
+      return {
+        name: region['name'],
+        code: region['code']
+      }
+    })
+
+    setRegionsState(regionsStorage)
+
+    regions.map((region) => {
+      if (region['name'] === userData.region) {
+        findProvince(region['code'])
+      }
+    })
+    // for (let i = 0; i < regions.length; i++) {
+    //   if (regions[i]['name'] === userData.region) {
+    //     findProvince(regions[i]['code'])
+    //   }
+    // }
+  }
+
+  useEffect(() => {
+    generateRegions();
+  }, []) 
+
+  // regionSelection.addEventListener('change', () => findProvince(regionSelection[regionSelection.selectedIndex].code));
 
   return (
     <div className="flex flex-col gap-4">
@@ -64,6 +181,7 @@ const ContactInfo = () => {
           onInputHandleChange={handleChange}
           value={userData["email"] || ""}
           className="mt-1"
+          disabled
         ></Input>
       </div>
 
@@ -88,51 +206,87 @@ const ContactInfo = () => {
         </div>
         <div className="w-full mb-2">
           <FormsLabel text="Region" label="region" />
-          <Input
+          <Select
             id="region"
-            type="text"
-            // placeholder="e.g. John"
             name="region"
-            onInputHandleChange={handleChange}
-            value={userData["region"] || ""}
-            className="mt-1"
-          ></Input>
+            onValueChange={(value) => {
+              handleLocationChange(value, "region");
+            }}
+            defaultValue={userData["region"] || ""}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Please select..." />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                regionsState.map((region, i) => <SelectItem value={region} key={i}>{region.name}</SelectItem> )
+              }
+              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className="w-full mb-2">
           <FormsLabel text="Province" label="province" />
-          <Input
+          <Select
             id="province"
-            type="text"
-            // placeholder="e.g. John"
             name="province"
-            onInputHandleChange={handleChange}
-            value={userData["province"] || ""}
-            className="mt-1"
-          ></Input>
+            onValueChange={(value) => {
+              handleLocationChange(value, "province");
+            }}
+            defaultValue={userData["province"] || ""}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Please select..." />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                provincesState.map((province, i) => <SelectItem value={province} key={i}>{province.name}</SelectItem>)
+              }
+              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className="w-full mb-2">
-          <FormsLabel text="City / Municipality" label="city" />
-          <Input
-            id="city"
-            type="text"
-            // placeholder="e.g. John"
-            name="city"
-            onInputHandleChange={handleChange}
-            value={userData["city"] || ""}
-            className="mt-1"
-          ></Input>
+          <FormsLabel text="City/Municipality" label="cityOrMunicipality" />
+          <Select
+            id="cityOrMunicipality"
+            name="cityOrMunicipality"
+            onValueChange={(value) => {
+              handleLocationChange(value, "cityOrMunicipality");
+            }}
+            defaultValue={userData["cityOrMunicipality"] || ""}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Please select..." />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                cityOrMunicipalityState.map((cityOrMunicipality, i) => <SelectItem value={cityOrMunicipality} key={i}>{cityOrMunicipality.name}</SelectItem>)
+              }
+              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className="w-full mb-2">
           <FormsLabel text="Barangay" label="barangay" />
-          <Input
+          <Select
             id="barangay"
-            type="text"
-            // placeholder="e.g. John"
             name="barangay"
-            onInputHandleChange={handleChange}
-            value={userData["barangay"] || ""}
-            className="mt-1"
-          ></Input>
+            onValueChange={(value) => {
+              handleLocationChange(value, "barangay");
+            }}
+            defaultValue={userData["barangay"] || ""}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Please select..." />
+            </SelectTrigger>
+            <SelectContent>
+              {
+                barangaysState.map((barangay, i) => <SelectItem value={barangay} key={i}>{barangay.name}</SelectItem>)
+              }
+              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
         <div className="w-full mb-2 col-span-2">
           <FormsLabel
