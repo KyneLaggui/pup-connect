@@ -1,4 +1,4 @@
-import { createClient } from "@/supabase/client";
+import { supabase } from "@/supabase/client";
 import React, { useContext, useEffect } from "react";
 import { StepperContext } from "../../StepperContext";
 
@@ -6,8 +6,6 @@ const FinalComponent = () => {
   const { userData, setUserData } = useContext(StepperContext);
 
   useEffect(() => {
-    const supabase = createClient(); 
-
     const updateData = async() => {
       const { data, error } = await supabase
       .from('profile')

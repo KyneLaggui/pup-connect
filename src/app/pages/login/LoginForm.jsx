@@ -48,6 +48,7 @@ const LoginForm = () => {
       formData.password
     );
     const { data, error } = JSON.parse(result);
+    console.log(data);
 
     if (!error) {
       router.push("/");

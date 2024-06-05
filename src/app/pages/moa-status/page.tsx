@@ -1,3 +1,4 @@
+"use client"
 // Components
 import {
   Tabs,

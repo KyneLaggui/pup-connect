@@ -11,7 +11,7 @@ import React, { useContext, useEffect } from "react";
 import FormsLabel from "@/app/custom_components/FormsLabel";
 import { StepperContext } from "../StepperContext";
 
-const BasicInformation = ({ firstName, lastName }) => {
+const BasicInformation = () => {
   const { userData, setUserData } = useContext(StepperContext);
 
   const handleChange = (e, name) => {
@@ -25,14 +25,26 @@ const BasicInformation = ({ firstName, lastName }) => {
     }
   };
 
-  useEffect(() => {
-    setUserData({
-      ...userData,
-      firstName,
-      lastName
-    })
-  }, []);
+  // useEffect(() => {
+  //   const getData = async() => {
+  //     const { data } = await supabase
+  //     .from('profile')
+  //     .select('*')
+  //     .eq('email', userEmail)
+  //     .single();
 
+  //     if (data) {
+  //       setUserData({
+  //         ...userData,
+  //         firstName: data.firstName,
+  //         lastName: data.lastName,
+  //       })
+  //     }
+  //   }
+    
+  //   getData()
+  // }, [])
+  
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full mb-2">

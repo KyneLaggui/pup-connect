@@ -19,7 +19,7 @@ import {
 import LinkIcon from "@mui/icons-material/Link";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
-const ContactInfo = ({ email }) => {
+const ContactInfo = () => {
   const { userData, setUserData } = useContext(StepperContext);
   const [socialLinks, setSocialLinks] = useState(userData.socialLinks || [""]);
   const [regionsState, setRegionsState] = useState([]);
@@ -73,13 +73,6 @@ const ContactInfo = ({ email }) => {
     setSocialLinks(newSocialLinks);
     setUserData({ ...userData, socialLinks: newSocialLinks });
   };
-
-  useEffect(() => {
-    setUserData({
-      ...userData,
-      email
-    })
-  }, []);
 
   async function findBarangay(municipalityCode) {
     const response = await fetch(`https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays.json`);

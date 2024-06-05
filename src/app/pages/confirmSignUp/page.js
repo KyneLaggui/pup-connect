@@ -1,28 +1,45 @@
-import React from 'react'
+"use client"
+import React, { useState, useEffect } from 'react'
 import FormUser from '../../custom_components/FormUser'
 import ApplicantOnlyPage from '@/app/layouts/ApplicantOnlyPage'
-import { createClient } from '@/supabase/server'
-import { redirect } from 'next/navigation'
+import { supabase } from "@/utils/supabase/client";
+import { selectEmail } from '@/redux/slice/authSlice';
+import { useSelector } from 'react-redux';
 
-const Page = async () => {
-  const supabase = createClient();
-  const { data: { session } } = await supabase.auth.getSession();
+const Page = () => {
+  const userEmail = useSelector(selectEmail)
+  const [userData, setUserData] = useState({
+    email: null,
+    firstName: null,
+    lastName: null,
+  })
 
-  if (!session) {
-    redirect("/")
-  } 
+  useEffect(() => {
+    const getData = async() => {
+      const { data } = await supabase
+      .from('profile')
+      .select('email, first_name, last_name')
+      .eq('email', userEmail)
+      .single()
 
-  const result = await supabase
-    .from('profile')
-    .select('*')
-    .eq('email', session.user.email)
-    .single();
-  
+      if (data) {
+        setUserData({
+          email: data.email,
+          firstName: data.first_name,
+          lastName: data.last_name,
+        })
+      }
+    }    
+
+    getData()
+
+  }, [userEmail])
+
   return (
     <ApplicantOnlyPage>
       <div className='mt-20'>
-        <FormUser email={result.data.email} firstName={result.data.first_name} lastName={result.data.last_name} />
-      </div>
+          <FormUser email={userData.email} firstName={userData.firstName} lastName={userData.lastName}/>
+        </div>
     </ApplicantOnlyPage>
   )
 }
