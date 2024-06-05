@@ -1,4 +1,4 @@
-// "use client"
+"use client"
 
 import JobCard from "@/app/custom_components/JobCard";
 import React from "react";
@@ -190,8 +190,8 @@ const Explore = () => {
                             Similar Jobs
                           </h1>
                           <div className="flex flex-col gap-2">
-                            {jobCardInfo.slice(0, 3).map((similar) => (
-                              <JobCard {...similar} />
+                            {jobCardInfo.slice(0, 3).map((similar, i) => (
+                              <JobCard key={i} {...similar} />
                             ))}
                           </div>
                         </div>

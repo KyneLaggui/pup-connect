@@ -1,24 +1,19 @@
-import { redirect } from "next/navigation";
-import { createClient } from "@/supabase/server";
-import { headers } from "next/headers";
+'use client';
+import { useEffect } from 'react'
+import { selectEmail, selectRole } from '@/redux/slice/authSlice'
+import { useRouter } from 'next/navigation'
+import { useSelector } from 'react-redux'
 
-const ApplicantOnlyPage = async ({ children }) => {
-  const supabase = createClient();
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const heads = headers();
-  const pathname = heads.get("x-current-path");
-
-  // const resultData = await supabase
-  // .from('profile')
-  // .select()
-  // .eq('email', session.user.email)
-  // .single()
-
-  if (!session) {
-    redirect("/")
-  } 
+const ApplicantOnlyPage = ({ children }) => {
+  const router = useRouter()  
+  const userEmail = useSelector(selectEmail)
+  const userRole = useSelector(selectRole)
+  
+  useEffect(() => {
+    if ((userRole === "applicant" || userRole === "admin" || userRole === "super admin") && !userEmail)  {
+      router.push("/");
+    }
+  }, [userRole, userEmail])
 
   return (
     <div>

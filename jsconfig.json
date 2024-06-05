@@ -5,6 +5,8 @@
       "@assets/*": ["./public/assets/*"],
       "@/supabase/*": ["./src/utils/supabase/*"],
       "@/customHooks/*": ["./src/app/custom_hooks/*"],
+      "@/redux/*": ["./src/redux/*"],
+      "@/layouts/*": ["./src/app/layouts/*"]
     }
   }
 }

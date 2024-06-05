@@ -1,3 +1,4 @@
+"use client"
 import WavingHandIcon from "@mui/icons-material/WavingHand";
 
 import LoggedOutOnly from "@/app/layouts/LoggedOutOnly";

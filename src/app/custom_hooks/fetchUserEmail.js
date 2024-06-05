@@ -1,8 +1,8 @@
-import { createClient } from '@/supabase/server'
+import { supabase } from '@/supabase/client'
 
 const fetchUserEmail = async() => {
 
-    const supabase = createClient();
+    // const supabase = createClient();
     const { data: { session } } = await supabase.auth.getSession();
 
     // const resultData = await supabase
