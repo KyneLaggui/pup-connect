@@ -1,18 +1,13 @@
-"use server";
+"use client";
 
-import { createClient } from "@/supabase/server"
-import { headers } from "next/headers";
+import { supabase } from "../client";
 
 export async function signUpWithEmailAndPassword(email, password, confirmPassword, firstName, middleName, lastName, role) {
-    const supabase = createClient();
-
     if (password !== confirmPassword) {
         console.log("Password does not match")
         return
     }
-
-    const origin = headers().get('origin')
-
+    
     const result = await supabase.auth.signUp(
         // Need to lowercase email to safely compare it in the future
         {
@@ -25,9 +20,6 @@ export async function signUpWithEmailAndPassword(email, password, confirmPasswor
                     middleName: middleName,
                     lastName: lastName,
                 },
-                options: {
-                    emailRedirectTo: `${origin}/auth/callback`
-                }
             }
         }
     )
@@ -35,8 +27,7 @@ export async function signUpWithEmailAndPassword(email, password, confirmPasswor
     return JSON.stringify(result)
 }
 
-export const signInWithEmailAndPassword = async(email, password) => {
-    const supabase = await createClient();
+export const signInWithEmailAndPassword = async (email, password) => {
     const result = await supabase.auth.signInWithPassword({
         email, 
         password
@@ -45,7 +36,6 @@ export const signInWithEmailAndPassword = async(email, password) => {
 }
 
 export const signOut = async() => {
-    const supabase = await createClient();
     await supabase.auth.signOut();
 }
 

@@ -1,26 +1,36 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/supabase/server'
-import { headers } from "next/headers"
+'use client'
 
-const VerificationCheck = async ({ children }) => {
-  const supabase = createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  const heads = headers();
-  const pathname = heads.get('x-current-path');
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { selectRole, selectSetupFinished } from '@/redux/slice/authSlice';
 
-  if (session) {
-    const resultData = await supabase
-    .from('profile')
-    .select()
-    .eq('email', session.user.email)
-    .single()
-    
-    console.log('okay', session)
+const VerificationCheck = ({ children }) => {
+  const pathname = usePathname();
+  const router = useRouter()
+  const userRole = useSelector(selectRole)
+  const setupFinished = useSelector(selectSetupFinished)
 
-    if (pathname !== "/pages/confirmSignUp" && resultData.data.role == "applicant" && !resultData.data.setup_finished)  {
-      redirect("/pages/confirmSignUp");
-    }
-  }
+    // const getSession = async() => {
+    //   const { data: { user } } = await supabase.auth.getUser();
+
+    //   if (user) {
+    //     const resultData = await supabase
+    //     .from('profile')
+    //     .select()
+    //     .eq('email', user.email)
+    //     .single()
+        
+     
+    //   }
+    // }
+
+    useEffect(() => {
+      if (pathname !== "/pages/confirmSignUp" && userRole == "applicant" && !setupFinished)  {
+        router.push("/pages/confirmSignUp");
+      }
+    }, [userRole, setupFinished])
+
 
   return (
     <div>

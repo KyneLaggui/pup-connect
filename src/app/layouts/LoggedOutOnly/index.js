@@ -1,15 +1,31 @@
-import { redirect } from 'next/navigation'
-import { createClient } from '@/supabase/server'
+"use client"
+import { useRouter } from 'next/navigation'
+import { supabase } from '@/supabase/client'
+import { useEffect } from 'react'
+import { selectEmail } from '@/redux/slice/authSlice'
+import { useSelector } from 'react-redux'
 
-const LoggedOutOnly = async ({ children }) => {
+const LoggedOutOnly = ({ children }) => {
+  const router = useRouter()  
+  const userEmail = useSelector(selectEmail)
+  
+  useEffect(() => {
+    if (userEmail)  {
+      router.push("/");
+    }
+  }, [userEmail])
 
-  const supabase = createClient();
-  const { data: { session }} = await supabase.auth.getSession();
+  // useEffect(() => {
+  //   const getSession = async() => {
+  //     const { data: { user } } = await supabase.auth.getUser();
 
-  if (session) {
-    console.log(session)
-    redirect("/")
-  } 
+  //     if (user) {
+  //       router.push("/");
+  //     }
+  //   }
+
+  //   getSession();
+  // }, [])
 
   return (
     <div>

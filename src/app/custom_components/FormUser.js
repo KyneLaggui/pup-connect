@@ -8,6 +8,8 @@ import Experience from "./userSteps/Experience";
 import CoverLetterResume from "./userSteps/CoverLetterResume";
 import Final from "./userSteps/Final";
 import { StepperContext } from "./StepperContext";
+import { useSelector } from "react-redux";
+import { selectEmail } from "@/redux/slice/authSlice"
 
 const FormUser = ({ email, firstName, lastName }) => {
   const [currentStep, setCurrentStep] = useState(1); // track current step
@@ -36,13 +38,13 @@ const FormUser = ({ email, firstName, lastName }) => {
   const displayStep = (step) => {
     switch (step) {
       case 1:
-        return <BasicInformation firstName={firstName} lastName={lastName} />;
+        return <BasicInformation />;
       case 2:
-        return <ContactInfo email={email}/>;
+        return <ContactInfo />;
       case 3:
         return <CoverLetterResume />;
       case 4:
-        return <Final email={email} />;
+        return <Final />;
       default:
     }
   };
@@ -50,14 +52,24 @@ const FormUser = ({ email, firstName, lastName }) => {
   // Handling the next and previous button
   const handleClick = (direction) => {
     let newStep = currentStep;
-    direction === "next" ? newStep++ : newStep--;
+    if (direction === "next") {
+      console.log('okay')
+      newStep++
+    } else {
+      newStep--;
+    }
+    direction === "next" ? newStep++ : 
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep); // update the current step
   };
 
   useEffect(() => {
-    
-  }, [])
-
+    setUserData({
+      email: email,
+      firstName: firstName,
+      lastName: lastName
+    })    
+  }, [email, firstName, lastName])
+  
   return (
     <div className="wrapper">
       <div className="flex flex-col justify-between w-full md:w-[40rem] h-fit mx-auto py-10 px-8 bg-background border shadow-sm rounded-xl">
