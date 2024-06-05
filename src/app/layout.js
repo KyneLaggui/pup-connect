@@ -11,7 +11,6 @@ import { Provider } from 'react-redux';
 import SupabaseReduxSynch from "@/layouts/SupabaseReduxSynch"
 import store from "@/redux/store";
 
-
 const rubik = Rubik({ subsets: ["latin"] });
 
 const myFont = localFont({
