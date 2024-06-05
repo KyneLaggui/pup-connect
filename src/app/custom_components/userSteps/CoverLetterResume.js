@@ -25,9 +25,9 @@ const CoverLetterResume = () => {
     }
   };
 
-  // useEffect(() => {
-  //   console.log(userData);
-  // }, [userData]);
+  useEffect(() => {
+    if (userData["formsLetter"]) console.log(userData["formsLetter"].name);
+  }, [userData]);
 
   return (
     <div className="flex flex-col gap-4 w-full">
@@ -48,13 +48,13 @@ const CoverLetterResume = () => {
           id="formsLetter"
           name="formsLetter"
           className="text-forms-placeholder mt-1"
-          onChange={handleChange}
+          onInputHandleChange={handleChange}
         />
-        {userData["formsLetter"] && (
+        {/* {userData["formsLetter"] && (
           <p className="mt-2 text-sm text-muted-foreground tracking-wide">
             Selected file: {userData["formsLetter"].name}
           </p>
-        )}
+        )} */}
       </div>
       <div className="mb-2">
         <FormsLabel

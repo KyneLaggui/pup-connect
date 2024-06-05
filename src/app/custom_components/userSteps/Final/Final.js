@@ -7,15 +7,14 @@ const FinalComponent = () => {
 
   useEffect(() => {
     const supabase = createClient(); 
-    console.log(userData);
 
     const updateData = async() => {
-      const { error } = await supabase
+      const { data, error } = await supabase
       .from('profile')
       .update({
         first_name: userData.firstName,
-        middle_name: userData.firstName,
-        last_name: userData.firstName,
+        middle_name: userData.middleName,
+        last_name: userData.lastName,
         birth_date: userData.birthDate,
         gender: userData.gender,
         phone_number: userData.phone,
