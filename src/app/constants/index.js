@@ -308,7 +308,7 @@ export const dummyUser = {
   additionalNotes: "I am available for interviews on weekdays after 5 PM.",
 };
 
-export const changelog = [
+export const dummyChangelog = [
   {
     version: "1.0.0",
     title: "Initial Release",

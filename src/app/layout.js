@@ -10,6 +10,9 @@ import {
 } from "./layouts/ComponentRestrictions";
 import VerificationCheck from "./layouts/VerificationCheck";
 
+// import { ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+
 const rubik = Rubik({ subsets: ["latin"] });
 
 const myFont = localFont({
@@ -52,6 +55,7 @@ export default function RootLayout({ children }) {
           <Sidebar />
         </LoggedInOnlyComponent>
         {children}
+        {/* <ToastContainer /> */}
       </body>
     </html>
   );
