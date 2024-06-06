@@ -53,8 +53,8 @@ const ChartsResult = () => {
                         <p>{evalqs.number}.</p>
                         <h1>{evalqs.question}</h1>
                     </div>
-                    <div className='flex justify-around items-center'>
-                        <div className='w-60'>
+                    <div className='flex justify-around items-center flex-wrap'>
+                        <div className='w-48 mb-4 sm:mb-0'>
                             <Doughnut 
                                 data = {data}
                                 options = {options}
