@@ -14,6 +14,8 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
+  getFacetedRowModel,
+  getFacetedUniqueValues,
 } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
@@ -27,6 +29,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
+import { DataTablePagination } from "./data-table-pagination";
+
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -51,6 +57,8 @@ export function DataTable<TData, TValue>({
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getFacetedRowModel: getFacetedRowModel(),
+    getFacetedUniqueValues: getFacetedUniqueValues(),
     state: {
       sorting,
       columnFilters,
@@ -59,6 +67,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col gap-4">
+      <DataTableToolbar table={table} />
       <div className="flex items-center py-4">
         <Input
           placeholder="Search for company"
@@ -121,7 +130,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4 ml-auto">
+      {/* <div className="flex items-center justify-end space-x-2 py-4 ml-auto">
         <Button
           variant="outline"
           size="sm"
@@ -138,7 +147,8 @@ export function DataTable<TData, TValue>({
         >
           Next
         </Button>
-      </div>
+      </div> */}
+      <DataTablePagination table={table} />
     </div>
   );
 }

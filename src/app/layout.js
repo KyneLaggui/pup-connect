@@ -13,7 +13,6 @@ import store from "@/redux/store";
 import VerificationCheck from "./layouts/VerificationCheck";
 
 
-
 const rubik = Rubik({ subsets: ["latin"] });
 
 const myFont = localFont({
