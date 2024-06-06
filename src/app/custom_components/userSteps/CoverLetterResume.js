@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { StepperContext } from "../StepperContext";
 
 const CoverLetterResume = () => {
-  const { userData, setUserData } = useContext(StepperContext);
+  const { userData, setUserData, invalidFields } = useContext(StepperContext);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
@@ -25,14 +25,10 @@ const CoverLetterResume = () => {
     }
   };
 
-  useEffect(() => {
-    if (userData["formsLetter"]) console.log(userData["formsLetter"].name);
-  }, [userData]);
-
   return (
     <div className="flex flex-col gap-4 w-full">
       <div className="mb-2">
-        <FormsLabel text="Cover Letter" label="coverLetter" />
+        <FormsLabel text="Cover Letter" label="coverLetter" isInvalid={invalidFields.coverLetter}  />
         <Textarea
           id="coverLetter"
           name="coverLetter"
@@ -42,11 +38,11 @@ const CoverLetterResume = () => {
         />
       </div>
       <div className="mb-2">
-        <FormsLabel text="Resume / Curriculum Vitae" label="formsLetter" />
+        <FormsLabel text="Resume / Curriculum Vitae" label="resume" isInvalid={invalidFields.resume} />
         <Input
           type="file"
-          id="formsLetter"
-          name="formsLetter"
+          id="resume"
+          name="resume"
           className="text-forms-placeholder mt-1"
           onInputHandleChange={handleChange}
         />
@@ -60,6 +56,7 @@ const CoverLetterResume = () => {
         <FormsLabel
           text="Additional notes (optional)"
           label="additionalLetter"
+          isInvalid={invalidFields.additionalLetter} 
         />
         <Textarea
           id="additionalLetter"

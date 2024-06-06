@@ -8,8 +8,6 @@ import Experience from "./userSteps/Experience";
 import CoverLetterResume from "./userSteps/CoverLetterResume";
 import Final from "./userSteps/Final";
 import { StepperContext } from "./StepperContext";
-import { useSelector } from "react-redux";
-import { selectEmail } from "@/redux/slice/authSlice"
 
 const FormUser = ({ email, firstName, lastName }) => {
   const [currentStep, setCurrentStep] = useState(1); // track current step
@@ -20,16 +18,32 @@ const FormUser = ({ email, firstName, lastName }) => {
     birthDate: null,
     gender: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     address: "",
     region: "",
     province: "",
     cityOrMunicipality: "",
     barangay: "",
-    address: "",
+    streetAddress: "",
+    resume: null,
     socialLinks: []
   }); // store user data
   const [finalData, setFinalData] = useState([]); // store final data
+  const [invalidFields, setInvalidFields] = useState({
+    firstName: false,
+    lastName: false,
+    birthDate: false,
+    gender: false,
+    email: false,
+    phoneNumber: false,
+    address: false,
+    region: false,
+    province: false,
+    cityOrMunicipality: false,
+    barangay: false,
+    streetAddress: false,
+    resume: false,
+  }); // track invalid fields
 
   // Initializing all the possible steps titles
   const steps = ["Basic Info", "Contact Info", "CV & Resume", "Complete"];
@@ -49,27 +63,57 @@ const FormUser = ({ email, firstName, lastName }) => {
     }
   };
 
+  const checkEmpty = (value) => {
+    return value === "";
+  };
+
   // Handling the next and previous button
   const handleClick = (direction) => {
     let newStep = currentStep;
-    if (direction === "next") {
-      console.log('okay')
-      newStep++
-    } else {
+    let newInvalidFields = {};
+
+    if (direction !== "next") {
       newStep--;
+    } else if (direction === "next") {
+      if (newStep === 1) {
+        if (checkEmpty(userData.firstName)) newInvalidFields.firstName = true;
+        if (checkEmpty(userData.lastName)) newInvalidFields.lastName = true;
+        if (!userData.birthDate) newInvalidFields.birthDate = true;
+        if (checkEmpty(userData.gender)) newInvalidFields.gender = true;
+      } else if (newStep === 2) {
+        if (checkEmpty(userData.email)) newInvalidFields.email = true;
+        if (checkEmpty(userData.phoneNumber)) newInvalidFields.phoneNumber = true;
+        if (checkEmpty(userData.region)) newInvalidFields.region = true;
+        if (checkEmpty(userData.province)) newInvalidFields.province = true;
+        if (checkEmpty(userData.cityOrMunicipality)) newInvalidFields.cityOrMunicipality = true;
+        if (checkEmpty(userData.barangay)) newInvalidFields.barangay = true;
+        if (checkEmpty(userData.streetAddress)) newInvalidFields.streetAddress = true;
+      } else if (newStep === 3) {
+        if (checkEmpty(userData.coverLetter)) newInvalidFields.coverLetter = true;
+        if (!userData.resume) newInvalidFields.resume = true;
+      }
+      
+      if (Object.keys(newInvalidFields).length > 0) {
+        setInvalidFields(newInvalidFields);
+        console.log('A required input is empty');
+      } else {
+        newStep++;
+        setInvalidFields({});
+      }
     }
-    direction === "next" ? newStep++ : 
+
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep); // update the current step
   };
 
   useEffect(() => {
     setUserData({
+      ...userData,
       email: email,
       firstName: firstName,
       lastName: lastName
-    })    
-  }, [email, firstName, lastName])
-  
+    });
+  }, [email, firstName, lastName]);
+
   return (
     <div className="wrapper">
       <div className="flex flex-col justify-between w-full md:w-[40rem] h-fit mx-auto py-10 px-8 bg-background border shadow-sm rounded-xl">
@@ -85,6 +129,8 @@ const FormUser = ({ email, firstName, lastName }) => {
                 setUserData,
                 finalData,
                 setFinalData,
+                invalidFields,
+                setInvalidFields
               }}
             >
               {displayStep(currentStep)}
