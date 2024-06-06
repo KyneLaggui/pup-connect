@@ -336,49 +336,99 @@ export const evalQuestions = [
     number: 1,
     question:
       "How satisfied are you with the overall performance of the company?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
   {
     number: 2,
     question:
       "Did the company meet your expectations in terms of product/service quality?",
+    veryDissatisfied: "15%",
+    dissatisfied: "5%",
+    neutral: "10%",
+    satisfied: "40%",
+    verySatisfied: "30%",
   },
   {
     number: 3,
     question:
       "Were your concerns and inquiries addressed promptly by the company's customer support?",
+    veryDissatisfied: "10%",
+    dissatisfied: "5%",
+    neutral: "15%",
+    satisfied: "40%",
+    verySatisfied: "30%",
   },
   {
     number: 4,
     question:
       "How likely are you to recommend the company to others based on your experience?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
   {
     number: 5,
     question:
       "How satisfied are you with the overall performance of the company?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
   {
     number: 6,
     question:
       "How would you rate the company's commitment to ethical business practices?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
   {
     number: 7,
     question:
       "How satisfied were you with the efficiency and accuracy of the company's delivery/service process?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
   {
     number: 8,
     question:
       "How well did the company understand and fulfill your specific needs and requirements?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
   {
     number: 9,
     question: "Was the company transparent regarding pricing and policies?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
   {
     number: 10,
     question: "Overall, how would you rate your experience with the company?",
+    veryDissatisfied: "20%",
+    dissatisfied: "10%",
+    neutral: "5%",
+    satisfied: "40%",
+    verySatisfied: "25%",
   },
 ];
 

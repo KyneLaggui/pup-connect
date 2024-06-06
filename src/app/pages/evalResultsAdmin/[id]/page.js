@@ -5,6 +5,8 @@ import EachResult from "../../../custom_components/evalForms/EachResult";
 
 import IndivTable from "@/app/custom_components/evalForms/indivTable/page";
 
+import QuestionTable from "@/app/custom_components/evalForms/questionTable/page";
+
 const page = () => {
   const [activeTab, setActiveTab] = useState("charts");
 
@@ -73,7 +75,9 @@ const page = () => {
         <ChartsResult />
       </div>
 
-      <div className={`${activeTab === "table" ? "" : "hidden"}`}></div>
+      <div className={`${activeTab === "table" ? "" : "hidden"}`}>
+        <QuestionTable />
+      </div>
 
       <div className={`${activeTab === "individual" ? "" : "hidden"}`}>
         <IndivTable />
