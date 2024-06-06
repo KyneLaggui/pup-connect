@@ -10,7 +10,7 @@ const page = () => {
     };
   return (
     <div className='container-sidebar'>
-        <div className="flex items-center justify-start gap-7">
+        <div className="flex items-center justify-center gap-7">
             <button
                 className={`relative border-none text-md font-medium transition-colors duration-300 ease-in pb-2 cursor-pointer focus:outline-none ${
                 activeTab === 'charts' ? 'text-primary font-semibold' : ''
@@ -42,8 +42,6 @@ const page = () => {
             <h1>Table</h1>
         </div>
                
-
-
     </div>
   )
 }
