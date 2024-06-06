@@ -23,7 +23,7 @@ import {
 
 import EachResult from "../EachResult";
 import { Button } from '@/components/ui/button';
-
+import { ScrollArea } from '@/components/ui/scroll-area'
 
 const ViewModal = () => {
     const [open, setOpen] = useState(false);
@@ -62,8 +62,11 @@ const ViewModal = () => {
                 View
                 </Button>
             </DrawerTrigger>
-            <DrawerContent className={"h-[90%] max-h-screen overflow-y-scroll p-5"}>
-                <EachResult/>
+            <DrawerContent className={"h-[90%] p-5"}>
+                <ScrollArea className="overflow-y-scroll mt-5">
+                    <EachResult/>
+                </ScrollArea>
+                
             </DrawerContent>            
             
         </Drawer>
