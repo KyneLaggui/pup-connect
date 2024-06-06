@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import JobCard from "@/app/custom_components/JobCard";
 import React from "react";
@@ -31,7 +31,6 @@ import { Tag } from "@/app/custom_components/Tag";
 import Link from "next/link";
 import VerificationCheck from "@/app/layouts/VerificationCheck";
 
-
 const Explore = () => {
   return (
     <>
@@ -42,11 +41,12 @@ const Explore = () => {
             <AccordionProgress />
             <div className="w-full flex justify-between flex-wrap gap-4">
               {jobCardInfo.map((job) => (
-                <Drawer key={job.number}> {/* Added key to Drawer */}
+                <Drawer key={job.number}>
+                  {" "}
+                  {/* Added key to Drawer */}
                   <DrawerTrigger>
                     <JobCard key={job.number} {...job} />
                   </DrawerTrigger>
-
                   <DrawerContent className="lg:h-[95%] h-screen ">
                     <div className="flex justify-evenly xl:p-14 p-12 items-start overflow-y-scroll ">
                       <div className="flex flex-col justify-center items-start gap-5 lg:min-w-[940px]">
@@ -55,9 +55,15 @@ const Explore = () => {
                             {job.title}
                           </h1>
                           <div className="flex items-center gap-2">
-                            <Link key={job.number} href={`/pages/apply/${job.number}`} className="px-10 py-3 text-sm font-medium">
-                              Apply
-                            </Link>
+                            <Button>
+                              <Link
+                                key={job.number}
+                                href={`/pages/apply/${job.number}`}
+                                className="px-10 py-3 text-sm font-medium"
+                              >
+                                Apply
+                              </Link>
+                            </Button>
                             <div className="border border-buttonBorder p-3 rounded-md">
                               <Share2 className="text-buttonBorder" size={17} />
                             </div>
@@ -202,9 +208,11 @@ const Explore = () => {
                           </h1>
                           <div className="flex flex-col gap-2">
                             {jobCardInfo.map((jobInfo, index) => {
-                              if ( index > 3 && jobInfo.company === job.company) {
+                              if (
+                                index > 3 &&
+                                jobInfo.company === job.company
+                              ) {
                                 return (
-
                                   <JobCard key={jobInfo.number} {...jobInfo} />
                                 );
                               }
