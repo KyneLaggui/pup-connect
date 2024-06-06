@@ -37,6 +37,9 @@ const statusVariantMap = {
 export const columns: ColumnDef<User>[] = [
   {
     accessorKey: "status",
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+   },
     header: "Status",
     // cell: ({ row }) => {
     //   const user = row.original;
