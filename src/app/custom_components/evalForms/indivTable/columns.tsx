@@ -5,6 +5,9 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
+import ViewModal from "./ViewModal"
+
+
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Payment = {
@@ -58,16 +61,10 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Action",
     cell: ({ row }) => {
       return (
-        <Button
-          variant="secondary"
-          size="sm"
-          onClick={() => {
-            console.log("Clicked on row", row.original);
-          }}
-        >
-          View
-        </Button>
+        <ViewModal />
       );
     },
   },
 ];
+
+
