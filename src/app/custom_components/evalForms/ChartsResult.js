@@ -26,12 +26,12 @@ ChartJS.register(
 
 const ChartsResult = () => {
     const data = {
-        labels: ['Math', 'Science', 'Language', 'Social Studies', 'Sports', 'Arts'],
+        labels: ['Very Dissatisfied', 'Dissatisfied', 'Neutral', 'Satisfied', 'Very Satisfied'],
         datasets: [{
-            label: 'Performance Grades',
-            backgroundColor: ['#ff7400', '#ff0000', '#ffc100', '#00ff00', '#0000ff', '#ff00ff'],
+            label: '',
+            backgroundColor: ['#ff7400', '#ff0000', '#ffc100', '#00ff00', '#0000ff'],
             borderColor: 'white',
-            data: [20, 30, 10, 15, 10, ], 
+            data: [20, 30, 10, 15, 10 ], 
         }]
     };
     
@@ -53,12 +53,42 @@ const ChartsResult = () => {
                         <p>{evalqs.number}.</p>
                         <h1>{evalqs.question}</h1>
                     </div>
-                    <div className='flex justify-center'>
+                    <div className='flex justify-around items-center'>
                         <div className='w-60'>
                             <Doughnut 
                                 data = {data}
                                 options = {options}
                             ></Doughnut>
+                        </div>
+                        <div className='flex flex-col gap-2'>
+                            <div className='flex gap-2 items-center'>
+                                <div className='w-4 h-4 bg-[#ff7400]'></div>
+                                <h1>Very Dissatisfied:</h1>
+                                <p>20%</p>
+                            </div>
+                            <div className='flex gap-2 items-center'>
+                                <div className='w-4 h-4 bg-[#ff0000]'></div>
+                                <h1>Dissatisfied:</h1>
+                                <p>30%</p>
+                            </div>
+                            <div className='flex gap-2 items-center'>
+                                <div className='w-4 h-4 bg-[#ffc100]'></div>
+                                <h1>Neutral:</h1>
+                                <p>10%</p>
+                            </div>
+                            <div className='flex gap-2 items-center'>
+                                <div className='w-4 h-4 bg-[#00ff00]'></div>
+                                <h1>Satisfied:</h1>
+                                <p>15%</p>
+                            </div>
+                            <div className='flex gap-2 items-center'>
+                                <div className='w-4 h-4 bg-[#0000ff]'></div>
+                                <h1>Very Satisfied:</h1>
+                                <p>10%</p>
+                            </div>
+                            
+                            
+                            
                         </div>
                     </div>
                     
