@@ -20,7 +20,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 
 const ContactInfo = () => {
-  const { userData, setUserData } = useContext(StepperContext);
+  const { userData, setUserData, invalidFields } = useContext(StepperContext);
   const [socialLinks, setSocialLinks] = useState(userData.socialLinks || [""]);
   const [regionsState, setRegionsState] = useState([]);
   const [provincesState, setProvincesState] = useState([]);
@@ -165,7 +165,7 @@ const ContactInfo = () => {
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full mb-2">
-        <FormsLabel text="Email" label="email" />
+        <FormsLabel text="Email" label="email" isInvalid={invalidFields.email} />
         <Input
           id="email"
           type="text"
@@ -179,7 +179,7 @@ const ContactInfo = () => {
       </div>
 
       <div className="w-full mb-2">
-        <FormsLabel text="Phone" label="phoneNumber" />
+        <FormsLabel text="Phone" label="phoneNumber" isInvalid={invalidFields.phoneNumber}  />
         <Input
           id="phoneNumber"
           type="text"
@@ -198,7 +198,7 @@ const ContactInfo = () => {
           <h3 className="text-base font-semibold">Address</h3>
         </div>
         <div className="w-full mb-2">
-          <FormsLabel text="Region" label="region" />
+          <FormsLabel text="Region" label="region" isInvalid={invalidFields.region} />
           <Select
             id="region"
             name="region"
@@ -219,7 +219,7 @@ const ContactInfo = () => {
           </Select>
         </div>
         <div className="w-full mb-2">
-          <FormsLabel text="Province" label="province" />
+          <FormsLabel text="Province" label="province" isInvalid={invalidFields.province}  />
           <Select
             id="province"
             name="province"
@@ -240,7 +240,7 @@ const ContactInfo = () => {
           </Select>
         </div>
         <div className="w-full mb-2">
-          <FormsLabel text="City/Municipality" label="cityOrMunicipality" />
+          <FormsLabel text="City/Municipality" label="cityOrMunicipality" isInvalid={invalidFields.cityOrMunicipality} />
           <Select
             id="cityOrMunicipality"
             name="cityOrMunicipality"
@@ -261,7 +261,7 @@ const ContactInfo = () => {
           </Select>
         </div>
         <div className="w-full mb-2">
-          <FormsLabel text="Barangay" label="barangay" />
+          <FormsLabel text="Barangay" label="barangay" isInvalid={invalidFields.barangay}  />
           <Select
             id="barangay"
             name="barangay"
@@ -285,6 +285,7 @@ const ContactInfo = () => {
           <FormsLabel
             text="Street address (Building number & Street name)"
             label="streetAddress"
+            isInvalid={invalidFields.streetAddress} 
           />
           <Input
             id="streetAddress"

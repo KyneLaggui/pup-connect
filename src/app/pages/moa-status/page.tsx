@@ -25,7 +25,6 @@ export default async function DemoPage() {
 
   return (
     <ApplicantOnlyPage>
-      <VerificationCheck>
       <div className="flex">
         <div className="w-full flex justify-center container-sidebar">
           <h1 className="text-2xl font-semibold tracking-tight">MOA Status</h1>
@@ -35,7 +34,6 @@ export default async function DemoPage() {
           <DataTable columns={columns} data={data} />
         </div>
       </div>
-      </VerificationCheck>
     </ApplicantOnlyPage>
   );
 }
