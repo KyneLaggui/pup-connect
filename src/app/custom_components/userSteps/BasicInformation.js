@@ -7,12 +7,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import FormsLabel from "@/app/custom_components/FormsLabel";
 import { StepperContext } from "../StepperContext";
 
 const BasicInformation = () => {
-  const { userData, setUserData } = useContext(StepperContext);
+  const { userData, setUserData, invalidFields } = useContext(StepperContext);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
@@ -25,30 +25,10 @@ const BasicInformation = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const getData = async() => {
-  //     const { data } = await supabase
-  //     .from('profile')
-  //     .select('*')
-  //     .eq('email', userEmail)
-  //     .single();
-
-  //     if (data) {
-  //       setUserData({
-  //         ...userData,
-  //         firstName: data.firstName,
-  //         lastName: data.lastName,
-  //       })
-  //     }
-  //   }
-    
-  //   getData()
-  // }, [])
-  
   return (
     <div className="flex flex-col gap-4">
       <div className="w-full mb-2">
-        <FormsLabel text="First name" label="firstName" />
+        <FormsLabel text="First name" label="firstName" isInvalid={invalidFields.firstName} />
         <Input
           id="firstName"
           type="text"
@@ -57,11 +37,11 @@ const BasicInformation = () => {
           onInputHandleChange={handleChange}
           value={userData["firstName"] || ""}
           className="mt-1"
-        ></Input>
+        />
       </div>
 
       <div className="w-full mb-2">
-        <FormsLabel text="Middle name" label="middleName" />
+        <FormsLabel text="Middle name (optional)" label="middleName" />
         <Input
           id="middleName"
           type="text"
@@ -70,11 +50,11 @@ const BasicInformation = () => {
           onInputHandleChange={handleChange}
           value={userData["middleName"] || ""}
           className="mt-1"
-        ></Input>
+        />
       </div>
 
       <div className="w-full mb-2">
-        <FormsLabel text="Last name" label="lastName" />
+        <FormsLabel text="Last name" label="lastName" isInvalid={invalidFields.lastName} />
         <Input
           id="lastName"
           type="text"
@@ -83,24 +63,23 @@ const BasicInformation = () => {
           onInputHandleChange={handleChange}
           value={userData["lastName"] || ""}
           className="mt-1"
-        ></Input>
+        />
       </div>
 
       <div className="w-full mb-2">
-        <FormsLabel text="Birthdate" label="birthDate" />
+        <FormsLabel text="Birthdate" label="birthDate" isInvalid={invalidFields.birthDate} />
         <Input
           id="birthDate"
           type="date"
-          // placeholder="e.g. Doe"
           name="birthDate"
           onInputHandleChange={handleChange}
           value={userData["birthDate"] || ""}
           className="mt-1"
-        ></Input>
+        />
       </div>
 
       <div className="w-full mb-2">
-        <FormsLabel text="Gender" label="gender" />
+        <FormsLabel text="Gender" label="gender" isInvalid={invalidFields.gender} />
         <Select
           id="gender"
           name="gender"
