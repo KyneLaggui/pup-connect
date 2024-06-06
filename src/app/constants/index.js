@@ -330,3 +330,46 @@ export const dummyChangelog = [
     ],
   },
 ];
+
+export const evalQuestions = [
+  {
+    number: 1,
+    question: "How satisfied are you with the overall performance of the company?",
+  },
+  {
+    number: 2,
+    question: "Did the company meet your expectations in terms of product/service quality?",
+  },
+  {
+    number: 3,
+    question: "Were your concerns and inquiries addressed promptly by the company's customer support?",
+  },
+  {
+    number: 4,
+    question: "How likely are you to recommend the company to others based on your experience?",
+  },
+  {
+    number: 5,
+    question: "How satisfied are you with the overall performance of the company?",
+  },
+  {
+    number: 6,
+    question: "How would you rate the company's commitment to ethical business practices?",
+  },
+  {
+    number: 7,
+    question: "How satisfied were you with the efficiency and accuracy of the company's delivery/service process?",
+  },
+  {
+    number: 8,
+    question: "How well did the company understand and fulfill your specific needs and requirements?",
+  },
+  {
+    number: 9,
+    question: "Was the company transparent regarding pricing and policies?",
+  },
+  {
+    number: 10,
+    question: "Overall, how would you rate your experience with the company?",
+  },
+];
