@@ -83,4 +83,5 @@ const JobCardSmall = ({ title, image, company, location }) => {
   );
 };
 
-export { JobCard, JobCardSmall };
+export { JobCardSmall };
+export default JobCard;
