@@ -1,5 +1,6 @@
 "use client"
 import React, { useState } from 'react'
+import ChartsResult from "../../custom_components/evalForms/ChartsResult"
 
 const page = () => {
     const [activeTab, setActiveTab] = useState('charts');
@@ -21,7 +22,7 @@ const page = () => {
                 }`}></span>
             </button>
             <button
-                className={`relative border-none transition-colors font-medium duration-300 ease-in pb-2 cursor-pointer focus:outline-none ${
+                className={`relative border-none transition-colors text-md font-medium duration-300 ease-in pb-2 cursor-pointer focus:outline-none ${
                 activeTab === 'table' ? 'text-primary font-semibold' : ''
                 }`}
                 onClick={() => handleTabClick('table')}>
@@ -33,7 +34,7 @@ const page = () => {
         </div>
 
         <div className={`${activeTab === 'charts' ? '' : 'invisible'}`}>
-            <h1>Charts</h1>
+            <ChartsResult />
             
         </div>
         
