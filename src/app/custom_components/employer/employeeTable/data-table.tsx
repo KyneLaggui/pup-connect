@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { DataTablePagination } from "../../table/data-table-pagination";
+import { DataTablePagination } from "@/app/custom_components/table/data-table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -58,10 +58,12 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search for company"
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+          placeholder="Search for last name"
+          value={
+            (table.getColumn("last_name")?.getFilterValue() as string) ?? ""
+          }
           onInputHandleChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
+            table.getColumn("last_name")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

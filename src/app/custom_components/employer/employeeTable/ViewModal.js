@@ -21,7 +21,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-import EachResult from "../EachResult";
+import EmployeeProfile from "./EmployeeProfile";
 import { Button } from "@/components/ui/button";
 
 const ViewModal = () => {
@@ -37,10 +37,10 @@ const ViewModal = () => {
           </Button>
         </DialogTrigger>
         <DialogContent
-          className={"mt-4 lg:max-w-screen-lg overflow-y-scroll max-h-screen"}
+          className={"mt-4 lg:max-w-[760px] overflow-y-scroll max-h-screen"}
         >
           <div className="mt-10">
-            <EachResult />
+            <EmployeeProfile />
           </div>
         </DialogContent>
       </Dialog>
@@ -55,7 +55,7 @@ const ViewModal = () => {
         </Button>
       </DrawerTrigger>
       <DrawerContent className={"h-[90%] max-h-screen overflow-y-scroll p-5"}>
-        <EachResult />
+        <EmployeeProfile />
       </DrawerContent>
     </Drawer>
   );
