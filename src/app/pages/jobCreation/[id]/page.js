@@ -38,6 +38,7 @@ const page = () => {
 
     const addQualificationInput = () => {
         setQualifications([...qualifications, ""]);
+        console.log("Added Qualification Input:", qualifications);
     };
 
     const removeQualificationInput = (index) => {
@@ -170,7 +171,7 @@ const page = () => {
                                 <Input
                                     type="text"
                                     value={qualification}
-                                    onChange={(event) => handleQualificationInputChange(index, event)}
+                                    onInputHandleChange={(event) => handleQualificationInputChange(index, event)}
                                     name={`qualification-${index}`}
                                     className="border-0"
                                 />
@@ -194,7 +195,7 @@ const page = () => {
                                 <Input
                                     type="text"
                                     value={benefit}
-                                    onChange={(event) => handleBenefitInputChange(index, event)}
+                                    onInputHandleChange={(event) => handleBenefitInputChange(index, event)}
                                     name={`benefit-${index}`}
                                     className="border-0"
                                 />
@@ -218,7 +219,7 @@ const page = () => {
                                 <Input
                                     type="text"
                                     value={attachment}
-                                    onChange={(event) => handleAttachmentInputChange(index, event)}
+                                    onInputHandleChange={(event) => handleAttachmentInputChange(index, event)}
                                     name={`attachment-${index}`}
                                     className="border-0"
                                 />

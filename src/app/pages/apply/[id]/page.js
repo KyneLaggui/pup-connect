@@ -171,7 +171,7 @@ const page = ({ job }) => {
                   <Input
                     type="text"
                     value={link}
-                    onChange={(event) =>
+                    onInputHandleChange={(event) =>
                       handleSocialLinkInputChange(index, event)
                     }
                     name={`socialLink-${index}`}
