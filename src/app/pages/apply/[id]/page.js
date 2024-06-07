@@ -179,7 +179,7 @@ const page = ({ job }) => {
                   />
                   <div className="p-2">
                     <RemoveCircleIcon
-                      className="w-[15px] h-[15px] text-drawer-icon"
+                      className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
                       onClick={() => removeSocialLinkInput(index)}
                     />
                   </div>
