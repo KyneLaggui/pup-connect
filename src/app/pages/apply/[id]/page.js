@@ -185,12 +185,13 @@ const page = ({ job }) => {
                   </div>
                 </div>
               ))}
-              <button
+              <Button
+                variant="outline"
                 onClick={addSocialLinkInput}
-                className="text-xs text-checkbox-text"
+                
               >
                 Add Social Link
-              </button>
+              </Button>
             </div>
           </div>
 
