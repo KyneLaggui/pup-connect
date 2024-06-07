@@ -2,7 +2,6 @@
 import FormsLabel from '@/app/custom_components/FormsLabel';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { LinkIcon } from 'lucide-react';
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import React, { useState } from 'react'
 import { Button } from '@/components/ui/button';
@@ -13,10 +12,11 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
-
-import Tags from "../../../custom_components/companySteps/Tags"
 import { companyTags } from "../../../constants";
 import { Tag } from '@/app/custom_components/Tag';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
+import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 
 const page = () => {
     const [qualifications, setQualifications] = useState([""]);
@@ -166,7 +166,7 @@ const page = () => {
                         {qualifications.map((qualification, index) => (
                             <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
                                 <div className="p-1 h-full border-r border-muted">
-                                    <LinkIcon className="rotate-90 w-[20px] h-[20px] text-drawer-icon" />
+                                    <WorkOutlineIcon className="w-[20px] h-[20px] text-drawer-icon" />
                                 </div>
                                 <Input
                                     type="text"
@@ -190,7 +190,7 @@ const page = () => {
                         {benefits.map((benefit, index) => (
                             <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
                                 <div className="p-1 h-full border-r border-muted">
-                                    <LinkIcon className="rotate-90 w-[20px] h-[20px] text-drawer-icon" />
+                                    <HandshakeOutlinedIcon className="w-[20px] h-[20px] text-drawer-icon" />
                                 </div>
                                 <Input
                                     type="text"
@@ -214,7 +214,8 @@ const page = () => {
                         {attachments.map((attachment, index) => (
                             <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
                                 <div className="p-1 h-full border-r border-muted">
-                                    <LinkIcon className="rotate-90 w-[20px] h-[20px] text-drawer-icon" />
+                                    <FolderOutlinedIcon className="w-[20px] h-[20px] text-drawer-icon" />
+                                    
                                 </div>
                                 <Input
                                     type="text"
