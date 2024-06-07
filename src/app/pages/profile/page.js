@@ -9,7 +9,7 @@ import JobApplied from "../../custom_components/JobApplied";
 const Profile = () => {
   return (
     <ApplicantOnlyPage>
-      <VerificationCheck>
+      {/* <VerificationCheck> */}
         <div className="flex">
           <div className="w-full flex justify-center container-sidebar">
             <h1 className="text-2xl font-semibold tracking-tight">Profile</h1>
@@ -23,7 +23,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-      </VerificationCheck>
+      {/* </VerificationCheck> */}
     </ApplicantOnlyPage>
   );
 };

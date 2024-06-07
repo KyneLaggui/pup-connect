@@ -53,7 +53,7 @@ const page = ({ job }) => {
 
   return (
     <div className="">
-      <div className="mt-20 container flex items-center justify-center ">
+      <div className="container flex items-center justify-center ">
         <div className="flex flex-col gap-6 max-w-[800px] w-full px-2 pt-10 pb-[80px]">
           <div className="flex flex-col gap-3 justify-center items-center">
             <div className="flex gap-3 items-center">
