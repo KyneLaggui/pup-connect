@@ -177,13 +177,13 @@ const page = () => {
                                 />
                                 <div className="p-2">
                                     <RemoveCircleIcon
-                                        className="w-[15px] h-[15px] text-drawer-icon"
+                                        className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
                                         onClick={() => removeQualificationInput(index)}
                                     />
                                 </div>
                             </div>
                         ))}
-                        <Button onClick={addQualificationInput}>Add Qualifications</Button>
+                        <Button variant="outline" onClick={addQualificationInput}>Add Qualifications</Button>
                     </div>
                     <div className="flex flex-col gap-2">
                         <FormsLabel text="Benefits" label="benefits" />
@@ -201,13 +201,13 @@ const page = () => {
                                 />
                                 <div className="p-2">
                                     <RemoveCircleIcon
-                                        className="w-[15px] h-[15px] text-drawer-icon"
+                                        className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
                                         onClick={() => removeBenefitInput(index)}
                                     />
                                 </div>
                             </div>
                         ))}
-                        <Button onClick={addBenefitInput}>Add Benefits</Button>
+                        <Button variant="outline" onClick={addBenefitInput}>Add Benefits</Button>
                     </div>
                     <div className="flex flex-col gap-2">
                         <FormsLabel text="Attachments" label="attachments" />
@@ -226,13 +226,13 @@ const page = () => {
                                 />
                                 <div className="p-2">
                                     <RemoveCircleIcon
-                                        className="w-[15px] h-[15px] text-drawer-icon"
+                                        className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
                                         onClick={() => removeAttachmentInput(index)}
                                     />
                                 </div>
                             </div>
                         ))}
-                        <Button onClick={addAttachmentInput}>Add Attachments</Button>
+                        <Button variant="outline" onClick={addAttachmentInput}>Add Attachments</Button>
                     </div>
                 </div>
             </div>
