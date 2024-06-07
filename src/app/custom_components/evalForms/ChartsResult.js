@@ -1,48 +1,60 @@
-"use client"
-import React, { useState } from 'react'
+"use client";
+import React, { useState } from "react";
 import {
-    Chart as ChartJS,
-    LineElement,
-    PointElement,
-    Tooltip,
-    Legend,
-    RadialLinearScale,
-    ArcElement
-} from 'chart.js';
+  Chart as ChartJS,
+  LineElement,
+  PointElement,
+  Tooltip,
+  Legend,
+  RadialLinearScale,
+  ArcElement,
+} from "chart.js";
 
-import { Doughnut } from 'react-chartjs-2';
-import { evalQuestions } from '@/app/constants';
+import { Doughnut } from "react-chartjs-2";
+import { evalQuestions } from "@/app/constants";
 
 ChartJS.register(
-    LineElement,
-    PointElement,
-    Tooltip,
-    Legend,
-    RadialLinearScale,
-    ArcElement
+  LineElement,
+  PointElement,
+  Tooltip,
+  Legend,
+  RadialLinearScale,
+  ArcElement
 );
 
-
-
 const ChartsResult = () => {
-    const data = {
-        labels: ['Very Dissatisfied', 'Dissatisfied', 'Neutral', 'Satisfied', 'Very Satisfied'],
-        datasets: [{
-            label: '',
-            backgroundColor: ['#ff7400', '#ff0000', '#ffc100', '#00ff00', '#0000ff'],
-            borderColor: 'white',
-            data: [20, 30, 10, 15, 10 ], 
-        }]
-    };
-    
-    const options = {
-        maintainAspectRatio: true,
-        plugins: {
-            legend: {
-                display: false
-            }
-        }
-    };
+  const data = {
+    labels: [
+      "Very Dissatisfied",
+      "Dissatisfied",
+      "Neutral",
+      "Satisfied",
+      "Very Satisfied",
+    ],
+    datasets: [
+      {
+        label: "",
+        backgroundColor: [
+          "#ff7400",
+          "#ff0000",
+          "#ffc100",
+          "#00ff00",
+          "#0000ff",
+        ],
+        borderColor: "white",
+        data: [20, 30, 10, 15, 10],
+      },
+    ],
+  };
+
+  const options = {
+    maintainAspectRatio: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+  };
 
   return (
     <div className='w-full justify-start container-sidebar items-center'>
@@ -94,14 +106,28 @@ const ChartsResult = () => {
                     
                     
                 </div>
-                            
-            ))}
-        </div>
-        
+                <div className="flex gap-2 items-center">
+                  <div className="w-4 h-4 bg-[#ffc100]"></div>
+                  <h1>Neutral:</h1>
+                  <p>10%</p>
+                </div>
+                <div className="flex gap-2 items-center">
+                  <div className="w-4 h-4 bg-[#00ff00]"></div>
+                  <h1>Satisfied:</h1>
+                  <p>15%</p>
+                </div>
+                <div className="flex gap-2 items-center">
+                  <div className="w-4 h-4 bg-[#0000ff]"></div>
+                  <h1>Very Satisfied:</h1>
+                  <p>10%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-    
+  );
+};
 
-  )
-}
-
-export default ChartsResult
+export default ChartsResult;

@@ -21,9 +21,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 
-import EachResult from "../EachResult";
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area'
+import EmployeeProfile from "./EmployeeProfile";
+import { Button } from "@/components/ui/button";
 
 const ViewModal = () => {
   const [open, setOpen] = useState(false);
@@ -31,23 +30,20 @@ const ViewModal = () => {
 
   if (isDesktop) {
     return (
-        <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Button
-                variant="secondary"
-                size="sm"
-                >
-                View
-                </Button>
-            </DrawerTrigger>
-            <DrawerContent className={"h-[90%] p-5"}>
-                <ScrollArea className="overflow-y-scroll mt-5">
-                    <EachResult/>
-                </ScrollArea>
-                
-            </DrawerContent>            
-            
-        </Drawer>
+      <Dialog open={open} onOpenChange={setOpen} className="">
+        <DialogTrigger asChild>
+          <Button variant="secondary" size="sm">
+            View
+          </Button>
+        </DialogTrigger>
+        <DialogContent
+          className={"mt-4 lg:max-w-[760px] overflow-y-scroll max-h-screen"}
+        >
+          <div className="mt-10">
+            <EmployeeProfile />
+          </div>
+        </DialogContent>
+      </Dialog>
     );
   }
 
@@ -59,7 +55,7 @@ const ViewModal = () => {
         </Button>
       </DrawerTrigger>
       <DrawerContent className={"h-[90%] max-h-screen overflow-y-scroll p-5"}>
-        <EachResult />
+        <EmployeeProfile />
       </DrawerContent>
     </Drawer>
   );

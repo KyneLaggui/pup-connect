@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import ChartsResult from "../../custom_components/evalForms/ChartsResult";
 import QuestionTable from "../../custom_components/evalForms/questionTable/page";
 
+import EmployeeTable from "@/app/custom_components/employer/employeeTable/page";
+
 const page = () => {
   const [activeTab, setActiveTab] = useState("charts");
 
@@ -51,7 +53,7 @@ const page = () => {
         </div>
 
         <div className={`${activeTab === "table" ? "" : "hidden"}`}>
-          <QuestionTable />
+          <EmployeeTable />
         </div>
       </div>
     </div>
