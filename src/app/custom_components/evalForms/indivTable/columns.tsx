@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import ViewModal from "./ViewModal";
 
 export type Payment = {
@@ -24,13 +24,19 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "name",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <p
+          className="flex items-center gap-1 cursor-pointer"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
         >
           Name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          )}
+        </p>
       );
     },
     cell: ({ row }) => {
@@ -39,9 +45,31 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "date",
-    header: "Date",
+    header: ({ column }) => {
+      return (
+        <p
+          className="flex items-center gap-1 cursor-pointer hover:text-red-500"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
+        >
+          Date
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          )}
+        </p>
+      );
+    },
     cell: ({ row }) => {
-      return <p className="tracking-wide">{row.original.date}</p>;
+      const date = new Date(row.original.date);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      return <span className="tracking-wide">{formattedDate}</span>;
     },
   },
   {

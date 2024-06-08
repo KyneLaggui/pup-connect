@@ -1,6 +1,19 @@
 "use client";
 
 import {
+  ColumnDef,
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  SortingState, // sorting
+  getSortedRowModel, // sorting
+  getPaginationRowModel, // pagination
+  ColumnFiltersState, // filtering
+  getFilteredRowModel, // filtering
+  getFacetedRowModel, // faceted filtering
+  getFacetedUniqueValues, // faceted filtering
+} from "@tanstack/react-table";
+import {
   Table,
   TableBody,
   TableCell,
@@ -8,19 +21,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  ColumnDef,
-  ColumnFiltersState,
-  SortingState,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from "@tanstack/react-table";
+import { DataTablePagination } from "@/app/custom_components/table/data-table-pagination";
 import * as React from "react";
-import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { DataTableToolbar } from "./data-table-toolbar";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,84 +35,82 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
-  const [sorting, setSorting] = useState<SortingState>([]);
+  const [sorting, setSorting] = React.useState<SortingState>([]); // sorting
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  );
+  ); // filtering
 
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
-    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(), // pagination
+    onSortingChange: setSorting, // sorting
+    getSortedRowModel: getSortedRowModel(), // sorting
+    onColumnFiltersChange: setColumnFilters, // filtering
+    getFilteredRowModel: getFilteredRowModel(), // filtering
+    getFacetedRowModel: getFacetedRowModel(), // faceted filtering
+    getFacetedUniqueValues: getFacetedUniqueValues(), // faceted filtering
     state: {
-      sorting,
-      columnFilters,
+      sorting, // sorting
+      columnFilters, // filtering
     },
   });
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header, index) => {
-                return (
-                  <TableHead
-                    key={header.id}
-                    className={
-                      index === 0
-                        ? "apply-id-header"
-                        : index === columns.length - 2
-                        ? "apply-badge-header"
-                        : ""
-                    }
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell, index) => (
-                  <TableCell key={cell.id}>
-                    <p className={index === 0 ? "apply-id" : ""}>
+    <div className="flex flex-col gap-4">
+      <DataTableToolbar table={table} />
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
                       )}
-                    </p>
-                  </TableCell>
-                ))}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <DataTablePagination table={table} />
     </div>
   );
 }
