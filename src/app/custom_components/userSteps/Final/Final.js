@@ -15,9 +15,9 @@ const FinalComponent = () => {
         last_name: userData.lastName,
         birth_date: userData.birthDate,
         gender: userData.gender,
-        phone_number: userData.phone,
+        phone_number: userData.phoneNumber,
         social_links: userData.socialLinks,
-        setup_finished: false
+        setup_finished: true
       })
       .eq('email', userData.email)
 
@@ -28,19 +28,33 @@ const FinalComponent = () => {
       const addressResult = await supabase
       .from('address')
       .update({
-        region: userData.region.name,
-        province: userData.province.name,
-        'city/municipality': userData.cityOrMunicipality.name,
-        barangay: userData.barangay.name,
+        region: userData.region,
+        regionCode: userData.regionCode,
+        cityOrProvince: userData.cityOrProvince,
         street_address: userData.streetAddress,
       })
       .eq('email', userData.email)
 
-      console.log(addressResult)
-
       if (addressResult.error) {
         console.log(addressResult.error)
       }
+
+      const resumeFileExt = (userData.resume.name).split('.').pop()
+      const rawEmail = (userData.email).replace(/\.com$/, '')
+      const resumeResult = await supabase
+        .storage 
+        .from('resume')
+        .upload(`public/${rawEmail}.${resumeFileExt}`, userData.resume, {
+          cacheControl: '3600',
+          upsert: true
+      })
+
+      if (resumeResult.error) {
+        console.log(resumeResult.error)
+      } else {
+        console.log(resumeResult.data)
+      }
+
     }
 
     updateData();
