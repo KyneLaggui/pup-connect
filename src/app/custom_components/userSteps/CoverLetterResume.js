@@ -38,7 +38,7 @@ const CoverLetterResume = () => {
         />
       </div>
       <div className="mb-2">
-        <FormsLabel text="Resume / Curriculum Vitae" label="resume" isInvalid={invalidFields.resume} />
+        <FormsLabel text="Resume / Curriculum Vitae (PDF)" label="resume" isInvalid={invalidFields.resume} />
         <Input
           type="file"
           id="resume"

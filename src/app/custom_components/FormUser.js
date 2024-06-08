@@ -21,9 +21,8 @@ const FormUser = ({ email, firstName, lastName }) => {
     phoneNumber: "",
     address: "",
     region: "",
-    province: "",
-    cityOrMunicipality: "",
-    barangay: "",
+    regionCode: "",
+    cityOrProvince: "",
     streetAddress: "",
     resume: null,
     socialLinks: []
@@ -38,9 +37,7 @@ const FormUser = ({ email, firstName, lastName }) => {
     phoneNumber: false,
     address: false,
     region: false,
-    province: false,
-    cityOrMunicipality: false,
-    barangay: false,
+    cityOrProvince: false,
     streetAddress: false,
     resume: false,
   }); // track invalid fields
@@ -84,13 +81,15 @@ const FormUser = ({ email, firstName, lastName }) => {
         if (checkEmpty(userData.email)) newInvalidFields.email = true;
         if (checkEmpty(userData.phoneNumber)) newInvalidFields.phoneNumber = true;
         if (checkEmpty(userData.region)) newInvalidFields.region = true;
-        if (checkEmpty(userData.province)) newInvalidFields.province = true;
-        if (checkEmpty(userData.cityOrMunicipality)) newInvalidFields.cityOrMunicipality = true;
-        if (checkEmpty(userData.barangay)) newInvalidFields.barangay = true;
+        if (checkEmpty(userData.cityOrProvince)) newInvalidFields.cityOrProvince = true;
         if (checkEmpty(userData.streetAddress)) newInvalidFields.streetAddress = true;
       } else if (newStep === 3) {
         if (checkEmpty(userData.coverLetter)) newInvalidFields.coverLetter = true;
         if (!userData.resume) newInvalidFields.resume = true;
+        if (userData.resume && ((userData.resume.name).split('.').pop().toLowerCase() !== 'pdf' 
+        || (userData.resume.type) !== 'application/pdf'))  {
+          newInvalidFields.resume = true
+        }
       }
       
       if (Object.keys(newInvalidFields).length > 0) {

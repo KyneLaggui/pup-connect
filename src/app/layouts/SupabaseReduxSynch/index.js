@@ -45,7 +45,6 @@ const PageLayout = ({children}) => {
           })
     }, [dispatch, id, userData])
 
-
     return (
         <div className={`page`}>
             {children}
