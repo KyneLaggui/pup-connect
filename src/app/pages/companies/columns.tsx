@@ -4,6 +4,16 @@ import { Tag } from "@/app/custom_components/Tag";
 import { Button } from "@/components/ui/button";
 import { ColumnDef, useReactTable } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { TableCell } from "@/app/custom_components/TableCell";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -41,6 +51,9 @@ export const columns: ColumnDef<Payment>[] = [
           )}
         </p>
       );
+    },
+    cell: ({ row }) => {
+      return <TableCell>{row.original.id}</TableCell>;
     },
   },
   {
@@ -83,10 +96,16 @@ export const columns: ColumnDef<Payment>[] = [
         </p>
       );
     },
+    cell: ({ row }) => {
+      return <TableCell>{row.original.company_name}</TableCell>;
+    },
   },
   {
     accessorKey: "email",
     header: "Email",
+    cell: ({ row }) => {
+      return <TableCell>{row.original.email}</TableCell>;
+    },
   },
   {
     accessorKey: "no_of_employees",
@@ -106,6 +125,9 @@ export const columns: ColumnDef<Payment>[] = [
           )}
         </p>
       );
+    },
+    cell: ({ row }) => {
+      return <TableCell>{row.original.no_of_employees}</TableCell>;
     },
   },
   {
@@ -134,17 +156,27 @@ export const columns: ColumnDef<Payment>[] = [
         month: "long",
         day: "numeric",
       });
-      return <span>{formattedDate}</span>;
+      return <TableCell>{formattedDate}</TableCell>;
     },
   },
   {
-    accessorKey: "evaluation",
-    header: "Evaluation",
+    accessorKey: "actions",
+    header: "Actions",
     cell: ({ row }) => {
+      const company = row.original;
+
       return (
-        <Button variant="secondary" size="sm">
-          View
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <MoreHorizIcon className="h-4 w-4" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>{company.company_name}</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Change status</DropdownMenuItem>
+            <DropdownMenuItem>View evaluation</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       );
     },
   },

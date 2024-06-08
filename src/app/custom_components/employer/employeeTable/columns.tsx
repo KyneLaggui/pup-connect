@@ -3,9 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { ArrowDown, ArrowUp, ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 import ViewModal from "./ViewModal";
+import { TableCell } from "@/app/custom_components/TableCell";
 
 import FormProfile from "../../FormProfile";
 
@@ -24,65 +25,83 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "id",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <p
+          className="flex items-center gap-1 cursor-pointer"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
         >
           ID
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          )}
+        </p>
       );
     },
     cell: ({ row }) => {
-      return <p className="tracking-wide">{row.original.id}</p>;
+      return <TableCell>{row.original.id}</TableCell>;
     },
   },
   {
     accessorKey: "first_name",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <p
+          className="flex items-center gap-1 cursor-pointer hover:text-red-500"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
         >
-          First name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          First Name
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          )}
+        </p>
       );
     },
     cell: ({ row }) => {
-      return <p className="tracking-wide">{row.original.first_name}</p>;
+      return <TableCell>{row.original.first_name}</TableCell>;
     },
   },
   {
     accessorKey: "last_name",
     header: ({ column }) => {
       return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        <p
+          className="flex items-center gap-1 cursor-pointer hover:text-red-500"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
         >
-          Last name
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
+          Last Name
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          )}
+        </p>
       );
     },
     cell: ({ row }) => {
-      return <p className="tracking-wide">{row.original.last_name}</p>;
+      return <TableCell>{row.original.last_name}</TableCell>;
     },
   },
   {
     accessorKey: "job",
     header: "Job",
     cell: ({ row }) => {
-      return <p className="tracking-wide">{row.original.job}</p>;
+      return <TableCell>{row.original.job}</TableCell>;
     },
   },
   {
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => {
-      return <p className="tracking-wide">{row.original.email}</p>;
+      return <TableCell>{row.original.email}</TableCell>;
     },
   },
   {

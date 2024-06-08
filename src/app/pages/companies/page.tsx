@@ -8,7 +8,7 @@ async function getData(): Promise<Payment[]> {
   return companyTable;
 }
 
-export default async function DemoPage() {
+export default async function CompaniesPage() {
   const data = await getData();
 
   return (
