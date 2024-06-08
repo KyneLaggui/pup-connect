@@ -1,4 +1,3 @@
-// React imports
 import React, { useContext, useEffect, useState } from "react";
 
 // Components
@@ -23,35 +22,50 @@ const ContactInfo = () => {
   const { userData, setUserData, invalidFields } = useContext(StepperContext);
   const [socialLinks, setSocialLinks] = useState(userData.socialLinks || [""]);
   const [regionsState, setRegionsState] = useState([]);
-  const [provincesState, setProvincesState] = useState([]);
-  const [cityOrMunicipalityState, setCityOrMunicipalityState] = useState([]);
-  const [barangaysState, setBarangaysState] = useState([]);
+  const [provinceCityState, setProvincesCityState] = useState([]);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
       // For regular input events
       const { name, value } = e.target;
-      setUserData({ ...userData, [name]: value });
+       // Apply phone number formatting
+       if (name === "phoneNumber") {
+        let formattedValue = formatPhoneNumber(value);
+        setUserData({ ...userData, [name]: formattedValue });
+      } else {
+        setUserData({ ...userData, [name]: value });
+      }
+
     } else if (name) {
       // For Select component
       setUserData({ ...userData, [name]: e });
     }
   };
 
-  const handleLocationChange = (e, name) => {
-    if (name == "region") {
-      // For Select component
-      setUserData({ ...userData, [name]: e });
-      findProvince(e.code)
-    } else if (name == "province") {
-      setUserData({ ...userData, [name]: e });
-      findMunicipality(e.code)
-    } else if (name == "cityOrMunicipality") {
-      setUserData({ ...userData, [name]: e });
-      findBarangay(e.code)
-    } else if (name == "barangay") {
-      setUserData({ ...userData, [name]: e });
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters
+    value = value.replace(/\D/g, "");
+
+    // Ensure it starts with "09"
+    if (value.startsWith("09")) {
+      if (value.length > 11) {
+        value = value.slice(0, 11);
+      }
+    } else {
+      value = "09" + value.slice(0, 9);
     }
+
+    return value;
+  };
+
+  const handleLocationChange = async (e, name) => {
+    if (name === "region") {
+      // For Select component    
+      await findProvince(e); // Ensure that this is awaited
+      setUserData({ ...userData, [name]: e, cityOrProvince: "" }); 
+    } else if (name === "cityOrProvince") {      
+      setUserData({ ...userData, [name]: e });
+    } 
   };
 
   const addSocialLinkInput = () => {
@@ -74,48 +88,23 @@ const ContactInfo = () => {
     setUserData({ ...userData, socialLinks: newSocialLinks });
   };
 
-  async function findBarangay(municipalityCode) {
-    const response = await fetch(`https://psgc.gitlab.io/api/cities-municipalities/${municipalityCode}/barangays.json`);
-    const barangays = await response.json();
-    const barangaysStorage = barangays.map((barangay) => {
-        return {
-          name: barangay['name'],
-          code: barangay['code']
-        }
-      })
-
-      setBarangaysState(barangaysStorage)
-
-      barangays.map((barangay) => {
-        if (barangay['name'] === userData.barangay) {
-          findBarangay(barangay['code'])
-        }
-      })
-  }
-
-  async function findMunicipality(provinceCode) {
-    const response = await fetch(`https://psgc.gitlab.io/api/provinces/${provinceCode}/municipalities.json`);
-    const municipalities = await response.json();
-
-    const cityOrMunicipalityStorage = municipalities.map((municipality) => {
-      return {
-        name: municipality['name'],
-        code: municipality['code']
-      }
+  async function findProvince(regionName) {
+    const region = regionsState.find(region => region.name === regionName);
+    setUserData({
+      ...userData,
+      regionCode: region.code
     })
-
-    setCityOrMunicipalityState(cityOrMunicipalityStorage)
-
-    municipalities.map((municipality) => {
-      if (municipality['name'] === userData.cityOrMunicipality) {
-        findBarangay(municipality['code'])
-      }
-    })
-  }
-
-  async function findProvince(regionCode) {
-    const response = await fetch(`https://psgc.gitlab.io/api/regions/${regionCode}/provinces.json`);
+    const response = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/provinces.json`);
     const provinces = await response.json();
+    const secondResponse = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/cities.json`);
+    const cities = await secondResponse.json();
+    const citiesStorage = cities.map((city) => {
+      return {
+        name: city['name'],
+        code: city['code']
+      }
+    })
+
     const provincesStorage = provinces.map((province) => {
       return {
         name: province['name'],
@@ -123,13 +112,19 @@ const ContactInfo = () => {
       }
     })
 
-    setProvincesState(provincesStorage)
+    let cityAndProvince = provincesStorage.concat(citiesStorage)
 
-    provinces.map((province) => {
-      if (province['name'] === userData.province) {
-        findProvince(province['code'])
+    cityAndProvince = cityAndProvince.sort((a, b) => {
+      if (a.name.toLowerCase() < b.name.toLowerCase()) {
+        return -1;
       }
-    })
+      if (a.name.toLowerCase() > b.name.toLowerCase()) {
+        return 1;
+      }
+      return 0;
+    });
+
+    setProvincesCityState(cityAndProvince)
   }
 
   async function generateRegions() {
@@ -142,25 +137,25 @@ const ContactInfo = () => {
       }
     })
 
-    setRegionsState(regionsStorage)
-
-    regions.map((region) => {
-      if (region['name'] === userData.region) {
-        findProvince(region['code'])
-      }
-    })
-    // for (let i = 0; i < regions.length; i++) {
-    //   if (regions[i]['name'] === userData.region) {
-    //     findProvince(regions[i]['code'])
-    //   }
-    // }
+    setRegionsState(regionsStorage)    
   }
 
   useEffect(() => {
-    generateRegions();
+    const findRegions = async() => {
+      await generateRegions()
+    }
+    findRegions()
   }, []) 
 
-  // regionSelection.addEventListener('change', () => findProvince(regionSelection[regionSelection.selectedIndex].code));
+  useEffect(() => {
+    if (regionsState !== []) {
+      regionsState.map((region) => {
+        if (region['name'] === userData.region) {
+          findProvince(region['name'])
+        }
+      })
+    }
+  }, [regionsState])
 
   return (
     <div className="flex flex-col gap-4">
@@ -205,79 +200,35 @@ const ContactInfo = () => {
             onValueChange={(value) => {
               handleLocationChange(value, "region");
             }}
-            defaultValue={userData["region"] || ""}
-          >
+            value={userData.region || ""}
+            >
             <SelectTrigger className="mt-1">
               <SelectValue placeholder="Please select..." />
             </SelectTrigger>
             <SelectContent>
               {
-                regionsState.map((region, i) => <SelectItem value={region} key={i}>{region.name}</SelectItem> )
+                regionsState.map((region, i) => <SelectItem value={region.name} key={i}>{region.name}</SelectItem> )
               }
-              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
             </SelectContent>
           </Select>
         </div>
         <div className="w-full mb-2">
-          <FormsLabel text="Province" label="province" isInvalid={invalidFields.province}  />
+          <FormsLabel text="City/Province" label="province" isInvalid={invalidFields.cityOrProvince}  />
           <Select
-            id="province"
-            name="province"
+            id="cityOrProvince"
+            name="cityOrProvince"
             onValueChange={(value) => {
-              handleLocationChange(value, "province");
+              handleLocationChange(value, "cityOrProvince");
             }}
-            defaultValue={userData["province"] || ""}
+            value={userData["cityOrProvince"] || ""}
           >
             <SelectTrigger className="mt-1">
               <SelectValue placeholder="Please select..." />
             </SelectTrigger>
             <SelectContent>
               {
-                provincesState.map((province, i) => <SelectItem value={province} key={i}>{province.name}</SelectItem>)
+                provinceCityState.map((provinceCity, i) => <SelectItem value={provinceCity.name} key={i}>{provinceCity.name}</SelectItem>)
               }
-              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="w-full mb-2">
-          <FormsLabel text="City/Municipality" label="cityOrMunicipality" isInvalid={invalidFields.cityOrMunicipality} />
-          <Select
-            id="cityOrMunicipality"
-            name="cityOrMunicipality"
-            onValueChange={(value) => {
-              handleLocationChange(value, "cityOrMunicipality");
-            }}
-            defaultValue={userData["cityOrMunicipality"] || ""}
-          >
-            <SelectTrigger className="mt-1">
-              <SelectValue placeholder="Please select..." />
-            </SelectTrigger>
-            <SelectContent>
-              {
-                cityOrMunicipalityState.map((cityOrMunicipality, i) => <SelectItem value={cityOrMunicipality} key={i}>{cityOrMunicipality.name}</SelectItem>)
-              }
-              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="w-full mb-2">
-          <FormsLabel text="Barangay" label="barangay" isInvalid={invalidFields.barangay}  />
-          <Select
-            id="barangay"
-            name="barangay"
-            onValueChange={(value) => {
-              handleLocationChange(value, "barangay");
-            }}
-            defaultValue={userData["barangay"] || ""}
-          >
-            <SelectTrigger className="mt-1">
-              <SelectValue placeholder="Please select..." />
-            </SelectTrigger>
-            <SelectContent>
-              {
-                barangaysState.map((barangay, i) => <SelectItem value={barangay} key={i}>{barangay.name}</SelectItem>)
-              }
-              <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
             </SelectContent>
           </Select>
         </div>
