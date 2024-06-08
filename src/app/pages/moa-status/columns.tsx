@@ -39,21 +39,22 @@ export const columns: ColumnDef<User>[] = [
     accessorKey: "status",
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
-   },
+    },
     header: "Status",
-    // cell: ({ row }) => {
-    //   const user = row.original;
+    cell: ({ row }) => {
+      const user = row.original;
 
-    //   return (
-    //     <Tag
-    //       variant={statusVariantMap[user.status] || "static"}
-    //       size="sm"
-    //       className={`cursor-default`}
-    //     >
-    //       {user.status}
-    //     </Tag>
-    //   );
-    // },
+      return (
+        <Tag
+          variant={statusVariantMap[user.status]}
+          // state="active"
+          size="sm"
+          className={`cursor-default`}
+        >
+          {user.status}
+        </Tag>
+      );
+    },
   },
   {
     accessorKey: "company_name",
