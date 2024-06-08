@@ -20,6 +20,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import EmployeeProfile from "./EmployeeProfile";
 import { Button } from "@/components/ui/button";
@@ -54,8 +55,10 @@ const ViewModal = () => {
           View
         </Button>
       </DrawerTrigger>
-      <DrawerContent className={"h-[90%] max-h-screen overflow-y-scroll p-5"}>
-        <EmployeeProfile />
+      <DrawerContent className={"h-[90%] overflow-y-hidden p-5"}>
+        <ScrollArea className="overflow-y-scroll mt-5">
+          <EmployeeProfile />
+        </ScrollArea>
       </DrawerContent>
     </Drawer>
   );

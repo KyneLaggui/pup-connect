@@ -22,7 +22,6 @@ const tagVariants = cva(
           "bg-amber-300 text-foreground border border-amber-300",
         "static-success":
           "bg-green-500 text-background border border-green-500",
-        test: "bg-black text-white border border-black",
       },
       size: {
         default: "px-4 py-2",

@@ -22,8 +22,8 @@ import {
 } from "@/components/ui/drawer";
 
 import EachResult from "../EachResult";
-import { Button } from '@/components/ui/button';
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const ViewModal = () => {
   const [open, setOpen] = useState(false);
@@ -31,23 +31,18 @@ const ViewModal = () => {
 
   if (isDesktop) {
     return (
-        <Drawer open={open} onOpenChange={setOpen}>
-            <DrawerTrigger asChild>
-                <Button
-                variant="secondary"
-                size="sm"
-                >
-                View
-                </Button>
-            </DrawerTrigger>
-            <DrawerContent className={"h-[90%] p-5"}>
-                <ScrollArea className="overflow-y-scroll mt-5">
-                    <EachResult/>
-                </ScrollArea>
-                
-            </DrawerContent>            
-            
-        </Drawer>
+      <Drawer open={open} onOpenChange={setOpen}>
+        <DrawerTrigger asChild>
+          <Button variant="secondary" size="sm">
+            View
+          </Button>
+        </DrawerTrigger>
+        <DrawerContent className={"h-[90%] p-5"}>
+          <ScrollArea className="overflow-y-scroll mt-5">
+            <EachResult />
+          </ScrollArea>
+        </DrawerContent>
+      </Drawer>
     );
   }
 
