@@ -1,11 +1,9 @@
 "use client";
+import EmployeeTable from "@/app/custom_components/employer/employeeTable/page";
 import React, { useState } from "react";
 import ChartsResult from "../../custom_components/evalForms/ChartsResult";
-import QuestionTable from "../../custom_components/evalForms/questionTable/page";
 
-import EmployeeTable from "@/app/custom_components/employer/employeeTable/page";
-
-const page = () => {
+const EmployeesPage = () => {
   const [activeTab, setActiveTab] = useState("charts");
 
   const handleTabClick = (tabName) => {
@@ -60,4 +58,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default EmployeesPage;

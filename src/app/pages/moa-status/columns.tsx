@@ -1,9 +1,7 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-
+import { Tag } from "@/app/custom_components/Tag";
 import { Button } from "@/components/ui/button";
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,11 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-
-import { ArrowUpDown, MoreHorizontal } from "lucide-react";
-import { Tag } from "@/app/custom_components/Tag";
+import { ColumnDef } from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.

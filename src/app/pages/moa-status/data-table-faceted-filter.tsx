@@ -1,8 +1,3 @@
-import * as React from "react";
-import { CheckIcon, Plus } from "lucide-react";
-import { Column } from "@tanstack/react-table";
-
-import { cn } from "@/lib/utils";
 import { Tag } from "@/app/custom_components/Tag";
 import { Button } from "@/components/ui/button";
 import {
@@ -20,7 +15,10 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-// import { Tag } from "@/app/custom_components/Tag";
+import { cn } from "@/lib/utils";
+import { Column } from "@tanstack/react-table";
+import { CheckIcon, Plus } from "lucide-react";
+import * as React from "react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
   column?: Column<TData, TValue>;
@@ -88,7 +86,6 @@ export function DataTableFacetedFilter<TData, TValue>({
             <CommandEmpty>No results found.</CommandEmpty>
             <CommandGroup>
               {options.map((option) => {
-                
                 const isSelected = selectedValues.has(option.value);
                 return (
                   <CommandItem
