@@ -43,7 +43,7 @@ const tagVariants = cva(
     defaultVariants: {
       variant: "default",
       size: "default",
-      state: "default",
+      // state: "default",
     },
   }
 );

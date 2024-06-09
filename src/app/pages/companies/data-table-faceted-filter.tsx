@@ -1,4 +1,3 @@
-import { Tag } from "@/app/custom_components/Tag";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -14,10 +13,9 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Column } from "@tanstack/react-table";
-import { CheckIcon, Plus } from "lucide-react";
+import { CheckIcon, ListFilter } from "lucide-react";
 import * as React from "react";
 
 interface DataTableFacetedFilterProps<TData, TValue> {
@@ -41,37 +39,27 @@ export function DataTableFacetedFilter<TData, TValue>({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button variant="outline" size="sm" className="h-8 border-dashed">
-          <Plus className="mr-2 h-4 w-4" />
-          {title}
+        <Button variant="outline" size="sm" className="flex items-center gap-2">
+          <div className="flex items-center">
+            <ListFilter className="mr-2 h-4 w-4" />
+            {title}
+          </div>
           {selectedValues?.size > 0 && (
             <>
-              <Separator orientation="vertical" className="mx-2 h-4" />
-              <Tag
-                variant="secondary"
-                className="rounded-sm px-1 font-normal lg:hidden"
-              >
+              {/* <Separator orientation="vertical" className="mx-2 h-4" /> */}
+              <p className="lg:hidden ml-2 px-2 py-1 rounded-sm bg-secondary text-secondary-foreground border border-secondary-border">
                 {selectedValues.size}
-              </Tag>
+              </p>
               <div className="hidden space-x-1 lg:flex">
                 {selectedValues.size > 2 ? (
-                  <Tag
-                    variant="secondary"
-                    className="rounded-sm px-1 font-normal"
-                  >
-                    {selectedValues.size} selected
-                  </Tag>
+                  <p className="font-normal">{selectedValues.size} selected</p>
                 ) : (
                   options
                     .filter((option) => selectedValues.has(option.value))
                     .map((option) => (
-                      <Tag
-                        variant="secondary"
-                        key={option.value}
-                        className="rounded-sm px-1 font-normal"
-                      >
+                      <p key={option.value} className="font-normal">
                         {option.label}
-                      </Tag>
+                      </p>
                     ))
                 )}
               </div>

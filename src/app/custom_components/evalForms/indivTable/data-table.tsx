@@ -1,6 +1,15 @@
 "use client";
 
-import * as React from "react";
+import { DataTablePagination } from "@/app/custom_components/table/data-table-pagination";
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,18 +21,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { DataTablePagination } from "./data-table-pagination";
+import * as React from "react";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -58,7 +56,7 @@ export function DataTable<TData, TValue>({
     <div>
       <div className="flex items-center py-4">
         <Input
-          placeholder="Search for company"
+          placeholder="Search for employee"
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onInputHandleChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)

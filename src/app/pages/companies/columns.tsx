@@ -3,7 +3,7 @@
 import { Tag } from "@/app/custom_components/Tag";
 import { Button } from "@/components/ui/button";
 import { ColumnDef, useReactTable } from "@tanstack/react-table";
-import { ArrowDown, ArrowUp, Table } from "lucide-react";
+import { ArrowDown, ArrowUp } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,25 +15,21 @@ import {
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { TableCell } from "@/app/custom_components/TableCell";
 
-const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
-
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  first_name: string;
-  middle_name: string;
-  last_name: string;
+  status: string;
+  company_name: string;
   email: string;
-  role: string;
+  no_of_employees: number;
+  date: string;
 };
 
-const roleVariantMap = {
-  user: "static-success",
-  faculty: "static-warning",
-  admin: "static-destructive",
+const statusVariantMap = {
+  Approved: "static-success",
+  Pending: "static-warning",
+  Cancelled: "static-destructive",
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -61,19 +57,19 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "role",
-    header: "Role",
+    accessorKey: "status",
+    header: "Status",
     cell: ({ row }) => {
       const user = row.original;
 
       return (
         <Tag
-          variant={roleVariantMap[user.role]}
+          variant={statusVariantMap[user.status]}
           // state="active"
           size="sm"
           className={`cursor-default`}
         >
-          {capitalizeFirstLetter(user.role)}
+          {user.status}
         </Tag>
       );
     },
@@ -82,7 +78,7 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "first_name",
+    accessorKey: "company_name",
     header: ({ column }) => {
       return (
         <p
@@ -91,7 +87,7 @@ export const columns: ColumnDef<Payment>[] = [
             column.toggleSorting(column.getIsSorted() === "asc");
           }}
         >
-          First Name
+          Company
           {column.getIsSorted() === "asc" ? (
             <ArrowUp className="h-3 w-3" />
           ) : (
@@ -101,53 +97,7 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      return <TableCell>{row.original.first_name}</TableCell>;
-    },
-  },
-  {
-    accessorKey: "middle_name",
-    header: ({ column }) => {
-      return (
-        <p
-          className="flex items-center gap-1 cursor-pointer hover:text-red-500"
-          onClick={() => {
-            column.toggleSorting(column.getIsSorted() === "asc");
-          }}
-        >
-          Middle Name
-          {column.getIsSorted() === "asc" ? (
-            <ArrowUp className="h-3 w-3" />
-          ) : (
-            <ArrowDown className="h-3 w-3" />
-          )}
-        </p>
-      );
-    },
-    cell: ({ row }) => {
-      return <TableCell>{row.original.middle_name}</TableCell>;
-    },
-  },
-  {
-    accessorKey: "last_name",
-    header: ({ column }) => {
-      return (
-        <p
-          className="flex items-center gap-1 cursor-pointer hover:text-red-500"
-          onClick={() => {
-            column.toggleSorting(column.getIsSorted() === "asc");
-          }}
-        >
-          Last Name
-          {column.getIsSorted() === "asc" ? (
-            <ArrowUp className="h-3 w-3" />
-          ) : (
-            <ArrowDown className="h-3 w-3" />
-          )}
-        </p>
-      );
-    },
-    cell: ({ row }) => {
-      return <TableCell>{row.original.last_name}</TableCell>;
+      return <TableCell>{row.original.company_name}</TableCell>;
     },
   },
   {
@@ -158,10 +108,62 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
+    accessorKey: "no_of_employees",
+    header: ({ column }) => {
+      return (
+        <p
+          className="flex items-center gap-1 cursor-pointer hover:text-red-500"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
+        >
+          No. of Employees
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          )}
+        </p>
+      );
+    },
+    cell: ({ row }) => {
+      return <TableCell>{row.original.no_of_employees}</TableCell>;
+    },
+  },
+  {
+    accessorKey: "date",
+    header: ({ column }) => {
+      return (
+        <p
+          className="flex items-center gap-1 cursor-pointer hover:text-red-500"
+          onClick={() => {
+            column.toggleSorting(column.getIsSorted() === "asc");
+          }}
+        >
+          Date
+          {column.getIsSorted() === "asc" ? (
+            <ArrowUp className="h-3 w-3" />
+          ) : (
+            <ArrowDown className="h-3 w-3" />
+          )}
+        </p>
+      );
+    },
+    cell: ({ row }) => {
+      const date = new Date(row.original.date);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      return <TableCell>{formattedDate}</TableCell>;
+    },
+  },
+  {
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const user = row.original;
+      const company = row.original;
 
       return (
         <DropdownMenu>
@@ -169,11 +171,9 @@ export const columns: ColumnDef<Payment>[] = [
             <MoreHorizIcon className="h-4 w-4" />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuLabel>
-              {user.first_name} {user.last_name}
-            </DropdownMenuLabel>
+            <DropdownMenuLabel>{company.company_name}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Change role</DropdownMenuItem>
+            <DropdownMenuItem>Change status</DropdownMenuItem>
             <DropdownMenuItem>View evaluation</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

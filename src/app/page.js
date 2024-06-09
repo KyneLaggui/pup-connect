@@ -15,7 +15,6 @@ import { tagList } from "./tag_lists";
 
 const Hero = () => {
   return (
-    // <VerificationCheck>
       <div className="relative ">
             <div className="container min-h-screen flex flex-col justify-center items-center z-50 overflow-hidden max-h-screen">
               <Image
@@ -71,7 +70,6 @@ const Hero = () => {
           </div>
         <Footer />
       </div>
-    //  </VerificationCheck>
   );
 };
 
