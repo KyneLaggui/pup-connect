@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import StepperControl from "./StepperControl";
 import StepperForm from "./StepperForm";
 import BasicInformation from "./userSteps/BasicInformation";
@@ -19,11 +20,12 @@ const FormUser = ({ email, firstName, lastName }) => {
     gender: "",
     email: "",
     phoneNumber: "",
-    address: "",
     region: "",
     regionCode: "",
     cityOrProvince: "",
     streetAddress: "",
+    coverLetter: "",
+    additionalNotes: "",
     resume: null,
     socialLinks: []
   }); // store user data
@@ -39,9 +41,11 @@ const FormUser = ({ email, firstName, lastName }) => {
     region: false,
     cityOrProvince: false,
     streetAddress: false,
+    coverLetter: false,
     resume: false,
   }); // track invalid fields
 
+  const router = useRouter()
   // Initializing all the possible steps titles
   const steps = ["Basic Info", "Contact Info", "CV & Resume", "Complete"];
 
@@ -64,18 +68,33 @@ const FormUser = ({ email, firstName, lastName }) => {
     return value === "";
   };
 
+  const isDateCurrentOrFuture = (dateToCheck) => {
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Create a Date object from the dateToCheck string
+    const checkDate = new Date(dateToCheck);
+
+    // Check if the given date is greater than or equal to the current date
+    if (checkDate >= currentDate) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
   // Handling the next and previous button
   const handleClick = (direction) => {
     let newStep = currentStep;
     let newInvalidFields = {};
 
-    if (direction !== "next") {
-      newStep--;
+    if (direction === "confirm") {
+      router.push('/');
     } else if (direction === "next") {
       if (newStep === 1) {
         if (checkEmpty(userData.firstName)) newInvalidFields.firstName = true;
         if (checkEmpty(userData.lastName)) newInvalidFields.lastName = true;
-        if (!userData.birthDate) newInvalidFields.birthDate = true;
+        if (!userData.birthDate || isDateCurrentOrFuture(userData.birthDate) ) newInvalidFields.birthDate = true;
         if (checkEmpty(userData.gender)) newInvalidFields.gender = true;
       } else if (newStep === 2) {
         if (checkEmpty(userData.email)) newInvalidFields.email = true;
@@ -99,6 +118,8 @@ const FormUser = ({ email, firstName, lastName }) => {
         newStep++;
         setInvalidFields({});
       }
+    } else {
+      newStep--
     }
 
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep); // update the current step

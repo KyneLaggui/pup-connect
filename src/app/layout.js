@@ -57,9 +57,9 @@ export default function RootLayout({ children }) {
           <LoggedInOnlyComponent>
             <Sidebar />
           </LoggedInOnlyComponent>     
-          {/* <VerificationCheck> */}
+          <VerificationCheck>
             {children}        
-          {/* </VerificationCheck>    */}
+          </VerificationCheck>   
           </SupabaseReduxSynch>        
         </Provider> 
       </body>

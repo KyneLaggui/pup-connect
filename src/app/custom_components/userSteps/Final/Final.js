@@ -17,6 +17,8 @@ const FinalComponent = () => {
         gender: userData.gender,
         phone_number: userData.phoneNumber,
         social_links: userData.socialLinks,
+        cover_letter: userData.coverLetter,
+        additional_notes: userData.additionalNotes, 
         setup_finished: true
       })
       .eq('email', userData.email)
@@ -29,7 +31,7 @@ const FinalComponent = () => {
       .from('address')
       .update({
         region: userData.region,
-        regionCode: userData.regionCode,
+        region_code: userData.regionCode,
         cityOrProvince: userData.cityOrProvince,
         street_address: userData.streetAddress,
       })
