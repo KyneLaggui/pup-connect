@@ -1,13 +1,15 @@
 "use client";
-import { useState } from "react";
+
+import EvalResultsAdmin from "@/app/pages/evalResultsAdmin/[id]/page";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
+import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Select,
   SelectContent,
@@ -23,12 +26,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import EvalResultsAdmin from "@/app/pages/evalResultsAdmin/[id]/page";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useMediaQuery } from "@mui/material";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
+import { useMediaQuery } from "@mui/material";
+import { useState } from "react";
 
 const ChangeStatus = ({ data }) => {
   const companyName = data?.company_name || "Unknown Company";
