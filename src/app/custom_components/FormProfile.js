@@ -1,6 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import FetchUserProfile from "@/app/custom_hooks/fetchUserProfile";
+import FetchUserAddress from "@/app/custom_hooks/FetchUserAddress";
 import { dummyUser } from "../constants";
 import { Input } from "@/components/ui/input";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -9,31 +11,76 @@ import { dummyResume } from "@assets/index";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 const FormProfile = () => {
-  const [userData, setUserData] = useState({
-    firstName: dummyUser.firstName,
-    middleName: dummyUser.middleName,
-    lastName: dummyUser.lastName,
-    birthDate: dummyUser.birthDate,
-    gender: dummyUser.gender,
-    email: dummyUser.email,
-    phone: dummyUser.phone,
-    region: dummyUser.region,
-    province: dummyUser.province,
-    city: dummyUser.city,
-    barangay: dummyUser.barangay,
-    address: dummyUser.address,
-    socialLinks: dummyUser.socialLinks,
+  const [currentUserData, setCurrentUserData] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    birthDate: null,
+    gender: "",
+    email: "",
+    phoneNumber: "",
+    resume: null,
   });
+  const [currentUserAddress, setCurrentUserAddress] = useState({
+    region: "",
+    regionCode: "",
+    cityOrProvince: "",
+    streetAddress: "",
+  });
+  const [socialLinks, setSocialLinks] = useState(currentUserData.socialLinks || [""]);
+  const [regionsState, setRegionsState] = useState([]);
+  const [provinceCityState, setProvincesCityState] = useState([]);
+
+  const { userAddress } = FetchUserAddress();
+  const { userData } = FetchUserProfile();
+
+  useEffect(() => {
+    if (userData) {
+      setCurrentUserData({
+        firstName: userData.first_name,
+        middleName: userData.first_name,
+        lastName: userData.first_name,
+        birthDate: userData.first_name,
+        gender: userData.first_name,
+        email: userData.first_name,
+        phoneNumber: userData.first_name,
+        resume: userData.first_name,
+      });
+    }
+
+    if (userAddress) {
+      setCurrentUserAddress({
+        region: userAddress.region,
+        regionCode: userAddress.regionCode,
+        cityOrProvince: userAddress.cityOrProvince,
+        streetAddress: userAddress.street_address,
+      });
+    }
+  }, [userAddress, userData]);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
       // For regular input events
       const { name, value } = e.target;
-      setUserData({ ...userData, [name]: value });
+      // Apply phone number formatting
+      if (name === "phoneNumber") {
+        let formattedValue = formatPhoneNumber(value);
+        setCurrentUserData({ ...userData, [name]: formattedValue });
+      } else {
+        setCurrentUserData({ ...userData, [name]: value });
+      }
     } else if (name) {
       // For Select component
-      setUserData({ ...userData, [name]: e });
+      setCurrentUserData({ ...userData, [name]: e });
     }
   };
 
@@ -46,7 +93,7 @@ const FormProfile = () => {
       const newSocialLinks = [...socialLinks];
       newSocialLinks.splice(index, 1);
       setSocialLinks(newSocialLinks);
-      setUserData({ ...userData, socialLinks: newSocialLinks });
+      setCurrentUserData({ ...userData, socialLinks: newSocialLinks });
     }
   };
 
@@ -54,7 +101,23 @@ const FormProfile = () => {
     const newSocialLinks = [...socialLinks];
     newSocialLinks[index] = event.target.value;
     setSocialLinks(newSocialLinks);
-    setUserData({ ...userData, socialLinks: newSocialLinks });
+    setCurrentUserData({ ...userData, socialLinks: newSocialLinks });
+  };
+
+  const formatPhoneNumber = (value) => {
+    // Remove all non-numeric characters
+    value = value.replace(/\D/g, "");
+
+    // Ensure it starts with "09"
+    if (value.startsWith("09")) {
+      if (value.length > 11) {
+        value = value.slice(0, 11);
+      }
+    } else {
+      value = "09" + value.slice(0, 9);
+    }
+
+    return value;
   };
 
   return (
@@ -65,23 +128,30 @@ const FormProfile = () => {
           <tr>
             <td className="w-[140px] text-muted-foreground">First Name:</td>
             <td>
-              <Input
-                name="firstName"
-                variant="default"
-                size="sm"
-                value={userData["firstName"] || ""}
-                onChange={handleChange}
-              />
+              <div className="w-full mb-2">
+                <Input
+                  id="firstName"
+                  type="text"
+                  placeholder="e.g. John"
+                  name="firstName"
+                  onInputHandleChange={handleChange}
+                  value={currentUserData["firstName"] || ""}
+                  className="mt-1"
+                />
+              </div>
             </td>
           </tr>
           <tr>
             <td className="text-muted-foreground">Middle Name:</td>
             <td>
               <Input
-                variant="default"
-                size="sm"
-                value={userData.middleName}
-                onChange={(e) => handleChange(e, "middleName")}
+                id="middleName"
+                type="text"
+                placeholder="e.g. John"
+                name="middleName"
+                onInputHandleChange={handleChange}
+                value={currentUserData["middleName"] || ""}
+                className="mt-1"
               />
             </td>
           </tr>
@@ -89,10 +159,13 @@ const FormProfile = () => {
             <td className="text-muted-foreground">Last Name:</td>
             <td>
               <Input
-                variant="default"
-                size="sm"
-                value={userData.lastName}
-                onChange={(e) => handleChange(e, "lastName")}
+                id="lastName"
+                type="text"
+                placeholder="e.g. John"
+                name="lastName"
+                onInputHandleChange={handleChange}
+                value={currentUserData["lastName"] || ""}
+                className="mt-1"
               />
             </td>
           </tr>
@@ -100,23 +173,36 @@ const FormProfile = () => {
             <td className="text-muted-foreground">Birthdate:</td>
             <td>
               <Input
-                disabled
-                variant="default"
-                size="sm"
-                value={userData.birthDate}
-                onChange={(e) => handleChange(e, "birthDate")}
+                id="birthDate"
+                type="date"
+                name="birthDate"
+                onInputHandleChange={handleChange}
+                value={currentUserData["birthDate"] || ""}
+                className="mt-1"
               />
             </td>
           </tr>
           <tr>
             <td className="text-muted-foreground">Gender:</td>
             <td>
-              <Input
-                variant="default"
-                size="sm"
-                value={userData.gender}
-                onChange={(e) => handleChange(e, "gender")}
-              />
+              <Select
+                id="gender"
+                name="gender"
+                onValueChange={(value) => {
+                  handleChange(value, "gender");
+                }}
+                defaultValue={currentUserData["gender"] || ""}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select Gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="male">Male</SelectItem>
+                  <SelectItem value="female">Female</SelectItem>
+                  <SelectItem value="others">Others</SelectItem>
+                  <SelectItem value="prefer-no-to-say">Prefer not to say</SelectItem>
+                </SelectContent>
+              </Select>
             </td>
           </tr>
         </tbody>
@@ -129,11 +215,14 @@ const FormProfile = () => {
             <td className="w-[140px] text-muted-foreground">Email:</td>
             <td>
               <Input
+                id="email"
+                type="text"
+                placeholder="e.g. johndoe@mail.com"
+                name="email"
+                onInputHandleChange={handleChange}
+                value={currentUserData["email"] || ""}
+                className="mt-1"
                 disabled
-                variant="default"
-                size="sm"
-                value={userData.email}
-                onChange={(e) => handleChange(e, "email")}
               />
             </td>
           </tr>
@@ -141,10 +230,13 @@ const FormProfile = () => {
             <td className="text-muted-foreground">Phone:</td>
             <td>
               <Input
-                variant="default"
-                size="sm"
-                value={userData.phone}
-                onChange={(e) => handleChange(e, "phone")}
+                id="phoneNumber"
+                type="text"
+                placeholder="e.g. 09XXXXXXXXX"
+                name="phoneNumber"
+                onInputHandleChange={handleChange}
+                value={currentUserData["phoneNumber"] || ""}
+                className="mt-1"
               />
             </td>
           </tr>
@@ -157,62 +249,71 @@ const FormProfile = () => {
           <tr>
             <td className="w-[140px] text-muted-foreground">Region:</td>
             <td>
-              <Input
-                variant="default"
-                size="sm"
-                value={userData.region}
-                onChange={(e) => handleChange(e, "region")}
-              />
+              <Select
+                id="region"
+                name="region"
+                onValueChange={(value) => {
+                  handleLocationChange(value, "region");
+                }}
+                value={currentUserAddress.region || ""}
+                >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Please select..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {
+                    regionsState.map((region, i) => <SelectItem value={region.name} key={i}>{region.name}</SelectItem> )
+                  }
+                </SelectContent>
+              </Select>
             </td>
           </tr>
           <tr>
-            <td className="text-muted-foreground">Province:</td>
+            <td className="text-muted-foreground">City/Province:</td>
             <td>
-              <Input
+              {/* <Input
                 variant="default"
                 size="sm"
                 value={userData.province}
                 onChange={(e) => handleChange(e, "province")}
-              />
+              /> */}
+              <Select
+                id="cityOrProvince"
+                name="cityOrProvince"
+                onValueChange={(value) => {
+                  handleLocationChange(value, "cityOrProvince");
+                }}
+                value={currentUserAddress["cityOrProvince"] || ""}
+              >
+                <SelectTrigger className="mt-1">
+                  <SelectValue placeholder="Please select..." />
+                </SelectTrigger>
+                <SelectContent>
+                  {
+                    provinceCityState.map((provinceCity, i) => <SelectItem value={provinceCity.name} key={i}>{provinceCity.name}</SelectItem>)
+                  }
+                </SelectContent>
+              </Select>
             </td>
           </tr>
           <tr>
-            <td className="text-muted-foreground">City:</td>
+            <td className="text-muted-foreground">Street Address:</td>
             <td>
               <Input
-                variant="default"
-                size="sm"
-                value={userData.city}
-                onChange={(e) => handleChange(e, "city")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="text-muted-foreground">Barangay:</td>
-            <td>
-              <Input
-                variant="default"
-                size="sm"
-                value={userData.barangay}
-                onChange={(e) => handleChange(e, "barangay")}
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="text-muted-foreground">Street:</td>
-            <td>
-              <Input
-                variant="default"
-                size="sm"
-                value={userData.address}
-                onChange={(e) => handleChange(e, "address")}
-              />
+                id="streetAddress"
+                type="text"
+                // placeholder="e.g. John"
+                name="streetAddress"
+                onInputHandleChange={handleChange}
+                value={currentUserAddress["streetAddress"] || ""}
+                className="mt-1"
+              ></Input>
             </td>
           </tr>
         </tbody>
       </table>
 
-      <div className="flex items-center mb-2">
+      {/* <div className="flex items-center mb-2">
         <h1 className="text-lg font-semibold">Resume or Curriculum Vitae</h1>
         <Button variant="default" size="sm" className="ml-auto">
           Upload new
@@ -265,7 +366,7 @@ const FormProfile = () => {
             Add Social Link
           </button>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

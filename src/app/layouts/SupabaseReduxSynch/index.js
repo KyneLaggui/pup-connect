@@ -16,7 +16,6 @@ const PageLayout = ({children}) => {
     // Synchs the supabase login session with the redux store
     useEffect(() => {
         supabase.auth.onAuthStateChange((_event, session) => {
-            console.log(session);
             if (session) {
                 setId(session.user.id)
                 dispatch(
@@ -30,12 +29,7 @@ const PageLayout = ({children}) => {
                         SET_USER_ROLE({
                             role: userData.role,
                         })
-                    )               
-                    dispatch(
-                        SET_SETUP_FINISHED({
-                            setupFinished: userData.setup_finished
-                        })
-                    )     
+                    )                   
                 }   
                                              
             } else {

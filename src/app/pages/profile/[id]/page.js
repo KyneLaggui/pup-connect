@@ -2,11 +2,11 @@
 
 import React from "react";
 import ApplicantOnlyPage from "@/app/layouts/ApplicantOnlyPage";
-import VerificationCheck from "@/app/layouts/VerificationCheck";
-import FormProfile from "../../custom_components/FormProfile";
-import JobApplied from "../../custom_components/JobApplied";
+import FormProfile from "../../../custom_components/FormProfile";
+import JobApplied from "../../../custom_components/JobApplied";
 
 const Profile = () => {
+
   return (
     <ApplicantOnlyPage>
         <div className="flex">
@@ -17,7 +17,7 @@ const Profile = () => {
             </p>
 
             <div className="flex gap-4">
-              <FormProfile />
+              <FormProfile  />
               <JobApplied />
             </div>
           </div>
