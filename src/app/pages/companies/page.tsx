@@ -2,6 +2,7 @@ import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 
 import { companyTable } from "@/app/constants";
+import ChangeStatus from "@/app/custom_components/ChangeStatus";
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.

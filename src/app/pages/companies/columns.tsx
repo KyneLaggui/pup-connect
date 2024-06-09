@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import { TableCell } from "@/app/custom_components/TableCell";
+import ChangeStatus from "@/app/custom_components/ChangeStatus";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -163,21 +164,9 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "actions",
     header: "Actions",
     cell: ({ row }) => {
-      const company = row.original;
+      const data = row.original;
 
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <MoreHorizIcon className="h-4 w-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>{company.company_name}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Change status</DropdownMenuItem>
-            <DropdownMenuItem>View evaluation</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
+      return <ChangeStatus data={data} />;
     },
   },
 ];
