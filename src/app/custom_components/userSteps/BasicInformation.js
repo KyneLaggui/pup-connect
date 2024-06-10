@@ -15,15 +15,23 @@ const BasicInformation = () => {
   const { userData, setUserData, invalidFields } = useContext(StepperContext);
 
   const handleChange = (e, name) => {
+    console.log(userData)
     if (e && e.target) {
-      // For regular input events
       const { name, value } = e.target;
+      if (name === "birthDate") {
+        const today = new Date().toISOString().split("T")[0];
+        if (value > today) {
+          alert("Birthdate cannot be in the future.");
+          return;
+        }
+      }
       setUserData({ ...userData, [name]: value });
     } else if (name) {
-      // For Select component
       setUserData({ ...userData, [name]: e });
     }
   };
+
+  const today = new Date().toISOString().split("T")[0];
 
   return (
     <div className="flex flex-col gap-4">
@@ -74,6 +82,7 @@ const BasicInformation = () => {
           name="birthDate"
           onInputHandleChange={handleChange}
           value={userData["birthDate"] || ""}
+          max={today}
           className="mt-1"
         />
       </div>

@@ -43,7 +43,13 @@ const StepperControl = ({ handleClick, currentStep, steps }) => {
       </Button>
       <Button
         size="lg"
-        onClick={() => handleClick("next")}
+        onClick={() => {
+          if (currentStep < 4) {
+            handleClick("next")
+          } else {
+            handleClick("confirm")
+          }
+        }}
         className="min-w-fit flex-1"
       >
         {/* {currentStep === steps.length - 0 ? "Confirm" : "Next"} */}

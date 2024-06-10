@@ -6,16 +6,19 @@ import { supabase } from "@/utils/supabase/client";
 import { selectEmail, selectSetupFinished } from '@/redux/slice/authSlice';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation'
+import FetchUserStatus from '@/app/custom_hooks/FetchUserStatus';
 
 const Page = () => {
-  const userEmail = useSelector(selectEmail)
-  const setUpFinished = useSelector(selectSetupFinished)
-  const router = useRouter();
   const [userData, setUserData] = useState({
     email: null,
     firstName: null,
     lastName: null,
   })
+
+  const userEmail = useSelector(selectEmail)
+  const { userStatus } = FetchUserStatus()
+  const router = useRouter();
+
 
   useEffect(() => {
     const getData = async() => {
@@ -35,14 +38,13 @@ const Page = () => {
     }    
 
     getData()
-
   }, [userEmail])
 
   useEffect(() => {
-    if (setUpFinished) {
+    if (userStatus && userStatus.setup_finished) {
       router.push("/")
     }
-  }, [setUpFinished])
+  }, [userStatus])
 
   return (
     <ApplicantOnlyPage>

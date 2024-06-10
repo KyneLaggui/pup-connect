@@ -55,15 +55,14 @@ const CoverLetterResume = () => {
       <div className="mb-2">
         <FormsLabel
           text="Additional notes (optional)"
-          label="additionalLetter"
-          isInvalid={invalidFields.additionalLetter} 
+          label="additionalNotes"
         />
         <Textarea
-          id="additionalLetter"
-          name="additionalLetter"
+          id="additionalNotes"
+          name="additionalNotes"
           className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
           onChange={handleChange}
-          value={userData["additionalLetter"] || ""}
+          value={userData["additionalNotes"] || ""}
         />
       </div>
     </div>

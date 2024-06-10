@@ -1,29 +1,30 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '@/supabase/client';
 
-const FetchUserProfile = () => {
-    const [user, setUser] = useState(null);
+
+const FetchUserAddress = () => {
+    const [userAddress, setUserAddress] = useState(null);
     const [isLoadingProfile, setIsLoadingProfile] = useState(false);  
 
     useEffect(() => {
         setIsLoadingProfile(true)
-        const getProfile = async() => {
+        const getAddress = async() => {
             const { data: { session } } = await supabase.auth.getSession();
 
             if (session) {
-                let userData = await supabase.from("profile")
+                let userData = await supabase.from("address")
                 .select("*")
                 .eq('email', session.user.email)
                 .single();                   
-                setUser(userData['data']);
+                setUserAddress(userData['data']);
             }            
             setIsLoadingProfile(false)
         }
 
-        getProfile();
+        getAddress();
     }, [])
 
-    return {userData: user, isLoadingProfile}
+    return {userAddress: userAddress, isLoadingProfile}
 }
 
-export default FetchUserProfile
+export default FetchUserAddress
