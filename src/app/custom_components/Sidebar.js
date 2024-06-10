@@ -1,42 +1,38 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useState } from "react";
 // Components
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
   TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
-
 // Icons
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 // Images
-import { PUPLogo } from "@assets/index";
 import roleButtons from "@/app/nav_buttons/index";
-import { useRouter } from "next/navigation";
 import { signOut } from "@/supabase/actions";
-
+import { PUPLogo } from "@assets/index";
+import { useRouter } from "next/navigation";
 
 const Sidebar = () => {
-  let role = "admin"; // Change this to "admin", "faculty", and "user" to see different buttons
+  let role = "admin"; // Change this to [admin, faculty, company, student]
   const [buttons, setButtons] = useState(roleButtons[role] || []);
 
   const router = useRouter();
 
   const handleSignOut = () => {
-      console.log('okay')
-      signOut();
-      router.push("/pages/login")
-  }
-  
+    console.log("okay");
+    signOut();
+    router.push("/pages/login");
+  };
+
   return (
     <div>
       <aside className="fixed hidden inset-y-0 left-0 z-50 w-14 flex-col border-r bg-background sm:flex">
@@ -77,7 +73,12 @@ const Sidebar = () => {
                   <span className="sr-only">Sign out</span>
                 </p>
               </TooltipTrigger>
-              <TooltipContent side="right" className="bg-destructive text-destructive-foreground border-destructive-border">Sign out</TooltipContent>
+              <TooltipContent
+                side="right"
+                className="bg-destructive text-destructive-foreground border-destructive-border"
+              >
+                Sign out
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </nav>

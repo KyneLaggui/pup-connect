@@ -56,8 +56,8 @@ const ChartsResult = () => {
   };
 
   return (
-    <div className="w-full justify-start container-sidebar items-center">
-      <div className="flex flex-col gap-5">
+    <div className="w-full justify-start items-center mt-6">
+      <div className="flex flex-col gap-5 max-w-[760px]">
         {evalQuestions.map((evalqs, number) => (
           <div
             key={number}

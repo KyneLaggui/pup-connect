@@ -7,20 +7,21 @@ import IndivTable from "@/app/custom_components/evalForms/indivTable/page";
 
 import QuestionTable from "@/app/custom_components/evalForms/questionTable/page";
 
-const page = () => {
+const page = ({ data }) => {
   const [activeTab, setActiveTab] = useState("charts");
+  const companyName = data?.company_name || "Unknown Company";
 
   const handleTabClick = (tabName) => {
     setActiveTab(tabName);
   };
   return (
     <div className="flex">
-      <div className="container-sidebar">
+      <div className="w-full flex flex-col px-5">
         <div className="flex flex-col gap-4 border-b border-muted py-4">
           <div className="flex flex-col items-center ">
             <h1 className="text-lg font-medium">Evaluation form</h1>
             <h1 className="text-2xl font-semibold text-primary">
-              Accenture Philippines
+              {companyName}
             </h1>
           </div>
           <div className="flex items-center justify-center gap-7">
@@ -72,7 +73,7 @@ const page = () => {
           </div>
         </div>
 
-        <div className={`${activeTab === "charts" ? "" : "hidden"}`}>
+        <div className={`${activeTab === "charts" ? "" : "hidden"} mx-auto`}>
           <ChartsResult />
         </div>
 
