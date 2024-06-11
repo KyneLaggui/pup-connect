@@ -11,11 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Tag } from "@/app/custom_components/Tag";
 import { tagList } from "../../tag_lists";
+import VerificationCheck from "@/layouts/VerificationCheck";
 
 const Hero = () => {
   return (
-    // <VerificationCheck>
     <>
+    <VerificationCheck>
     <div className="relative ">
       <div className="container min-h-screen flex flex-col justify-center items-center z-50 overflow-hidden max-h-screen">
         <Image
@@ -73,7 +74,7 @@ const Hero = () => {
 
       <Footer />
     </div>
-    {/* </VerificationCheck> */}
+    </VerificationCheck>
     </>
   );
 };

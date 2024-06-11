@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -16,23 +17,29 @@ import {
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 // Images
-import roleButtons from "@/app/nav_buttons/index";
-import { signOut } from "@/supabase/actions";
+
 import { PUPLogo } from "@assets/index";
 import { useRouter } from "next/navigation";
+import { signOut } from "@/supabase/actions";
+import fetchRoleButtons from "@/app/nav_buttons/index";
+
 
 const Sidebar = () => {
-  let role = "admin"; // Change this to [admin, faculty, company, student]
-  const [buttons, setButtons] = useState(roleButtons[role] || []);
+  const [buttons, setButtons] = useState([]);
 
   const router = useRouter();
+  const roleButtons = fetchRoleButtons()
 
   const handleSignOut = () => {
-    console.log("okay");
-    signOut();
-    router.push("/pages/login");
-  };
+      console.log('okay')
+      signOut();
+      router.push("/pages/login")
+  }
 
+  useEffect(() => {
+    setButtons(roleButtons)
+  }, [roleButtons])
+  
   return (
     <div>
       <aside className="fixed hidden inset-y-0 left-0 z-50 w-14 flex-col border-r bg-background sm:flex">
