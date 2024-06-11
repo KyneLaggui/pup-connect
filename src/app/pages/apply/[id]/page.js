@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import VerificationCheck from "@/layouts/VerificationCheck";
 import Image from "next/image";
 import { microsoftLogo } from "@assets/index";
 import FormsLabel from "@/app/custom_components/FormsLabel";
@@ -52,6 +53,7 @@ const page = ({ job }) => {
   }, []);
 
   return (
+    <VerificationCheck>
     <div className="">
       <div className="mt-20 container flex items-center justify-center ">
         <div className="flex flex-col gap-6 max-w-[800px] w-full px-2 pt-10 pb-[80px]">
@@ -198,6 +200,7 @@ const page = ({ job }) => {
         </div>
       </div>
     </div>
+    </VerificationCheck>
   );
 };
 

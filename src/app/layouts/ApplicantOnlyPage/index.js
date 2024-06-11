@@ -1,19 +1,25 @@
 'use client';
 import { useEffect } from 'react'
-import { selectEmail, selectRole } from '@/redux/slice/authSlice'
+import { selectRole } from '@/redux/slice/authSlice'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
+import { supabase } from '@/utils/supabase/client';
 
 const ApplicantOnlyPage = ({ children }) => {
   const router = useRouter()  
-  const userEmail = useSelector(selectEmail)
   const userRole = useSelector(selectRole)
   
   useEffect(() => {
-    if ((userRole === "applicant" || userRole === "admin" || userRole === "super admin") && !userEmail)  {
-      router.push("/");
+    const getSession = async() => {
+      const { data: { user }} = await supabase.auth.getUser()
+
+      if (!user || ((userRole !== "applicant") && !user)) {
+        router.push("/")
+      }
     }
-  }, [userRole, userEmail])
+
+    getSession()
+  }, [userRole])
 
   return (
     <div>

@@ -39,7 +39,7 @@ const FormProfile = () => {
   const [socialLinks, setSocialLinks] = useState(currentUserData.socialLinks || [""]);
   const [regionsState, setRegionsState] = useState([]);
   const [provinceCityState, setProvincesCityState] = useState([]);
-
+  
   const { userAddress } = FetchUserAddress();
   const { userData } = FetchUserProfile();
 
@@ -47,13 +47,13 @@ const FormProfile = () => {
     if (userData) {
       setCurrentUserData({
         firstName: userData.first_name,
-        middleName: userData.first_name,
-        lastName: userData.first_name,
-        birthDate: userData.first_name,
-        gender: userData.first_name,
-        email: userData.first_name,
-        phoneNumber: userData.first_name,
-        resume: userData.first_name,
+        middleName: userData.middle_name,
+        lastName: userData.last_name,
+        birthDate: userData.birth_date,
+        gender: userData.gender,
+        email: userData.email,
+        phoneNumber: userData.phone_number,
+        resume: userData.resume,
       });
     }
 
@@ -119,6 +119,29 @@ const FormProfile = () => {
 
     return value;
   };
+
+  async function generateRegions() {
+    const response = await fetch(`https://psgc.gitlab.io/api/regions.json`);
+    const regions = await response.json();
+    const regionsStorage = regions.map((region) => ({
+      name: region.name,
+      code: region.code,
+    }));
+    setRegionsState(regionsStorage);
+  }
+
+  useEffect(() => {
+    generateRegions();
+  }, []);
+
+  useEffect(() => {
+    if (regionsState.length > 0 && userData) {
+      const region = regionsState.find((region) => region.name === userData.region);
+      if (region) {
+        findProvince(region.name);
+      }
+    }
+  }, [regionsState, userData]);
 
   return (
     <div className="flex-1 rounded-xl p-8 border shadow-md bg-background">

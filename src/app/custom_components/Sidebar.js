@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,22 +20,26 @@ import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 
 // Images
 import { PUPLogo } from "@assets/index";
-import roleButtons from "@/app/nav_buttons/index";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/supabase/actions";
+import fetchRoleButtons from "@/app/nav_buttons/index";
 
 
 const Sidebar = () => {
-  let role = "admin"; // Change this to "admin", "faculty", and "user" to see different buttons
-  const [buttons, setButtons] = useState(roleButtons[role] || []);
+  const [buttons, setButtons] = useState([]);
 
   const router = useRouter();
+  const roleButtons = fetchRoleButtons()
 
   const handleSignOut = () => {
       console.log('okay')
       signOut();
       router.push("/pages/login")
   }
+
+  useEffect(() => {
+    setButtons(roleButtons)
+  }, [roleButtons])
   
   return (
     <div>

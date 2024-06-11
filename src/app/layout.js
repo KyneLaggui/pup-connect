@@ -10,7 +10,6 @@ import { LoggedInOnlyComponent, LoggedOutOnlyComponent } from "./layouts/Compone
 import { Provider } from 'react-redux';
 import SupabaseReduxSynch from "@/layouts/SupabaseReduxSynch"
 import store from "@/redux/store";
-import VerificationCheck from "./layouts/VerificationCheck";
 
 const rubik = Rubik({ subsets: ["latin"] });
 
@@ -57,9 +56,7 @@ export default function RootLayout({ children }) {
           <LoggedInOnlyComponent>
             <Sidebar />
           </LoggedInOnlyComponent>     
-          <VerificationCheck>
-            {children}        
-          </VerificationCheck>   
+            {children}         
           </SupabaseReduxSynch>        
         </Provider> 
       </body>
