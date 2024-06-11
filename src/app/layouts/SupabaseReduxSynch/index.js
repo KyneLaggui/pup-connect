@@ -24,14 +24,24 @@ const PageLayout = ({children}) => {
                         userId: session.user.id,                 
                     })
                 );
-                if (userData) {
-                    dispatch(
-                        SET_USER_ROLE({
-                            role: userData.role,
-                        })
-                    )                   
-                }   
-                                             
+
+                const getProfile = async() => {                           
+                    let userData = await supabase.from("profile")
+                    .select("*")
+                    .eq('email', session.user.email)
+                    .single();                   
+
+                    console.log(userData)
+                    if (userData.data) {
+                        dispatch(
+                            SET_USER_ROLE({
+                                role: userData.data.role,
+                            })
+                        )     
+                    }                     
+                }
+        
+                getProfile();                                             
             } else {
                 dispatch(REMOVE_ACTIVE_USER());
                 setId(null)

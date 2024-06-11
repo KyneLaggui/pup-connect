@@ -60,9 +60,7 @@ export default function RootLayout({ children }) {
             <LoggedInOnlyComponent>
               <Sidebar />
             </LoggedInOnlyComponent>
-            <VerificationCheck>
               <Suspense fallback={<Loading />}>{children}</Suspense>
-            </VerificationCheck>
           </SupabaseReduxSynch>
         </Provider>
       </body>

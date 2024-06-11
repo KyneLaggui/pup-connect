@@ -1,5 +1,5 @@
-import { supabase } from "@/supabase/client";
 import React, { useContext, useEffect } from "react";
+import { supabase } from "@/supabase/client";
 import { StepperContext } from "../../StepperContext";
 
 const FinalComponent = () => {

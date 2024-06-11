@@ -33,7 +33,7 @@ import VerificationCheck from "@/app/layouts/VerificationCheck";
 
 const Explore = () => {
   return (
-    <>
+    <VerificationCheck>
       <div className="flex justify-between items-center flex-col h-screen ">
         <div className="mt-20 container flex justify-between w-full">
           <FilterJob />
@@ -230,7 +230,7 @@ const Explore = () => {
         </div>
         <Footer />
       </div>
-    </>
+    </VerificationCheck>
   );
 };
 
