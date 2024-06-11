@@ -3,22 +3,21 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
+import { useState } from "react";
 // Components
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   Tooltip,
   TooltipContent,
-  TooltipTrigger,
   TooltipProvider,
+  TooltipTrigger,
 } from "@/components/ui/tooltip";
-
 // Icons
-import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 // Images
+
 import { PUPLogo } from "@assets/index";
 import { useRouter } from "next/navigation";
 import { signOut } from "@/supabase/actions";
@@ -81,7 +80,12 @@ const Sidebar = () => {
                   <span className="sr-only">Sign out</span>
                 </p>
               </TooltipTrigger>
-              <TooltipContent side="right" className="bg-destructive text-destructive-foreground border-destructive-border">Sign out</TooltipContent>
+              <TooltipContent
+                side="right"
+                className="bg-destructive text-destructive-foreground border-destructive-border"
+              >
+                Sign out
+              </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         </nav>

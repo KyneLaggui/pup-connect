@@ -55,7 +55,7 @@ const page = ({ job }) => {
   return (
     <VerificationCheck>
     <div className="">
-      <div className="mt-20 container flex items-center justify-center ">
+      <div className="container flex items-center justify-center ">
         <div className="flex flex-col gap-6 max-w-[800px] w-full px-2 pt-10 pb-[80px]">
           <div className="flex flex-col gap-3 justify-center items-center">
             <div className="flex gap-3 items-center">
@@ -173,7 +173,7 @@ const page = ({ job }) => {
                   <Input
                     type="text"
                     value={link}
-                    onChange={(event) =>
+                    onInputHandleChange={(event) =>
                       handleSocialLinkInputChange(index, event)
                     }
                     name={`socialLink-${index}`}
@@ -181,18 +181,19 @@ const page = ({ job }) => {
                   />
                   <div className="p-2">
                     <RemoveCircleIcon
-                      className="w-[15px] h-[15px] text-drawer-icon"
+                      className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
                       onClick={() => removeSocialLinkInput(index)}
                     />
                   </div>
                 </div>
               ))}
-              <button
+              <Button
+                variant="outline"
                 onClick={addSocialLinkInput}
-                className="text-xs text-checkbox-text"
+                
               >
                 Add Social Link
-              </button>
+              </Button>
             </div>
           </div>
 

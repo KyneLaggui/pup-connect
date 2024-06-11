@@ -1,15 +1,14 @@
+import { companyTable } from "@/app/constants";
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import VerificationCheck from "@/layouts/VerificationCheck";
-
-import { companyTable } from "@/app/constants";
 
 async function getData(): Promise<Payment[]> {
   // Fetch data from your API here.
   return companyTable;
 }
 
-export default async function DemoPage() {
+export default async function CompaniesPage() {
   const data = await getData();
 
   return (
