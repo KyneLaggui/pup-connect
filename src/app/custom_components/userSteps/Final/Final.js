@@ -42,21 +42,25 @@ const FinalComponent = () => {
       }
 
       const resumeFileExt = (userData.resume.name).split('.').pop()
-      const rawEmail = (userData.email).replace(/\.com$/, '')
-      const resumeResult = await supabase
+      // const rawEmail = (userData.email).replace(/\.com$/, '')
+      
+      const { data: { user } } = await supabase.auth.getUser()   
+
+      if (user) {
+        const resumeResult = await supabase
         .storage 
         .from('resume')
-        .upload(`public/${rawEmail}.${resumeFileExt}`, userData.resume, {
+        .upload(`public/${user.id}.${resumeFileExt}`, userData.resume, {
           cacheControl: '3600',
           upsert: true
-      })
+        })
 
-      if (resumeResult.error) {
-        console.log(resumeResult.error)
-      } else {
-        console.log(resumeResult.data)
+        if (resumeResult.error) {
+          console.log(resumeResult.error)
+        } else {
+          console.log(resumeResult.data)
+        }
       }
-
     }
 
     updateData();

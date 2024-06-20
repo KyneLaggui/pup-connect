@@ -42,7 +42,6 @@ const LoginForm = () => {
       formData.password
     );
     const { data, error } = JSON.parse(result);
-    console.log(data);
 
     if (!error) {
       Alert("success", "Login successful", "You are now logged in");

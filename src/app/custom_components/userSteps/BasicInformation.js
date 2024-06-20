@@ -15,7 +15,6 @@ const BasicInformation = () => {
   const { userData, setUserData, invalidFields } = useContext(StepperContext);
 
   const handleChange = (e, name) => {
-    console.log(userData)
     if (e && e.target) {
       const { name, value } = e.target;
       if (name === "birthDate") {

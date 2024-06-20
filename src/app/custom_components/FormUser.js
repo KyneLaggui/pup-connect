@@ -82,6 +82,17 @@ const FormUser = ({ email, firstName, lastName }) => {
         return false;
     }
 }
+  const isValidPhilippinesMobileNumber = (phoneNumber) => {
+    // Define the regular expression pattern for mobile numbers
+    const mobilePattern = /^(?:\+63|0)9\d{9}$/;
+
+    // Remove spaces from the phone number for easier matching
+    phoneNumber = phoneNumber.replace(/\s+/g, '');
+
+    // Check if the phone number matches the mobile pattern
+    return mobilePattern.test(phoneNumber);
+  }
+
 
   // Handling the next and previous button
   const handleClick = (direction) => {
@@ -98,7 +109,7 @@ const FormUser = ({ email, firstName, lastName }) => {
         if (checkEmpty(userData.gender)) newInvalidFields.gender = true;
       } else if (newStep === 2) {
         if (checkEmpty(userData.email)) newInvalidFields.email = true;
-        if (checkEmpty(userData.phoneNumber)) newInvalidFields.phoneNumber = true;
+        if (checkEmpty(userData.phoneNumber) || !isValidPhilippinesMobileNumber(userData.phoneNumber)) newInvalidFields.phoneNumber = true;
         if (checkEmpty(userData.region)) newInvalidFields.region = true;
         if (checkEmpty(userData.cityOrProvince)) newInvalidFields.cityOrProvince = true;
         if (checkEmpty(userData.streetAddress)) newInvalidFields.streetAddress = true;
