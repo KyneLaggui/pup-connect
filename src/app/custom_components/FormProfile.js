@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FetchUserProfile from "@/app/custom_hooks/fetchUserProfile";
-import FetchUserAddress from "@/app/custom_hooks/FetchUserAddress";
+import FetchUserProfileId from "@/app/custom_hooks/fetchUserProfileId";
+import FetchUserAddressId from "@/app/custom_hooks/FetchUserAddressId";
 import { dummyUser } from "../constants";
 import { Input } from "@/components/ui/input";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import LinkIcon from "@mui/icons-material/Link";
-import { dummyResume } from "@assets/index";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { useParams } from 'next/navigation'
 
 import {
   Select,
@@ -18,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+import { supabase } from "@/utils/supabase/client";
 
 const FormProfile = () => {
   const [currentUserData, setCurrentUserData] = useState({
@@ -28,7 +30,10 @@ const FormProfile = () => {
     gender: "",
     email: "",
     phoneNumber: "",
+    coverLetter: "",
     resume: null,
+    resumeDisplay: null,
+    resumeName: null
   });
   const [currentUserAddress, setCurrentUserAddress] = useState({
     region: "",
@@ -36,51 +41,61 @@ const FormProfile = () => {
     cityOrProvince: "",
     streetAddress: "",
   });
+
+  const [newInvalidFields, setNewInvalidFields] = useState({
+    firstName: false,
+    lastName: false,
+    birthDate: false,
+    gender: false,
+    email: false,
+    phoneNumber: false,
+    address: false,
+    region: false,
+    cityOrProvince: false,
+    streetAddress: false,
+    coverLetter: false,
+    resume: false,
+  }); // track invalid fields
+
   const [socialLinks, setSocialLinks] = useState(currentUserData.socialLinks || [""]);
   const [regionsState, setRegionsState] = useState([]);
   const [provinceCityState, setProvincesCityState] = useState([]);
   
-  const { userAddress } = FetchUserAddress();
-  const { userData } = FetchUserProfile();
-
-  useEffect(() => {
-    if (userData) {
-      setCurrentUserData({
-        firstName: userData.first_name,
-        middleName: userData.middle_name,
-        lastName: userData.last_name,
-        birthDate: userData.birth_date,
-        gender: userData.gender,
-        email: userData.email,
-        phoneNumber: userData.phone_number,
-        resume: userData.resume,
-      });
-    }
-
-    if (userAddress) {
-      setCurrentUserAddress({
-        region: userAddress.region,
-        regionCode: userAddress.regionCode,
-        cityOrProvince: userAddress.cityOrProvince,
-        streetAddress: userAddress.street_address,
-      });
-    }
-  }, [userAddress, userData]);
+  const { id } = useParams();
+  const { userAddress } = FetchUserAddressId(id);
+  const { userData } = FetchUserProfileId(id);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
-      // For regular input events
-      const { name, value } = e.target;
-      // Apply phone number formatting
-      if (name === "phoneNumber") {
-        let formattedValue = formatPhoneNumber(value);
-        setCurrentUserData({ ...userData, [name]: formattedValue });
+      if (e.target.type === "file") {
+        // For file input events
+        const { name } = e.target;
+        const file = e.target.files[0];
+        const fileNameProperty = `${name}Name`    
+        setCurrentUserData({ ...currentUserData, [name]: file, [fileNameProperty]: file.name });
       } else {
-        setCurrentUserData({ ...userData, [name]: value });
+        // For regular input events
+        const { name, value } = e.target;
+        // Apply phone number formatting
+        if (name === "phoneNumber") {
+          let formattedValue = formatPhoneNumber(value);
+          setCurrentUserData({ ...currentUserData, [name]: formattedValue });
+        } else {
+          setCurrentUserData({ ...currentUserData, [name]: value });
+        }
       }
     } else if (name) {
       // For Select component
-      setCurrentUserData({ ...userData, [name]: e });
+      setCurrentUserData({ ...currentUserData, [name]: e });
+    }
+  };
+
+  const handleLocationChange = async (e, name) => {
+    if (name === "region") {
+      await findProvince(e);
+      setCurrentUserAddress((prevCurrentAddress) => ({ ...prevCurrentAddress, [name]: e, cityOrProvince: "" }));
+    } else if (name === "cityOrProvince") {
+      setCurrentUserAddress((prevCurrentAddress) => ({ ...prevCurrentAddress, [name]: e }));
     }
   };
 
@@ -93,7 +108,7 @@ const FormProfile = () => {
       const newSocialLinks = [...socialLinks];
       newSocialLinks.splice(index, 1);
       setSocialLinks(newSocialLinks);
-      setCurrentUserData({ ...userData, socialLinks: newSocialLinks });
+      setCurrentUserData({ ...currentUserData, socialLinks: newSocialLinks });
     }
   };
 
@@ -101,7 +116,7 @@ const FormProfile = () => {
     const newSocialLinks = [...socialLinks];
     newSocialLinks[index] = event.target.value;
     setSocialLinks(newSocialLinks);
-    setCurrentUserData({ ...userData, socialLinks: newSocialLinks });
+    setCurrentUserData({ ...currentUserData, socialLinks: newSocialLinks });
   };
 
   const formatPhoneNumber = (value) => {
@@ -130,21 +145,158 @@ const FormProfile = () => {
     setRegionsState(regionsStorage);
   }
 
-  useEffect(() => {
-    generateRegions();
-  }, []);
+  async function findProvince(regionName) {
+    const region = regionsState.find((region) => region.name === regionName);
+    setCurrentUserAddress((prevUserData) => ({ ...prevUserData, regionCode: region.code }));
+
+    const response = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/provinces.json`);
+    const provinces = await response.json();
+    const secondResponse = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/cities.json`);
+    const cities = await secondResponse.json();
+
+    const provincesStorage = provinces.map((province) => ({
+      name: province.name,
+      code: province.code,
+    }));
+    const citiesStorage = cities.map((city) => ({
+      name: city.name,
+      code: city.code,
+    }));
+
+    let cityAndProvince = [...provincesStorage, ...citiesStorage].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+    setProvincesCityState(cityAndProvince);
+  }
+
+  const checkEmpty = (value) => {
+    return value === "";
+  };
+
+  const isDateCurrentOrFuture = (dateToCheck) => {
+    // Get the current date and time
+    const currentDate = new Date();
+
+    // Create a Date object from the dateToCheck string
+    const checkDate = new Date(dateToCheck);
+
+    // Check if the given date is greater than or equal to the current date
+    if (checkDate >= currentDate) {
+        return true;
+    } else {
+        return false;
+    }
+  }
+
+  const isValidPhilippinesMobileNumber = (phoneNumber) => {
+    // Define the regular expression pattern for mobile numbers
+    const mobilePattern = /^(?:\+63|0)9\d{9}$/;
+
+    // Remove spaces from the phone number for easier matching
+    phoneNumber = phoneNumber.replace(/\s+/g, '');
+
+    // Check if the phone number matches the mobile pattern
+    return mobilePattern.test(phoneNumber);
+  }
+
+  const checkInputErrors = async () => {
+    if (checkEmpty(currentUserData.firstName)) newInvalidFields.firstName = true;
+    if (checkEmpty(currentUserData.lastName)) newInvalidFields.lastName = true;
+    if (!currentUserData.birthDate || isDateCurrentOrFuture(currentUserData.birthDate) ) newInvalidFields.birthDate = true;
+    if (checkEmpty(currentUserData.gender)) newInvalidFields.gender = true;
+
+    if (checkEmpty(currentUserData.email)) newInvalidFields.email = true;
+    if (checkEmpty(currentUserData.phoneNumber) || !isValidPhilippinesMobileNumber(currentUserData.phoneNumber)) newInvalidFields.phoneNumber = true;
+    if (checkEmpty(currentUserData.region)) newInvalidFields.region = true;
+    if (checkEmpty(currentUserData.cityOrProvince)) newInvalidFields.cityOrProvince = true;
+    if (checkEmpty(currentUserData.streetAddress)) newInvalidFields.streetAddress = true;
+  
+    if (checkEmpty(currentUserData.coverLetter)) newInvalidFields.coverLetter = true;
+    // if (!currentUserData.resume) newInvalidFields.resume = true;
+    if (currentUserData.resume && currentUserData.resume.name && ((currentUserData.resume.name).split('.').pop().toLowerCase() !== 'pdf' 
+    || (currentUserData.resume.type) !== 'application/pdf'))  {
+      newInvalidFields.resume = true
+    }
+
+    if (Object.keys(newInvalidFields).length > 0) {
+      setNewInvalidFields(newInvalidFields);
+    } else {
+      setNewInvalidFields({});
+      
+      console.log(user)
+    }
+  }
+
+  const handleSubmit = () => {
+    checkInputErrors();
+  }
 
   useEffect(() => {
-    if (regionsState.length > 0 && userData) {
-      const region = regionsState.find((region) => region.name === userData.region);
+    if (userData) {
+      setCurrentUserData({
+        ...currentUserData,
+        firstName: userData.first_name,
+        middleName: userData.middle_name,
+        lastName: userData.last_name,
+        birthDate: userData.birth_date,
+        gender: userData.gender,
+        email: userData.email,
+        phoneNumber: userData.phone_number,
+        coverLetter: userData.cover_letter,
+        socialLinks: userData.social_links
+      });
+
+      setSocialLinks(userData.social_links)
+    }
+
+    if (userAddress) {
+      setCurrentUserAddress({
+        region: userAddress.region,
+        regionCode: userAddress.regionCode,
+        cityOrProvince: userAddress.cityOrProvince,
+        streetAddress: userAddress.street_address,
+      });
+    }
+  }, [userAddress, userData]);
+
+  useEffect(() => {
+    const getResume = async() => {
+      const { data: { user } } = await supabase.auth.getUser()  
+
+      if (user) {
+        const result = await supabase
+        .storage
+        .from('resume')
+        .getPublicUrl(`public/${user.id}.pdf`)
+        
+        if (result.data) {
+          setCurrentUserData({...currentUserData, resumeDisplay: result.data.publicUrl})
+        }  
+      }
+    } 
+
+    getResume()
+  }, [])
+
+    useEffect(() => {
+      generateRegions();
+    }, []);
+
+  useEffect(() => {
+    if (regionsState.length > 0 && userAddress) {      
+      const region = regionsState.find((region) => region.name === userAddress.region);
       if (region) {
         findProvince(region.name);
       }
     }
   }, [regionsState, userData]);
 
+  useEffect(() => {
+    console.log(currentUserData)
+  }, [currentUserData])
+
   return (
-    <div className="flex-1 rounded-xl p-8 border shadow-md bg-background">
+    <div className="flex-1 rounded-xl p-8 border shadow-md bg-background content-end">
       <h1 className="mb-2 text-lg font-semibold">Basic Information</h1>
       <table className="table-fixed w-full mb-6 border-separate border-spacing-y-2">
         <tbody>
@@ -215,6 +367,7 @@ const FormProfile = () => {
                   handleChange(value, "gender");
                 }}
                 defaultValue={currentUserData["gender"] || ""}
+                value={currentUserData["gender"]}
               >
                 <SelectTrigger>
                   <SelectValue placeholder="Select Gender" />
@@ -294,12 +447,6 @@ const FormProfile = () => {
           <tr>
             <td className="text-muted-foreground">City/Province:</td>
             <td>
-              {/* <Input
-                variant="default"
-                size="sm"
-                value={userData.province}
-                onChange={(e) => handleChange(e, "province")}
-              /> */}
               <Select
                 id="cityOrProvince"
                 name="cityOrProvince"
@@ -336,43 +483,43 @@ const FormProfile = () => {
         </tbody>
       </table>
 
-      {/* <div className="flex items-center mb-2">
-        <h1 className="text-lg font-semibold">Resume or Curriculum Vitae</h1>
-        <Button variant="default" size="sm" className="ml-auto">
-          Upload new
-        </Button>
+      <div className="flex items-center mb-2">
+      <h1 className="text-lg font-semibold">Resume or Curriculum Vitae</h1>
+      <Button variant="default" size="sm" className="ml-auto relative cursor-pointer">
+        Upload new
+        <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer text-[0]" id="resume" name="resume" onChange={handleChange}/>
+      </Button>
+      </div>
+      <div className="flex justify-end">
+          {currentUserData.resumeName ? `Uploaded File: ${currentUserData.resumeName}` : ""}           
       </div>
       <iframe
-        src={dummyResume}
+        src={currentUserData['resumeDisplay'] || ""}
         className="w-full h-[400px] rounded-lg border mb-6"
       ></iframe>
-
       <h1 className="mb-4 text-lg font-semibold">Cover Letter</h1>
       <Textarea
-        id="additionalLetter"
-        name="additionalLetter"
-        className="border border-input-border bg-input resize-none min-h-[120px] mt-1 mb-6 tracking-wide"
-      />
+          id="coverLetter"
+          name="coverLetter"
+          className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
+          onChange={handleChange}
+          value={currentUserData["coverLetter"] || ""}
+        />
 
       <h1 className="mb-4 text-lg font-semibold">Social Links</h1>
       <div className="w-full mb-6">
         <div className="flex flex-col gap-2 mt-1">
-          {dummyUser.socialLinks.map((link, index) => (
-            <div
-              key={index}
-              className="flex items-center rounded-md border border-input-border bg-input"
-            >
+        {socialLinks.map((link, index) => (
+            <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
               <div className="p-1 h-full border-r border-muted">
                 <LinkIcon className="rotate-90 w-[20px] h-[20px] text-drawer-icon" />
               </div>
               <Input
                 type="text"
                 value={link}
-                onInputHandleChange={(event) =>
-                  handleSocialLinkInputChange(index, event)
-                }
+                onInputHandleChange={(event) => handleSocialLinkInputChange(index, event)}
                 name={`socialLink-${index}`}
-                className="border-0 "
+                className="border-0"
               />
               <div className="group p-2 cursor-pointer">
                 <RemoveCircleIcon
@@ -382,14 +529,16 @@ const FormProfile = () => {
               </div>
             </div>
           ))}
-          <button
-            onClick={addSocialLinkInput}
-            className="text-xs text-checkbox-text mt-2"
-          >
+          <button onClick={addSocialLinkInput} className="text-xs text-checkbox-text">
             Add Social Link
           </button>
         </div>
-      </div> */}
+      </div>
+      <div className="flex justify-end">
+        <Button variant="default" size="sm" onClick={handleSubmit}>
+            Save Changes
+        </Button>
+      </div>
     </div>
   );
 };

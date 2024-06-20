@@ -10,6 +10,7 @@ import { supabase } from "@/utils/supabase/client";
 import { useRouter } from 'next/navigation';
 import { selectRole } from "@/redux/slice/authSlice";
 import { useSelector } from "react-redux";
+import VerificationCheck from "@/app/layouts/VerificationCheck";
 
 const Profile = () => {
   const { id } = useParams()
@@ -28,12 +29,12 @@ const Profile = () => {
         router.push('/')
       }           
   }
-
   getUserId();
   }, [id, userRole])
 
   return (
     <ApplicantOnlyPage>
+      <VerificationCheck>
         {
           isViewable ? (
             <div className="flex">
@@ -54,7 +55,7 @@ const Profile = () => {
             </>
           )
         }
-       
+       </VerificationCheck>
     </ApplicantOnlyPage>
   );
 };
