@@ -30,8 +30,7 @@ const PageLayout = ({children}) => {
                     .select("*")
                     .eq('email', session.user.email)
                     .single();                   
-
-                    console.log(userData)
+                    
                     if (userData.data) {
                         dispatch(
                             SET_USER_ROLE({
