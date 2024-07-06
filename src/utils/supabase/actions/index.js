@@ -2,42 +2,50 @@
 
 import { supabase } from "../client";
 
-export async function signUpWithEmailAndPassword(email, password, confirmPassword, firstName, middleName, lastName, role) {
-    if (password !== confirmPassword) {
-        console.log("Password does not match")
-        return
+export async function signUpWithEmailAndPassword(
+  email,
+  password,
+  confirmPassword,
+  firstName,
+  middleName,
+  lastName,
+  role
+) {
+  if (password !== confirmPassword) {
+    console.log("Password does not match");
+    return;
+  }
+
+  const result = await supabase.auth.signUp(
+    // Need to lowercase email to safely compare it in the future
+    {
+      email: email.toLowerCase(),
+      password: password,
+      options: {
+        data: {
+          role: role,
+          firstName: firstName,
+          middleName: middleName,
+          lastName: lastName,
+        },
+      },
     }
-    
-    const result = await supabase.auth.signUp(
-        // Need to lowercase email to safely compare it in the future
-        {
-            email: email.toLowerCase(),
-            password: password,
-            options: {
-                data: {
-                    role: role,
-                    firstName: firstName,
-                    middleName: middleName,
-                    lastName: lastName,
-                },
-            }
-        }
-    )
-    console.log(result)
-    return JSON.stringify(result)
+  );
+  console.log(result);
+  return JSON.stringify(result);
 }
 
 export const signInWithEmailAndPassword = async (email, password) => {
-    const result = await supabase.auth.signInWithPassword({
-        email, 
-        password
-    })
-    return JSON.stringify(result)
-}
+  const result = await supabase.auth.signInWithPassword({
+    email,
+    password,
+  });
+  return JSON.stringify(result);
+};
 
-export const signOut = async() => {
-    await supabase.auth.signOut();
-}
+export const signOut = async () => {
+  await supabase.auth.signOut();
+};
 
 // export const readUserSession = async() => {
 //     const supabase = await createClient();
@@ -60,10 +68,5 @@ export const signOut = async() => {
 //             console.log("logged out!")
 //         }
 
-//     })     
+//     })
 // }
-
-
-
-
-

@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 // Components
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -23,23 +22,22 @@ import { useRouter } from "next/navigation";
 import { signOut } from "@/supabase/actions";
 import fetchRoleButtons from "@/app/nav_buttons/index";
 
-
 const Sidebar = () => {
   const [buttons, setButtons] = useState([]);
 
   const router = useRouter();
-  const roleButtons = fetchRoleButtons()
+  const roleButtons = fetchRoleButtons();
 
   const handleSignOut = () => {
-      console.log('okay')
-      signOut();
-      router.push("/pages/login")
-  }
+    console.log("okay");
+    signOut();
+    router.push("/pages/login");
+  };
 
   useEffect(() => {
-    setButtons(roleButtons)
-  }, [roleButtons])
-  
+    setButtons(roleButtons);
+  }, [roleButtons]);
+
   return (
     <div>
       <aside className="fixed hidden inset-y-0 left-0 z-50 w-14 flex-col border-r bg-background sm:flex">
