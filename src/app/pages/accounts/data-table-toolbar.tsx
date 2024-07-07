@@ -55,29 +55,25 @@ export function DataTableToolbar<TData>({
             <p>Reset</p>
           </Button>
         )}
-
         <Button variant="default" size="sm" className="ml-auto" onClick={toggleModal}>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 bg-red-500">
             Add account
             <Plus className="h-4 w-4" />
-          </div>
-          <div className="text-red-400">
-            OKAYY
           </div>
         </Button>
       </div>
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black z-50">
+        <div className="fixed inset-0 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded shadow-lg">
             <h2 className="text-xl font-bold mb-4">Add Account</h2>
             <form>
               <div className="mb-4">
-                <label className="block text-gray-700">First Name</label>
+                <label className="block text-gray-700">Email</label>
                 <Input placeholder="Enter first name" />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700">Role</label>
+                <label className="block text-gray-700">Password</label>
                 <Input placeholder="Enter role" />
               </div>
               <div className="flex justify-end">
