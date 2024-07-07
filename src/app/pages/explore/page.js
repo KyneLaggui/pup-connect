@@ -30,26 +30,29 @@ import Image from "next/image";
 import { Tag } from "@/app/custom_components/Tag";
 import Link from "next/link";
 import VerificationCheck from "@/app/layouts/VerificationCheck";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 const Explore = () => {
   return (
     <VerificationCheck>
-      <div className="flex justify-between items-center flex-col h-screen ">
-        <div className="mt-20 container flex justify-between w-full">
+      <div className="flex flex-col justify-between items-center h-screen">
+        <div className="-mt-5 sm:mt-20 container sm:pl-[3.5rem] xl:pl-0 flex flex-col sm:flex-row justify-between w-full">
           <FilterJob />
-          <div className="flex flex-col gap-4 py-5 pl-5">
-            <AccordionProgress />
-            <div className="w-full flex justify-between flex-wrap gap-4">
+          <div className="flex flex-col gap-4 py-5 px-5">
+            {/* <AccordionProgress /> */}
+            <div className="w-full flex justify-start flex-wrap flex-grow gap-4">
               {jobCardInfo.map((job) => (
                 <Drawer key={job.number}>
                   {" "}
                   {/* Added key to Drawer */}
-                  <DrawerTrigger>
+                  <DrawerTrigger className="w-full sm:w-fit">
                     <JobCard key={job.number} {...job} />
                   </DrawerTrigger>
                   <DrawerContent className="lg:h-[95%] h-screen ">
                     <div className="flex justify-evenly xl:p-14 p-12 items-start overflow-y-scroll ">
-                      <div className="flex flex-col justify-center items-start gap-5 lg:min-w-[940px]">
+                      <div className="flex flex-col justify-start items-start gap-5 lg:min-w-[940px]">
                         <div className="flex justify-between items-center w-full ">
                           <h1 className="text-3xl font-semibold text-foreground">
                             {job.title}
@@ -64,7 +67,7 @@ const Explore = () => {
                                 Apply
                               </Link>
                             </Button>
-                            <div className="border border-buttonBorder p-3 rounded-md">
+                            <div className="border border-buttonBorder p-3 rounded-md cursor-pointer">
                               <Share2 className="text-buttonBorder" size={17} />
                             </div>
                           </div>
@@ -103,16 +106,22 @@ const Explore = () => {
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <AlarmClock
+                            <AccessTimeIcon
                               size={14}
-                              className="text-drawer-icon"
+                              className="text-drawer-icon text-[20px]"
                             />
                             <p className="text-base text-drawer-icon font-base">
                               {job.type}
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Cog size={14} className="text-drawer-icon" />
+                            <SettingsOutlinedIcon
+                              size={14}
+                              className="text-drawer-icon text-[20px]"
+                            />
+                            <span class="material-symbols-outlined">
+                              near_me
+                            </span>
                             <p className="text-base text-drawer-icon font-base">
                               {job.mode}
                             </p>
@@ -190,7 +199,7 @@ const Explore = () => {
                         </div>
                       </div>
 
-                      <div className="min-w-80 flex flex-col gap-5">
+                      <div className="w-80 flex flex-col gap-5">
                         <div>
                           <h1 className="text-base font-medium mb-3">
                             Similar Jobs

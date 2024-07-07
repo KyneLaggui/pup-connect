@@ -25,9 +25,9 @@ const JobCard = ({ title, description, image, tags }) => {
   // }, []);
 
   return (
-    <Card className="slide-parent max-w-[296px] h-[160px] min-w-[240px] flex justify-between items-center flex-col p-5 border border-blue-100 bg-background">
+    <Card className="slide-parent w-full sm:max-w-[296px] h-[160px] sm:min-w-[296px] flex justify-between items-center flex-col p-5 border border-blue-100 bg-background">
       <div className="flex flex-col justify-start items-center gap-3">
-        <div className="w-full flex items-center justify-start gap-2 flex-row">
+        <div className="w-full flex items-center gap-2 flex-row">
           <Image
             src={image}
             width={20}
