@@ -42,12 +42,20 @@ const SignupForm = () => {
       [name]: value,
     });
   };
+  
+  const isValidEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
       console.log("password does not match");
+      return;
+    } else if (!isValidEmail(formData.email)) {
+      console.log("Invalid email format!");
       return;
     }
 
@@ -63,7 +71,6 @@ const SignupForm = () => {
     );
     const { error } = JSON.parse(result);
 
-    console.log(JSON.parse(result));
     if (error) {
       console.log(error.message);
     } else {

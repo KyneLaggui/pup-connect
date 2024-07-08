@@ -1,21 +1,23 @@
 'use client';
-import { useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { selectRole } from '@/redux/slice/authSlice'
 import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import { supabase } from '@/utils/supabase/client';
 
-const ApplicantOnlyPage = ({ children }) => {
+const AdminOnlyPage = ({ children }) => {
   const router = useRouter()  
   const userRole = useSelector(selectRole)
+  const [finishedLoading, setFinishedLoading] = useState(false);
   
   useEffect(() => {
     const getSession = async() => {
       const { data: { user }} = await supabase.auth.getUser()
 
-      console.log(user)
-      if (!user || (userRole && (userRole !== "applicant"))) {
+      if (!user || (userRole && (userRole !== "admin"))) {
         router.push("/")
+      } else {
+        setFinishedLoading(true)
       }
     }
 
@@ -23,10 +25,14 @@ const ApplicantOnlyPage = ({ children }) => {
   }, [userRole])
 
   return (
-    <div>
-      {children}
-    </div>
+    finishedLoading ? (
+        <div> 
+            {children}
+        </div>
+    ) : (
+        <div></div>
+    )
   )
 }
 
-export default ApplicantOnlyPage;
+export default AdminOnlyPage;
