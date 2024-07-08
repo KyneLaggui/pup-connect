@@ -42,7 +42,7 @@ const FormProfile = () => {
     streetAddress: "",
   });
 
-  const [newInvalidFields, setNewInvalidFields] = useState({
+  const [invalidFields, setInvalidFields] = useState({
     firstName: false,
     lastName: false,
     birthDate: false,
@@ -80,6 +80,15 @@ const FormProfile = () => {
         if (name === "phoneNumber") {
           let formattedValue = formatPhoneNumber(value);
           setCurrentUserData({ ...currentUserData, [name]: formattedValue });
+        } else if (name === "birthDate") {
+          const today = new Date().toISOString().split("T")[0];
+          if (value > today) {
+            alert("Birthdate cannot be in the future.");
+            return;
+          } 
+          setCurrentUserData({ ...currentUserData, [name]: value });
+        } else if (name === "streetAddress") {
+          setCurrentUserAddress({ ...currentUserAddress, [name]: value });
         } else {
           setCurrentUserData({ ...currentUserData, [name]: value });
         }
@@ -96,7 +105,7 @@ const FormProfile = () => {
       setCurrentUserAddress((prevCurrentAddress) => ({ ...prevCurrentAddress, [name]: e, cityOrProvince: "" }));
     } else if (name === "cityOrProvince") {
       setCurrentUserAddress((prevCurrentAddress) => ({ ...prevCurrentAddress, [name]: e }));
-    }
+    } 
   };
 
   const addSocialLinkInput = () => {
@@ -200,6 +209,21 @@ const FormProfile = () => {
   }
 
   const checkInputErrors = async () => {
+    let newInvalidFields = {
+      firstName: false,
+      lastName: false,
+      birthDate: false,
+      gender: false,
+      email: false,
+      phoneNumber: false,
+      address: false,
+      region: false,
+      cityOrProvince: false,
+      streetAddress: false,
+      coverLetter: false,
+      resume: false,
+    }
+
     if (checkEmpty(currentUserData.firstName)) newInvalidFields.firstName = true;
     if (checkEmpty(currentUserData.lastName)) newInvalidFields.lastName = true;
     if (!currentUserData.birthDate || isDateCurrentOrFuture(currentUserData.birthDate) ) newInvalidFields.birthDate = true;
@@ -207,9 +231,9 @@ const FormProfile = () => {
 
     if (checkEmpty(currentUserData.email)) newInvalidFields.email = true;
     if (checkEmpty(currentUserData.phoneNumber) || !isValidPhilippinesMobileNumber(currentUserData.phoneNumber)) newInvalidFields.phoneNumber = true;
-    if (checkEmpty(currentUserData.region)) newInvalidFields.region = true;
-    if (checkEmpty(currentUserData.cityOrProvince)) newInvalidFields.cityOrProvince = true;
-    if (checkEmpty(currentUserData.streetAddress)) newInvalidFields.streetAddress = true;
+    if (checkEmpty(currentUserAddress.region)) newInvalidFields.region = true;
+    if (checkEmpty(currentUserAddress.cityOrProvince)) newInvalidFields.cityOrProvince = true;
+    if (checkEmpty(currentUserAddress.streetAddress)) newInvalidFields.streetAddress = true;
   
     if (checkEmpty(currentUserData.coverLetter)) newInvalidFields.coverLetter = true;
     // if (!currentUserData.resume) newInvalidFields.resume = true;
@@ -218,12 +242,70 @@ const FormProfile = () => {
       newInvalidFields.resume = true
     }
 
-    if (Object.keys(newInvalidFields).length > 0) {
-      setNewInvalidFields(newInvalidFields);
-    } else {
-      setNewInvalidFields({});
+    const hasInvalidField = Object.values(newInvalidFields).some(value => value === true)
+
+    if (hasInvalidField) {
+      setInvalidFields(newInvalidFields);
+    } else {      
+      const profileUpdateResult = await supabase
+        .from('profile')
+        .update({
+          first_name: currentUserData.firstName,
+          middle_name: currentUserData.middleName,
+          last_name: currentUserData.lastName,
+          birth_date: currentUserData.birthDate,
+          gender: currentUserData.gender,
+          phone_number: currentUserData.phoneNumber,
+          cover_letter: currentUserData.coverLetter,
+          social_links: socialLinks,
+        })
+        .eq('email', currentUserData.email)
       
-      console.log(user)
+      if (profileUpdateResult.error) {
+        console.log('An error has occured!');
+        console.log(profileUpdateResult.error);
+      } else {
+        console.log('Profile updated successfully!')
+      }
+
+      const addressUpdateResult = await supabase
+        .from('address')
+        .update({
+          region: currentUserAddress.region,
+          cityOrProvince: currentUserAddress.cityOrProvince,
+          street_address: currentUserAddress.streetAddress,
+          region_code: currentUserAddress.regionCode
+        })
+        .eq('email', currentUserData.email)
+
+      if (addressUpdateResult.error) {
+        console.log('An error has occured!');
+      } else {
+        console.log('Address updated successfully!')
+      }
+
+      if (currentUserData.resume) {
+        const resumeFileExt = (currentUserData.resume.name).split('.').pop()
+        // const rawEmail = (userData.email).replace(/\.com$/, '')
+        
+        const { data: { user } } = await supabase.auth.getUser()   
+  
+        if (user) {
+          const resumeResult = await supabase
+          .storage 
+          .from('resume')
+          .upload(`public/${user.id}.${resumeFileExt}`, currentUserData.resume, {
+            cacheControl: '3600',
+            upsert: true
+          })
+  
+          if (resumeResult.error) {
+            console.log(resumeResult.error)
+          } else {
+            console.log(resumeResult.data)
+          }
+        }
+      }
     }
   }
 
@@ -290,10 +372,6 @@ const FormProfile = () => {
       }
     }
   }, [regionsState, userData]);
-
-  useEffect(() => {
-    console.log(currentUserData)
-  }, [currentUserData])
 
   return (
     <div className="flex-1 rounded-xl p-8 border shadow-md bg-background content-end">
@@ -494,18 +572,18 @@ const FormProfile = () => {
           {currentUserData.resumeName ? `Uploaded File: ${currentUserData.resumeName}` : ""}           
       </div>
       <iframe
-        src={currentUserData['resumeDisplay'] || ""}
+        // src={currentUserData['resumeDisplay'] || ""}
+        src="https://cmjneigcbfqgdcvlqswp.supabase.co/storage/v1/object/public/resume/public/ad803349-d89d-48c7-b875-041f20cf3b04.pdf"
         className="w-full h-[400px] rounded-lg border mb-6"
       ></iframe>
       <h1 className="mb-4 text-lg font-semibold">Cover Letter</h1>
       <Textarea
-          id="coverLetter"
-          name="coverLetter"
-          className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
-          onChange={handleChange}
-          value={currentUserData["coverLetter"] || ""}
-        />
-
+        id="coverLetter"
+        name="coverLetter"
+        className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
+        onChange={handleChange}
+        value={currentUserData["coverLetter"] || ""}
+      />
       <h1 className="mb-4 text-lg font-semibold">Social Links</h1>
       <div className="w-full mb-6">
         <div className="flex flex-col gap-2 mt-1">

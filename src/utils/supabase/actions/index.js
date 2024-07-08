@@ -35,6 +35,23 @@ export async function signUpWithEmailAndPassword(
   return JSON.stringify(result);
 }
 
+export async function signUpWithEmailAndPasswordOnly(email, password, role) {
+    const result = await supabase.auth.signUp(
+        // Need to lowercase email to safely compare it in the future
+        {
+            email: email.toLowerCase(),
+            password: password,
+            options: {
+                data: {
+                    role: role,
+                },
+            }
+        }
+    )
+    console.log(result)
+    return JSON.stringify(result)
+}
+
 export const signInWithEmailAndPassword = async (email, password) => {
   const result = await supabase.auth.signInWithPassword({
     email,
