@@ -1,28 +1,54 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StepperControl from "./StepperControl";
 import StepperForm from "./StepperForm";
 import BasicInformation from "./companySteps/BasicInformation";
-import ContactInfo from "./companySteps/ContactInfo";
+import AccountInfo from "./companySteps/AccountInfo";
 import Tags from "./companySteps/Tags";
-import { StepperContext } from "./StepperContext";
-import Final from "./userSteps/Final";
+import { CompanyContext } from "./StepperContext";
+import Final from "./companySteps/Final";
 
-const FormUser = () => {
+const FormCompany = ({ email }) => {
   const [currentStep, setCurrentStep] = useState(1); // track current step
-  const [companyData, setCompanyData] = useState(""); // store user data
+  const [companyData, setCompanyData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    region: "",
+    regionCode: "",
+    cityOrProvince: "",
+    streetAddress: "",
+    description: "",
+    socialLinks: [],
+    logo: null
+  }); // store user data
   const [finalData, setFinalData] = useState([]); // store final data
 
+  const [invalidFields, setInvalidFields] = useState({
+    name: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+    region: false,
+    regionCode: false,
+    cityOrProvince: false,
+    streetAddress: false,
+    description: false,
+    logo: null,
+    socialLinks: []
+  }); // track invalid fields
+
   // Initializing all the possible steps titles
-  const steps = ["Account Info", "Basic Info", "Tags", "Complete"];
+  const steps = ["Basic Info", "Account Info", "Tags", "Complete"];
 
   // Displaying the step based on the current step
   const displayStep = (step) => {
     switch (step) {
       case 1:
-        return <ContactInfo />;
-      case 2:
         return <BasicInformation />;
+      case 2:
+        return <AccountInfo />;
       case 3:
         return <Tags />;
       case 4:
@@ -38,6 +64,13 @@ const FormUser = () => {
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep); // update the current step
   };
 
+  useEffect(() => {
+    setCompanyData({
+      ...companyData,
+      email: email,
+    });
+  }, [email]);
+
   return (
     <div className="wrapper">
       <div className="flex flex-col justify-between w-full md:w-[40rem] h-fit mx-auto py-10 px-8 bg-background border shadow-sm rounded-xl">
@@ -47,16 +80,18 @@ const FormUser = () => {
           </div>
 
           <div className="mb-6 pb-4 px-10">
-            <StepperContext.Provider
+            <CompanyContext.Provider
               value={{
                 companyData,
                 setCompanyData,
                 finalData,
                 setFinalData,
+                invalidFields,
+                setInvalidFields
               }}
             >
               {displayStep(currentStep)}
-            </StepperContext.Provider>
+            </CompanyContext.Provider>
           </div>
         </div>
 
@@ -70,4 +105,4 @@ const FormUser = () => {
   );
 };
 
-export default FormUser;
+export default FormCompany;

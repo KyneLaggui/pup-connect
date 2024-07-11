@@ -2,19 +2,29 @@ import FormsLabel from "@/app/custom_components/FormsLabel";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { dummyImage } from "@assets/index";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import LinkIcon from "@mui/icons-material/Link";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import Image from "next/image";
-import { useContext, useRef, useState } from "react";
-import { StepperContext } from "../StepperContext";
+import { useContext, useEffect, useRef, useState } from "react";
+import { CompanyContext } from "../StepperContext";
 
 const BasicInformation = () => {
+  const { companyData, setCompanyData, invalidFields } = useContext(CompanyContext);
   const imageInputRef = useRef(null);
-  const { companyData, setCompanyData } = useContext(StepperContext);
+
+  const [regionsState, setRegionsState] = useState([]);
+  const [provinceCityState, setProvincesCityState] = useState([]);
+  
   const [socialLinks, setSocialLinks] = useState(
     companyData.socialLinks || [""]
   );
-
   const handleChange = (e, name) => {
     if (e && e.target) {
       if (e.target.type === "file") {
@@ -22,18 +32,45 @@ const BasicInformation = () => {
         const { name } = e.target;
         const file = e.target.files[0];
         setCompanyData({ ...companyData, [name]: file });
-      } else if (e.target.type === "password") {
-        // For password input events
-        if (e.target.value.length < 8) {
-          console.log("Password too short");
-        } else if (e.target.value.length > 32) {
-          console.log("Password too long");
-        }
       } else {
-        // For regular input events
         const { name, value } = e.target;
         setCompanyData({ ...companyData, [name]: value });
       }
+    } else if (name) {
+      // For Select inputs
+      setCompanyData({ ...companyData, [name]: e });
+    }
+  };
+
+  // const handleChange = (e, name) => {
+  //   if (e && e.target) {
+  //     if (e.target.type === "file") {
+  //       // For file input events
+  //       const { name } = e.target;
+  //       const file = e.target.files[0];
+  //       setCompanyData({ ...companyData, [name]: file });
+  //     } else if (e.target.type === "password") {
+  //       // For password input events
+  //       if (e.target.value.length < 8) {
+  //         console.log("Password too short");
+  //       } else if (e.target.value.length > 32) {
+  //         console.log("Password too long");
+  //       }
+  //     } else {
+  //       // For regular input events
+  //       const { name, value } = e.target;
+  //       setCompanyData({ ...companyData, [name]: value });
+  //     }
+  //   }
+  // };
+
+  const handleLocationChange = async (e, name) => {
+    if (name === "region") {
+      await findProvince(e);
+      setCompanyData((prevCompanyData) => ({ ...prevCompanyData, [name]: e, cityOrProvince: "" }));
+    } else if (name === "cityOrProvince") {
+      console.log(companyData)
+      setCompanyData((prevCompanyData) => ({ ...prevCompanyData, [name]: e }));
     }
   };
 
@@ -61,26 +98,81 @@ const BasicInformation = () => {
     imageInputRef.current.click();
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
+  // const handleImageChange = (e) => {
+  //   const file = e.target.files[0];
 
-    if (file.size > 200000) {
-      console.log("File size exceeds 200KB");
-      return;
-    } else {
-      setCompanyData({ ...companyData, logo: file });
-      console.log(file);
-      console.log(file.size);
+  //   if (file.size > 200000) {
+  //     console.log("File size exceeds 200KB");
+  //     return;
+  //   } else {
+  //     setCompanyData({ ...companyData, logo: file });
+  //     console.log(file);
+  //     console.log(file.size);
+  //   }
+  // };
+
+  async function findProvince(regionName) {
+    const region = regionsState.find((region) => region.name === regionName);
+    setCompanyData((prevUserData) => ({ ...prevUserData, regionCode: region.code }));
+
+    const response = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/provinces.json`);
+    const provinces = await response.json();
+    const secondResponse = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/cities.json`);
+    const cities = await secondResponse.json();
+
+    const provincesStorage = provinces.map((province) => ({
+      name: province.name,
+      code: province.code,
+    }));
+    const citiesStorage = cities.map((city) => ({
+      name: city.name,
+      code: city.code,
+    }));
+
+    let cityAndProvince = [...provincesStorage, ...citiesStorage].sort((a, b) =>
+      a.name.localeCompare(b.name)
+    );
+
+    setProvincesCityState(cityAndProvince);
+  }
+
+  async function generateRegions() {
+    const response = await fetch(`https://psgc.gitlab.io/api/regions.json`);
+    const regions = await response.json();
+    const regionsStorage = regions.map((region) => ({
+      name: region.name,
+      code: region.code,
+    }));
+    setRegionsState(regionsStorage);
+  }
+
+  useEffect(() => {
+    generateRegions();
+  }, []);
+
+  useEffect(() => {
+    if (regionsState.length > 0) {
+      const region = regionsState.find((region) => region.name === companyData.region);
+      if (region) {
+        findProvince(region.name);
+      }
     }
-  };
+  }, [regionsState]);
+
+  useEffect(() => {
+    console.log(companyData)
+  }, [companyData])
 
   return (
     <div className="flex flex-col gap-4">
       <div className="mb-2">
+      <FormsLabel text="Company Logo (PNG)" label="logo" isInvalid={invalidFields.resume} />
         <input
           type="file"
-          onChange={handleImageChange}
-          accept="image/*"
+          id="logo"
+          name="logo"
+          onChange={handleChange}
+          accept="image/png"
           ref={imageInputRef}
           className="hidden"
         ></input>
@@ -125,39 +217,91 @@ const BasicInformation = () => {
       </div> */}
 
       <div className="w-full mb-2">
-        <FormsLabel text="Name" label="name" />
+        <FormsLabel text="Company Name" label="name" isInvalid={invalidFields.name} />
         <Input
           id="name"
           type="text"
-          placeholder="e.g. Microsoft"
+          placeholder="e.g. John"
           name="name"
           onInputHandleChange={handleChange}
           value={companyData["name"] || ""}
           className="mt-1"
-        ></Input>
+        />
       </div>
 
-      <div className="w-full mb-2">
-        <FormsLabel text="City" label="city" />
-        <Input
-          id="city"
-          type="text"
-          placeholder="e.g. Quezon City"
-          name="city"
-          onInputHandleChange={handleChange}
-          value={companyData["city"] || ""}
-          className="mt-1"
-        ></Input>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="col-span-2">
+          <h3 className="text-base font-semibold">Address</h3>
+        </div>
+        <div className="w-full mb-2">
+          <FormsLabel text="Region" label="region" isInvalid={invalidFields.region} />
+          <Select
+            id="region"
+            name="region"
+            onValueChange={async (value) => {
+              await handleLocationChange(value, "region");
+            }}
+            value={companyData.region || ""}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Please select..." />
+            </SelectTrigger>
+            <SelectContent>
+              {regionsState.map((region, i) => (
+                <SelectItem value={region.name} key={i}>
+                  {region.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-full mb-2">
+          <FormsLabel text="City/Province" label="province" isInvalid={invalidFields.cityOrProvince} />
+          <Select
+            id="cityOrProvince"
+            name="cityOrProvince"
+            onValueChange={async (value) => {
+              await handleLocationChange(value, "cityOrProvince");
+            }}
+            value={companyData.cityOrProvince || ""}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Please select..." />
+            </SelectTrigger>
+            <SelectContent>
+              {provinceCityState.map((provinceCity, i) => (
+                <SelectItem value={provinceCity.name} key={i}>
+                  {provinceCity.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-full mb-2 col-span-2">
+          <FormsLabel
+            text="Street address (Building number & Street name)"
+            label="streetAddress"
+            isInvalid={invalidFields.streetAddress}
+          />
+          <Input
+            id="streetAddress"
+            type="text"
+            name="streetAddress"
+            onInputHandleChange={handleChange}
+            value={companyData.streetAddress || ""}
+            className="mt-1"
+          ></Input>
+        </div>
       </div>
 
       <div className="mb-2">
-        <FormsLabel text="About / Description" label="additionalLetter" />
+        <FormsLabel text="About / Description" label="description" />
         <Textarea
-          id="additionalLetter"
-          name="additionalLetter"
+          id="description"
+          name="description"
           className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
-          onInputHandleChange={handleChange}
-          value={companyData["additionalLetter"] || ""}
+          onChange={handleChange}
+          value={companyData["description"] || ""}
         />
       </div>
 

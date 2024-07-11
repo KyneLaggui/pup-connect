@@ -76,8 +76,47 @@ const fetchRoleButtons = () => {
             tooltip: "Changelog",
           },
         ])
+      } else if (userRole === "company") {
+        setRoleButtons([
+          { name: "Home", icon: <HomeOutlinedIcon />, href: "/", tooltip: "Home" },
+          {
+            name: "Explore",
+            icon: <ExploreOutlinedIcon />,
+            href: "/pages/explore",
+            tooltip: "List of Careers",
+          },
+          // {
+          //   name: "Companies",
+          //   icon: <BusinessOutlinedIcon />,
+          //   href: "/pages/companies",
+          //   tooltip: "List of Companies",
+          // },
+          // {
+          //   name: "MOA Status",
+          //   icon: <DoneOutlineOutlinedIcon />,
+          //   href: "/pages/moa-status",
+          //   tooltip: "MOA Status",
+          // },
+          // {
+          //   name: "Changelog",
+          //   icon: <HistoryOutlinedIcon />,
+          //   href: "/pages/changelog",
+          //   tooltip: "Changelog",
+          // },
+          {
+            name: "Employees",
+            icon: <PeopleAltOutlinedIcon />,
+            href: "/pages/employees",
+            tooltip: "List of Employees",
+          },
+          {
+            name: "Profile",
+            icon: <PermIdentityOutlinedIcon />,
+            href: "/pages/profile",
+            tooltip: "Profile",
+          },
+        ])
       } else if (userRole === "applicant") {
-
         setRoleButtons([
           { name: "Home", icon: <HomeOutlinedIcon />, href: "/", tooltip: "Home" },
           {

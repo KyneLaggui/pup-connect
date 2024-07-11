@@ -1,41 +1,30 @@
 import { Tag } from "@/app/custom_components/Tag";
 import { useContext, useEffect, useState } from "react";
 import { companyTags } from "../../constants";
-import { StepperContext } from "../StepperContext";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { CompanyContext } from "../StepperContext";
 
 const Tags = () => {
-  const { companyData, setCompanyData } = useContext(StepperContext);
+  const { companyData, setCompanyData } = useContext(CompanyContext);
   const [selectedTags, setSelectedTags] = useState(companyData.tags || []);
+
+  useEffect(() => {
+    setCompanyData((prevData) => ({
+      ...prevData,
+      tags: selectedTags,
+    }));
+  }, [selectedTags, setCompanyData]);
 
   const handleTagClick = (tag) => {
     setSelectedTags((prevTags) => {
-      const updatedTags = prevTags.includes(tag)
+      return prevTags.includes(tag)
         ? prevTags.filter((t) => t !== tag)
         : [...prevTags, tag];
-      setCompanyData((prevData) => ({
-        ...prevData,
-        tags: updatedTags,
-      }));
-      return updatedTags;
     });
   };
 
-  useEffect(() => {
-    console.log(selectedTags);
-  }, [selectedTags]);
-
- 
-
-  
-
   return (
     <div className="flex flex-col items-center">
-      
-      <div
-        className={`flex flex-wrap gap-3 justify-center mt-8 transition-all duration-500 ease-in-out`}
-      >
+      <div className={`flex flex-wrap gap-3 justify-center mt-8 transition-all duration-500 ease-in-out`}>
         {companyTags.map((tag, index) => (
           <div key={index} className="flex items-center gap-2">
             <Tag
@@ -50,7 +39,6 @@ const Tags = () => {
           </div>
         ))}
       </div>
-     
     </div>
   );
 };
