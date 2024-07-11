@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from 'react'
 import FormUser from '../../custom_components/FormUser'
 import ApplicantOnlyPage from '@/app/layouts/ApplicantOnlyPage'
+import CompanyOnlyPage from '@/app/layouts/CompanyOnlyPage'
 import { supabase } from "@/utils/supabase/client";
 import { selectEmail, selectSetupFinished } from '@/redux/slice/authSlice';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation'
 import FetchUserStatus from '@/app/custom_hooks/FetchUserStatus';
+import FormCompany from '../../custom_components/FormCompany';
 
 const Page = () => {
   const [userData, setUserData] = useState({
@@ -24,7 +26,7 @@ const Page = () => {
     const getData = async() => {
       const { data } = await supabase
       .from('profile')
-      .select('email, first_name, last_name')
+      .select('email, first_name, last_name, role')
       .eq('email', userEmail)
       .single()
 
@@ -33,6 +35,7 @@ const Page = () => {
           email: data.email,
           firstName: data.first_name,
           lastName: data.last_name,
+          role: data.role
         })
       }
     }    
@@ -47,11 +50,24 @@ const Page = () => {
   }, [userStatus])
 
   return (
-    <ApplicantOnlyPage>
+   
       <div className='mt-20 mb-20'>
-          <FormUser email={userData.email} firstName={userData.firstName} lastName={userData.lastName}/>
+        {
+          userData.role === 'applicant' && (
+            <ApplicantOnlyPage>
+              <FormUser email={userData.email} firstName={userData.firstName} lastName={userData.lastName}/>
+            </ApplicantOnlyPage>
+          )
+        }
+        {
+          userData.role === 'company' && (
+            <CompanyOnlyPage>
+              <FormCompany email={userData.email} />
+            </CompanyOnlyPage>
+          )
+        }
+          
         </div>
-    </ApplicantOnlyPage>
   )
 }
 

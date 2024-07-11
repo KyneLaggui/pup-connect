@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from "react";
 
 // Components
-import { StepperContext } from "../StepperContext";
+import { CompanyContext } from "../StepperContext";
 
 import FormsLabel from "../FormsLabel";
 import { Input } from "@/components/ui/input";
@@ -10,8 +10,8 @@ import { Separator } from "@/components/ui/separator";
 
 // Icons
 
-const ContactInfo = () => {
-  const { companyData, setCompanyData } = useContext(StepperContext);
+const AccountInfo = () => {
+  const { companyData, setCompanyData, invalidFields } = useContext(CompanyContext);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
@@ -29,22 +29,9 @@ const ContactInfo = () => {
   //   console.log(socialLinks);
   // }, [companyData, socialLinks]);
 
+
   return (
     <div className="flex flex-col gap-4">
-      <div className="w-full mb-2">
-        <FormsLabel text="Status" label="status" />
-        <Input
-          disabled
-          id="status"
-          type="text"
-          placeholder="e.g. johndoe@mail.com"
-          name="status"
-          onInputHandleChange={handleChange}
-          value={companyData["status"] || ""}
-          className="mt-1"
-        ></Input>
-      </div>
-
       <div className="w-full mb-2">
         <FormsLabel text="Email" label="email" />
         <Input
@@ -88,4 +75,4 @@ const ContactInfo = () => {
   );
 };
 
-export default ContactInfo;
+export default AccountInfo;

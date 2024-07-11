@@ -110,17 +110,20 @@ const LoginForm = () => {
           Remember me
         </label>
       </div>
+      {
       <Link
-        href="/pages/forgot_password
-    "
-      >
-        {/* <p className="text-forgotPassword font-semibold">
-        Forgot Password?
-      </p> */}
-        <Button variant="link" size="link">
-          Forgot password?
-        </Button>
-      </Link>
+      href="/pages/forgot_password
+  "
+    >
+      {/* <p className="text-forgotPassword font-semibold">
+      Forgot Password?
+    </p> */}
+      <Button variant="link" size="link">
+        Forgot password?
+      </Button>
+    </Link>
+      }
+
     </div>
     <Button type="submit" variant="default" size="xl">
       Login

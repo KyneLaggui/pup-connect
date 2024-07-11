@@ -13,9 +13,9 @@ const VerificationCheck = ({ children }) => {
   const { userStatus } = FetchUserStatus();
 
   useEffect(() => {
-    if (pathname !== "/pages/confirmSignUp" && userRole == "applicant" && userStatus && !userStatus.setup_finished) {
+    if (pathname !== "/pages/confirmSignUp" && (userRole === "applicant" || userRole === "company") && userStatus && !userStatus.setup_finished) {
       router.push("/pages/confirmSignUp");
-    }
+    } 
   }, [userRole, userStatus, pathname]);
 
   return (
