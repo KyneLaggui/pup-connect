@@ -20,7 +20,7 @@ import ChangeStatus from "@/app/custom_components/ChangeStatus";
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  status: string;
+  // status: string;
   company_name: string;
   email: string;
   no_of_employees: number;
@@ -57,27 +57,27 @@ export const columns: ColumnDef<Payment>[] = [
       return <TableCell>{row.original.id}</TableCell>;
     },
   },
-  {
-    accessorKey: "status",
-    header: "Status",
-    cell: ({ row }) => {
-      const user = row.original;
+  // {
+  //   accessorKey: "status",
+  //   header: "Status",
+  //   cell: ({ row }) => {
+  //     const user = row.original;
 
-      return (
-        <Tag
-          variant={statusVariantMap[user.status]}
-          // state="active"
-          size="sm"
-          className={`cursor-default`}
-        >
-          {user.status}
-        </Tag>
-      );
-    },
-    filterFn: (row, id, value) => {
-      return value.includes(row.getValue(id));
-    },
-  },
+  //     return (
+  //       <Tag
+  //         variant={statusVariantMap[user.status]}
+  //         // state="active"
+  //         size="sm"
+  //         className={`cursor-default`}
+  //       >
+  //         {user.status}
+  //       </Tag>
+  //     );
+  //   },
+  //   filterFn: (row, id, value) => {
+  //     return value.includes(row.getValue(id));
+  //   },
+  // },
   {
     accessorKey: "company_name",
     header: ({ column }) => {
