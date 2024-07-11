@@ -3,8 +3,7 @@
 import React from "react";
 import ApplicantOnlyPage from "@/app/layouts/ApplicantOnlyPage";
 import { useState, useEffect } from 'react'
-import FormProfile from "../../../custom_components/FormProfile";
-import JobApplied from "../../../custom_components/JobApplied";
+import FormProfileCompany from "../../../custom_components/FormProfileCompany";
 import { useParams } from "next/navigation";
 import { supabase } from "@/utils/supabase/client";
 import { useRouter } from 'next/navigation';
@@ -12,7 +11,7 @@ import { selectRole } from "@/redux/slice/authSlice";
 import { useSelector } from "react-redux";
 import VerificationCheck from "@/app/layouts/VerificationCheck";
 
-const Profile = () => {
+const CompanyProfile = () => {
   const { id } = useParams()
   const [isViewable, setIsViewable] = useState(false);
   const userRole = useSelector(selectRole)
@@ -26,14 +25,14 @@ const Profile = () => {
       if ((session && session.user.id === id) || userRole === "admin" || userRole === "company" ) {
         setIsViewable(true)
       } else {
-        router.push('/')
+        console.log('redirect to home')
+        // router.push('/')
       }           
   }
   getUserId();
   }, [id, userRole])
 
   return (
-    <ApplicantOnlyPage>
       <VerificationCheck>
         {
           isViewable ? (
@@ -45,8 +44,7 @@ const Profile = () => {
               </p>
   
               <div className="flex gap-4">
-                <FormProfile id={id} />
-                <JobApplied />
+                <FormProfileCompany id={id} />
               </div>
             </div>
           </div> 
@@ -55,9 +53,8 @@ const Profile = () => {
             </>
           )
         }
-       </VerificationCheck>
-    </ApplicantOnlyPage>
+      </VerificationCheck>
   );
 };
 
-export default Profile;
+export default CompanyProfile;

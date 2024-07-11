@@ -41,18 +41,18 @@ const fetchRoleButtons = () => {
             href: "/pages/accounts",
             tooltip: "List of Accounts",
           },
-          {
-            name: "MOA Status",
-            icon: <DoneOutlineOutlinedIcon />,
-            href: "/pages/moa-status",
-            tooltip: "MOA Status",
-          },
-          {
-            name: "Changelog",
-            icon: <TextSnippetOutlinedIcon />,
-            href: "/pages/changelog",
-            tooltip: "Changelog",
-          },
+          // {
+          //   name: "MOA Status",
+          //   icon: <DoneOutlineOutlinedIcon />,
+          //   href: "/pages/moa-status",
+          //   tooltip: "MOA Status",
+          // },
+          // {
+          //   name: "Changelog",
+          //   icon: <TextSnippetOutlinedIcon />,
+          //   href: "/pages/changelog",
+          //   tooltip: "Changelog",
+          // },
         ])
       } else if (userRole === "faculty") {
         setRoleButtons([
@@ -112,7 +112,7 @@ const fetchRoleButtons = () => {
           {
             name: "Profile",
             icon: <PermIdentityOutlinedIcon />,
-            href: "/pages/profile",
+            href: `/pages/companyProfile/${session.user.id}`,
             tooltip: "Profile",
           },
         ])
