@@ -149,7 +149,7 @@ const FilterJob = () => {
           <Input
             type="text"
             id="search"
-            placeholder="Search Company..."
+            placeholder="Search Job..."
             className="bg-input border-input-border font-medium"
           />
           <Button variant="default" size="default">
