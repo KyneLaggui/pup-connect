@@ -1,8 +1,7 @@
 "use client";
 
 import JobCard from "@/app/custom_components/JobCard";
-import React from "react";
-import { jobCardInfo } from "../../constants";
+import React, { useEffect, useState } from "react";
 import NavBar from "@/app/custom_components/NavBar";
 import FilterJob from "@/app/custom_components/FilterJob";
 import Footer from "@/app/custom_components/Footer";
@@ -33,8 +32,109 @@ import VerificationCheck from "@/app/layouts/VerificationCheck";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { supabase } from "@/utils/supabase/client";
 
-const Explore = () => {
+
+const Explore = () => {   
+
+  const [jobCardInfo, setJobCardInfo] = useState([]);
+
+  // const jobCardInfo = [
+  //   {
+  //     number: "1",
+  //     mode: "Remote",
+  //     type: "Internship",
+  //     salary: "₱15,000 per month",
+  //     company: "Microsoft Philippines Inc.",
+  //     title: "Microsoft Student Program",
+  //     description:
+  //       "Dive into the world of tech with Microsoft internships! Gain hands-on experience on real projects across various fields, from coding to design. Explore programs designed for your experience level and learn from industry experts. Visit their Careers website to launch your journey!",
+  //     image: microsoftLogo,
+  //     tags: ["Advanced", "Explore", "Project-Based", "Diverse"],
+  //     location: "BGC, Philippines",
+  //     about:
+  //       "At Microsoft Philippines Inc., we believe in nurturing talent and fostering innovation. Our Microsoft Student Program offers a gateway to the dynamic world of technology. Immerse yourself in a collaborative environment where your ideas are valued and your skills are honed. Join us on a journey of exploration and growth, where every challenge is an opportunity to excel.",
+  //     qualifications: [
+  //       "Proficiency in coding or design (depending on the specific internship)",
+  //       "Strong communication and teamwork skills",
+  //       "Enthusiasm for technology and innovation",
+  //     ],
+  //     benefits: [
+  //       "Hands-on experience on real projects",
+  //       "Learning opportunities from industry experts",
+  //       "Career development and growth prospects",
+  //     ],
+  //   },
+  // ]
+  const capitalizeFirstLetter = (str) => {
+    // Check if the string is empty
+    if (str === '') return '';
+
+    // Capitalize the first letter and concatenate with the rest of the string
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+  
+  useEffect(() => {
+    const fetchJobs = async() => {
+      const jobFetching = await supabase
+      .from('job')
+      .select('*')
+
+      if (jobFetching.data) {
+        const jobsWithCompany = await Promise.all(
+          (jobFetching.data).map(async (job) => {
+            const { data: companyData, error: companyError } = await supabase
+              .from("company")
+              .select("*")
+              .eq("email", job.email)
+              .single();
+
+            if (companyError) {
+              throw companyError;
+            } else {
+              const { data: companyAddress, error: companyAddressError } = await supabase
+              .from("company_address")
+              .select("*")
+              .eq("email", companyData.email)
+              .single();
+
+              const { data: profileData, error: profileError} = await supabase
+              .from("profile")
+              .select("id")
+              .eq("email", companyData.email)
+              .single();
+
+              const companyLogo = await supabase
+              .storage
+              .from('companyLogo')
+              .getPublicUrl(`public/${profileData.id}.png`)
+
+              return {
+                mode: capitalizeFirstLetter(job.mode),
+                type: capitalizeFirstLetter(job.type),
+                salary: job.salary,
+                company: companyData.name,
+                title: job.title,
+                description: job.role,
+                image: companyLogo.data.publicUrl,
+                tags: job.tags,
+                location: `${companyAddress.street_address} | ${companyAddress.cityOrProvince}| ${companyAddress.region}`,
+                about: companyData.description,
+                qualifications: job.qualifications,
+                benefits: job.benefits
+              };
+            }
+          })
+        )
+
+        setJobCardInfo(jobsWithCompany);
+      }
+
+    }
+
+    fetchJobs();
+  }, [])
+
   return (
     <VerificationCheck>
       <div className="flex flex-col justify-between items-center h-screen">
@@ -92,7 +192,7 @@ const Explore = () => {
                             <h1 className="text-xl font-semibold text-foreground">
                               {job.company}
                             </h1>
-                            <div className="flex items-center gap-1">
+                            {/* <div className="flex items-center gap-1">
                               <Star
                                 fill="currentColor"
                                 size={12}
@@ -101,7 +201,7 @@ const Explore = () => {
                               <p className="text-sm text-drawer-icon font-normal">
                                 {job.ratings} | {job.reviews} reviews
                               </p>
-                            </div>
+                            </div> */}
                           </div>
                         </div>
                         <div>
@@ -244,3 +344,7 @@ const Explore = () => {
 };
 
 export default Explore;
+
+
+
+
