@@ -3,7 +3,7 @@ import FormsLabel from '@/app/custom_components/FormsLabel';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '@/components/ui/button';
 import {
     Select,
@@ -12,18 +12,48 @@ import {
     SelectTrigger,
     SelectValue,
   } from "@/components/ui/select";
-import { companyTags } from "../../../constants";
+import { companyTags } from "../../constants";
 import { Tag } from '@/app/custom_components/Tag';
 import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
+import { supabase } from '@/utils/supabase/client';
+import FetchUserProfile from '@/app/custom_hooks/fetchUserProfile';
 
 const page = () => {
     const [qualifications, setQualifications] = useState([""]);
     const [benefits, setBenefits] = useState([""]);
-    const [attachments, setAttachments] = useState([""]);
+    const [attachments, setAttachments] = useState([null]);
     const [selectedTags, setSelectedTags] = useState([]);
-    
+
+    const [currentJobData, setCurrentJobData] = useState({
+      title: "",
+      mode: "",
+      type: "",
+      salary: null,
+      role: "",
+      email: ""
+    })
+
+    const { userData } = FetchUserProfile();
+
+    const handleChange = (e, name) => {
+      if (e && e.target) {
+          if (e.target.type === "file") {
+              const { name, files } = e.target;
+              const file = files[0];
+              const index = parseInt(name.split('-')[1]);
+              const newAttachments = [...attachments];
+              newAttachments[index] = file;
+              setAttachments(newAttachments);
+          } else {
+              const { name, value } = e.target;
+              setCurrentJobData({ ...currentJobData, [name]: value });
+          }
+      } else if (name) {
+        setCurrentJobData({ ...currentJobData, [name]: e });
+      }
+    };
 
     const handleTagClick = (tag) => {
         setSelectedTags((prevTags) => {
@@ -38,7 +68,6 @@ const page = () => {
 
     const addQualificationInput = () => {
         setQualifications([...qualifications, ""]);
-        console.log("Added Qualification Input:", qualifications);
     };
 
     const removeQualificationInput = (index) => {
@@ -74,7 +103,9 @@ const page = () => {
     };
 
     const addAttachmentInput = () => {
-        setAttachments([...attachments, ""]);
+        if (attachments.length < 4) {
+          setAttachments([...attachments, null]);
+        }
     };
 
     const removeAttachmentInput = (index) => {
@@ -85,11 +116,70 @@ const page = () => {
         }
     };
 
-    const handleAttachmentInputChange = (index, event) => {
-        const newAttachments = [...attachments];
-        newAttachments[index] = event.target.value;
-        setAttachments(newAttachments);
-    };
+    const handleSubmit = async() => {
+        // Insert the job data first to get the job ID
+        const { data: jobDataResult, error: jobDataError } = await supabase
+          .from('job')
+          .insert({
+            title: currentJobData.title,
+            mode: currentJobData.mode,
+            type: currentJobData.type,
+            salary: currentJobData.salary,
+            role: currentJobData.role,
+            qualifications: qualifications,
+            benefits: benefits,
+            tags: selectedTags,
+            email: currentJobData.email,
+          })
+          .select('id'); // Assuming 'id' is the primary key
+      
+        if (jobDataError) {
+          console.error('Error inserting job data:', jobDataError);
+          return;
+        } else {
+          console.log('Job created successfully!')
+        }
+      
+        const jobId = jobDataResult[0].id; // Extract the job ID
+        const folderName = `${jobId}`;
+        const attachmentURLs = [];
+      
+        // Upload attachments using the job ID as the folder name
+        const uploadPromises = attachments.map(async (attachment) => {
+          if (attachment) {
+            const { data, error } = await supabase.storage
+              .from('jobAttachments')
+              .upload(`${folderName}/${attachment.name}`, attachment);
+
+            if (error) {
+              console.error('Error uploading attachment:', error);
+              throw error;
+            }
+          }
+        });
+
+        try {
+          // Wait for all upload promises to complete
+          await Promise.all(uploadPromises);
+          console.log('All attachments uploaded successfully.');
+          
+          // Perform the next steps here if all uploads are successful
+        } catch (error) {
+          console.error('One or more attachments failed to upload:', error);
+          // Handle the error appropriately
+        }
+      };
+      
+    
+
+    useEffect(() => {
+      if (userData) {
+        setCurrentJobData({
+          ...currentJobData,
+          email: userData.email
+        })
+      }
+    }, [userData])
 
   return (
     <div className="">
@@ -100,18 +190,22 @@ const page = () => {
             <div className="flex flex-col gap-6">
               <div className="flex justify-between gap-6">
                 <div className="flex flex-col gap-2 w-full">
-                  <FormsLabel text="Job Title" label="firstname" />
-                  <Input type="text" name="firstName" />
+                  <FormsLabel text="Job Title" label="title" />
+                  <Input type="text" name="title" onInputHandleChange={handleChange} value={currentJobData['title'] || ""}/>
                 </div>
                 
               </div>
 
               <div className="flex justify-start gap-6 ">
                 <div className="flex flex-col gap-2 w-full">
-                  <FormsLabel text="Job Mode" label="jobMode" />
+                  <FormsLabel text="Job Mode" label="mode" />
                   <Select
-                    id="jobMode"
-                    name="jobMode"
+                    id="mode"
+                    name="mode"
+                    onValueChange={(value) => {
+                      handleChange(value, "mode");
+                    }}
+                    defaultValue={currentJobData["mode"] || ""}
                     >
                     <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Please select..." />
@@ -125,10 +219,14 @@ const page = () => {
                     </Select>
                 </div>
                 <div className="flex flex-col gap-2 w-full">
-                  <FormsLabel text="Job Type" label="jobType" />
+                  <FormsLabel text="Job Type" label="type" />
                   <Select
-                    id="jobType"
-                    name="jobType"
+                    id="type"
+                    name="type"
+                    onValueChange={(value) => {
+                      handleChange(value, "type");
+                    }}
+                    defaultValue={currentJobData["type"] || ""}
                     >
                     <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Please select..." />
@@ -144,12 +242,8 @@ const page = () => {
               </div>
 
               <div className='flex flex-col gap-2'>
-                <FormsLabel text="Location (Oy lagyan mo to API)" label="location" />
-                <Input type="text" name="location" value="Gawin mo tong API"/>
-              </div>
-              <div className='flex flex-col gap-2'>
                 <FormsLabel text="Salary (Optional)" label="salary" />
-                <Input type="text" name="salary" />
+                <Input type="text" name="salary" onInputHandleChange={handleChange} value={currentJobData['salary'] || ""}/>
               </div>
             </div>
           </div>
@@ -158,8 +252,9 @@ const page = () => {
                 <h1 className="mb-3 text-lg font-medium">Job Information</h1>
                 <div className="flex flex-col gap-6 w-full">
                     <div className="flex flex-col gap-2">
-                        <FormsLabel text="About this Role" label="aboutRole" />
-                        <Textarea className="border border-input-border bg-input resize-none min-h-[120px]" name="aboutRole" />
+                        <FormsLabel text="About this Role" label="role" />
+                        <Textarea className="border border-input-border bg-input resize-none min-h-[120px]" 
+                        name="role" onChange={handleChange}  value={currentJobData['role'] || ""}/>
                     </div>
                     <div className="flex flex-col gap-2">
                         <FormsLabel text="Qualifications" label="qualifications" />
@@ -215,12 +310,11 @@ const page = () => {
                             <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
                                 <div className="p-1 h-full border-r border-muted">
                                     <FolderOutlinedIcon className="w-[20px] h-[20px] text-drawer-icon" />
-                                    
                                 </div>
                                 <Input
-                                    type="text"
-                                    value={attachment}
-                                    onInputHandleChange={(event) => handleAttachmentInputChange(index, event)}
+                                    type="file"
+                                    accept="image/*"
+                                    onInputHandleChange={(event) => handleChange(event, `attachment-${index}`)}
                                     name={`attachment-${index}`}
                                     className="border-0"
                                 />
@@ -232,7 +326,9 @@ const page = () => {
                                 </div>
                             </div>
                         ))}
-                        <Button variant="outline" onClick={addAttachmentInput}>Add Attachments</Button>
+                        {attachments.length < 4 && (
+                            <Button variant="outline" onClick={addAttachmentInput}>Add Attachments</Button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -262,10 +358,7 @@ const page = () => {
             </div>
           </div>    
 
-
-          
-
-          <Button>Submit</Button>
+          <Button onClick={handleSubmit}>Submit</Button>
         </div>
       </div>
     </div>
