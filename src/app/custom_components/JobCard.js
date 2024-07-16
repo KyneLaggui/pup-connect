@@ -1,22 +1,20 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Image from "next/image";
 import { Tag } from "@/app/custom_components/Tag";
-import { useEffect } from "react";
-import dynamic from "next/dynamic";
+import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+import Image from "next/image";
 
 // const TagWithNoSSR = dynamic(
 //   () => import('@/app/custom_components/Tag'),
 //   { ssr: false }
 // )
+
+const formatDate = (date_created) => {
+  // const date = new Date(date_created);
+  // const options = { year: "numeric", month: "long", day: "numeric" };
+  // return new Intl.DateTimeFormat("en-US", options).format(date);
+  return date_created;
+};
 
 const JobCard = ({ title, description, image, tags }) => {
   // useEffect(() => {
@@ -83,5 +81,24 @@ const JobCardSmall = ({ title, image, company, location }) => {
   );
 };
 
-export { JobCardSmall };
+const JobCardCompany = ({ job_title, date_created, no_of_applicant }) => {
+  return (
+    <div className="slide-parent flex flex-col justify-between items-start p-5 border shadow-sm rounded-lg hover:shadow-md transition-shadow ease-in-out h-[120px]">
+      <div className="overflow-hidden flex flex-col items-start">
+        <h3 className="text-base font-semibold truncate max-w-[55ch]">
+          {job_title}
+        </h3>
+        <p className="text-sm text-muted-foreground tracking-wide">
+          {formatDate(date_created)}
+        </p>
+      </div>
+
+      <p className="text-sm text-muted-foreground tracking-wide">
+        {no_of_applicant} applicants
+      </p>
+    </div>
+  );
+};
+
+export { JobCardCompany, JobCardSmall };
 export default JobCard;
