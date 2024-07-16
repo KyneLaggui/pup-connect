@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useSelector } from 'react-redux'
 import { supabase } from '@/utils/supabase/client';
 
-const ApplicantOnlyPage = ({ children }) => {
+const CompanyOnlyPage = ({ children }) => {
   const router = useRouter()  
   const userRole = useSelector(selectRole)
   
@@ -13,8 +13,7 @@ const ApplicantOnlyPage = ({ children }) => {
     const getSession = async() => {
       const { data: { user }} = await supabase.auth.getUser()
 
-      console.log(user)
-      if (!user || (userRole && (userRole !== "applicant"))) {
+      if (!user || (userRole && (userRole !== "company"))) {
         router.push("/")
       }
     }
@@ -29,4 +28,4 @@ const ApplicantOnlyPage = ({ children }) => {
   )
 }
 
-export default ApplicantOnlyPage;
+export default CompanyOnlyPage;

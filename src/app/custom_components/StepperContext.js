@@ -2,4 +2,5 @@
 import { createContext } from "react";
 
 export const StepperContext = createContext(null);
+export const CompanyContext = createContext(null);
 export const InvalidContext = createContext(null);

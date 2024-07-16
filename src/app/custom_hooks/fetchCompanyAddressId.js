@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '@/supabase/client';
 
 
-const FetchUserAddress = (id) => {
+const FetchCompanyAddressId = (id) => {
     const [userAddress, setUserAddress] = useState(null);
     const [isLoadingProfile, setIsLoadingProfile] = useState(false);  
 
@@ -14,6 +14,7 @@ const FetchUserAddress = (id) => {
                     .select("*")
                     .eq('id', id)
                     .single()
+                    console.log(userData)
                 if (userData.data) {
                     let userAddress = await supabase.from("company_address")
                     .select("*")
@@ -31,4 +32,4 @@ const FetchUserAddress = (id) => {
     return {userAddress: userAddress, isLoadingProfile}
 }
 
-export default FetchUserAddress
+export default FetchCompanyAddressId

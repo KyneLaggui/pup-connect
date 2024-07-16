@@ -8,5 +8,5 @@
       "@/redux/*": ["./src/redux/*"],
       "@/layouts/*": ["./src/app/layouts/*"]
     }
-  }
+  },
 }

@@ -39,7 +39,7 @@ const Sidebar = () => {
   }, [roleButtons]);
 
   return (
-    <div>
+    <div className="z-99">
       <aside className="fixed hidden inset-y-0 left-0 z-50 w-14 flex-col border-r bg-background sm:flex">
         <nav className="flex flex-col items-center gap-4 px-2 sm:py-5">
           <Link

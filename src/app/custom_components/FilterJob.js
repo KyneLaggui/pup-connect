@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -22,6 +24,7 @@ import { CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FilterListIcon from "@mui/icons-material/FilterList";
+import FetchUserProfile from "../custom_hooks/fetchUserProfile";
 
 const FilterJob = () => {
   const [selectedFilters, setSelectedFilters] = useState({
@@ -39,6 +42,16 @@ const FilterJob = () => {
 
   const isSelected = (category, value) => selectedFilters[category] === value;
 
+  const [userRole, setUserRole] = useState(null);
+  const { userData } = FetchUserProfile();
+
+  useEffect(() => {
+    if (userData) {
+      console.log(userData.role)
+      setUserRole(userData.role)
+    }
+  }, [userData]) // Add userData to dependency array
+
   return (
     <div>
       <div className="flex sm:hidden bg-secondary py-8 px-5 sm:px-10 gap-3 flex-col">
@@ -55,13 +68,14 @@ const FilterJob = () => {
 
           <Popover>
             <PopoverTrigger>
-              <Button
+              {/* <Button
                 variant="default"
                 size="default"
                 className="sm:min-w-[140px]"
               >
                 <FilterListIcon />
-              </Button>
+              </Button> */}
+                <FilterListIcon />
             </PopoverTrigger>
             <PopoverContent>
               <Command>
@@ -140,6 +154,15 @@ const FilterJob = () => {
       <div className="hidden sm:flex w-[15rem] py-5 px-5 flex-col justify-start items-start gap-4 border-r-[1.8px] border-muted ">
         {/* Start of Search  */}
         <div className="grid w-full max-w-sm items-center gap-[10px] border-b-[1.5px] border-muted pb-4">
+          {
+            userRole === "company" && (
+              <Link href='/pages/jobCreation' className="w-full"> 
+                <Button size="default" className="bg-green-500 w-full">
+                  Add Job
+                </Button>
+              </Link>
+            )
+          }
           <Label
             htmlFor="search"
             className="text-sm font-medium text-foreground"
@@ -149,7 +172,7 @@ const FilterJob = () => {
           <Input
             type="text"
             id="search"
-            placeholder="Search Company..."
+            placeholder="Search Job..."
             className="bg-input border-input-border font-medium"
           />
           <Button variant="default" size="default">
