@@ -31,6 +31,7 @@ const FormProfileCompany = () => {
     name: "",
     email: "",
     description: "",
+    id: "",
     tags: [],
     logo: null,
   });
@@ -290,7 +291,8 @@ const FormProfileCompany = () => {
         description: userData.description,
         email: userData.email,
         tags: userData.tags,
-        socialLinks: userData.social_links
+        socialLinks: userData.social_links,
+        id: userData.id
       });
 
       setSelectedTags(userData.tags)
@@ -309,14 +311,12 @@ const FormProfileCompany = () => {
 
   useEffect(() => {
     const getResume = async() => {
-      const { data: { user } } = await supabase.auth.getUser()  
-
-      if (user) {
+      if (userData) {
         const result = await supabase
         .storage
         .from('companyLogo')
-        .getPublicUrl(`public/${user.id}.png`)
-        
+        .getPublicUrl(`public/${userData.id}.png`)
+
         if (result.data) {
           setCurrentUserData({...currentUserData, logo: result.data.publicUrl})
         }  
@@ -324,7 +324,8 @@ const FormProfileCompany = () => {
     } 
 
     getResume()
-  }, [])
+    
+  }, [userData])
 
     useEffect(() => {
       generateRegions();

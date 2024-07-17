@@ -17,21 +17,24 @@ const FinalComponent = () => {
 
         const { data, error } = await supabase
           .from('company')
-          .insert({
+          .update({
             name: companyData.name,
-            email: companyData.email,
             tags: companyData.tags,
             description: companyData.description,
             social_links: companyData.socialLinks,
-          });
+          })
+          .eq('email', companyData.email)
 
         if (error) {
           console.log(error);
         }
 
+        const { data: { user } } = await supabase.auth.getUser()   
+
         const addressResult = await supabase
           .from('company_address')
           .insert({
+            company_id: user.id,
             email: companyData.email,
             region: companyData.region,
             region_code: companyData.regionCode,
@@ -44,8 +47,6 @@ const FinalComponent = () => {
         }
 
         const resumeFileExt = companyData.logo.name.split('.').pop();
-
-        const { data: { user } } = await supabase.auth.getUser();
 
         if (user) {
           const logoResult = await supabase

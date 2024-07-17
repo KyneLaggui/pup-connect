@@ -109,6 +109,22 @@ const Explore = () => {
               .from('companyLogo')
               .getPublicUrl(`public/${profileData.id}.png`)
 
+              const folderPath = job.id;
+              
+              const jobAttachments = await supabase
+              .storage
+              .from('jobAttachments')
+              .list(folderPath);
+
+
+              const publicUrls = jobAttachments['data'].map(file => {
+
+                return supabase
+                  .storage
+                  .from('jobAttachments')
+                  .getPublicUrl(`${folderPath}/${file.name}`).data.publicUrl;
+              });
+
               return {
                 mode: capitalizeFirstLetter(job.mode),
                 type: capitalizeFirstLetter(job.type),
@@ -117,6 +133,7 @@ const Explore = () => {
                 title: job.title,
                 description: job.role,
                 image: companyLogo.data.publicUrl,
+                attachments: publicUrls,
                 tags: job.tags,
                 location: `${companyAddress.street_address} | ${companyAddress.cityOrProvince}| ${companyAddress.region}`,
                 about: companyData.description,
@@ -290,12 +307,23 @@ const Explore = () => {
                           <h1 className="text-lg font-medium text-foreground">
                             Attachments
                           </h1>
-                          <iframe
-                            src="https://drive.google.com/file/d/1ZZcxn5ulphyXE7vL1yt5QpiuUXTew1_y/preview"
-                            className="rounded-md"
-                            width="150"
-                            height="150"
-                          ></iframe>
+                          <div className="flex gap-4">
+                            {
+                              job.attachments && (
+                                job.attachments.map((attachment) => {
+                                  return (
+                                    <img
+                                    src={attachment}
+                                    className="object-contain"
+                                    width="300"
+                                    height="300"
+                                  ></img>
+                                  )
+                                })
+                              )
+                            }
+                          </div>
+                         
                         </div>
                       </div>
 

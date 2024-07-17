@@ -2,23 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { supabase } from '@/supabase/client';
 
 
-const FetchUserAddress = () => {
+const FetchApplicantAddress = (id) => {
     const [userAddress, setUserAddress] = useState(null);
     const [isLoadingProfile, setIsLoadingProfile] = useState(false);  
 
     useEffect(() => {
         setIsLoadingProfile(true)
         const getAddress = async() => {
-            const { data: { session } } = await supabase.auth.getSession();
+            let userData = await supabase.from("applicant_address")
+            .select("*")
+            .eq('applicant_id', id)
+            .single();                   
 
-            if (session) {
-                let userData = await supabase.from("address")
-                .select("*")
-                .eq('email', session.user.email)
-                .single();                   
+            if (userData.data) {
                 setUserAddress(userData['data']);
-            }            
-            setIsLoadingProfile(false)
+                setIsLoadingProfile(false)
+            }              
         }
 
         getAddress();
@@ -27,4 +26,4 @@ const FetchUserAddress = () => {
     return {userAddress: userAddress, isLoadingProfile}
 }
 
-export default FetchUserAddress
+export default FetchApplicantAddress

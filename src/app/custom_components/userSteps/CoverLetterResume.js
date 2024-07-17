@@ -45,6 +45,7 @@ const CoverLetterResume = () => {
           name="resume"
           className="text-forms-placeholder mt-1"
           onInputHandleChange={handleChange}
+          accept="application/pdf"          
         />
         {/* {userData["formsLetter"] && (
           <p className="mt-2 text-sm text-muted-foreground tracking-wide">

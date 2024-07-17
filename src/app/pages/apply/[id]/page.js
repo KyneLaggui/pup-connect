@@ -42,8 +42,11 @@ const page = ({ job }) => {
 
   useEffect(() => {
     const designatedJob = jobCardInfo.filter((item) => {
-      return parseInt(item.number) === parseInt(params.id);
+      // return parseInt(item.number) === parseInt(params.id);
+      return parseInt(item.number) === 1;
     });
+
+    console.log(jobCardInfo)
 
     setJobInfo({
       title: designatedJob[0].title,
@@ -99,16 +102,29 @@ const page = ({ job }) => {
                   <Input type="tel" name="phoneNum" />
                 </div>
               </div>
-
-              <div>
-                <FormsLabel text="Address" label="address" />
-                <Input type="text" name="address" />
-              </div>
             </div>
           </div>
 
-          <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
+          {/* <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
             <h1 className="mb-3 text-lg font-medium">Education</h1>
+            <div className="flex justify-between gap-6">
+              <div className="flex flex-col gap-2 w-full">
+                <FormsLabel text="Branch" label="branchSchool" />
+                <Input type="text" name="branchSchool" />
+              </div>
+              <div className="flex flex-col gap-2 w-full">
+                <FormsLabel text="Course" label="courseSchool" />
+                <Input type="text" name="courseSchool" />
+              </div>
+              <div className="flex flex-col gap-2 w-full">
+                <FormsLabel text="Year" label="yearSchool" />
+                <Input type="text" name="yearSchool" />
+              </div>
+            </div>
+          </div> */}
+
+          <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
+            <h1 className="mb-3 text-lg font-medium">Location</h1>
             <div className="flex justify-between gap-6">
               <div className="flex flex-col gap-2 w-full">
                 <FormsLabel text="Branch" label="branchSchool" />

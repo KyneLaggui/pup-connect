@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import InputBox from "@/app/custom_components/InputBox";
 import { signUpWithEmailAndPassword } from "@/supabase/actions";
+import { supabase } from "@/supabase/client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -12,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Alert } from "@/app/custom_components/Alert";
+
 
 const SignupForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -67,7 +69,6 @@ const SignupForm = () => {
       return;
     }
 
-    console.log(formData);
     const result = await signUpWithEmailAndPassword(
       formData.email,
       formData.password,
@@ -78,12 +79,14 @@ const SignupForm = () => {
       formData.role
     );
     const { error } = JSON.parse(result);
+    
+    console.log(JSON.parse(result))
 
     if (error) {
       // console.log(error.message);
       Alert("error", "Error", error.message);
     } else {
-      Alert("success", "Success", "Account created successfully");
+      Alert("success", "Success", "Email sent for confirmation!");
       router.push("/pages/login");
     }
   };
