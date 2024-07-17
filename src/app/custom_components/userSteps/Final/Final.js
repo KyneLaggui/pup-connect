@@ -8,7 +8,7 @@ const FinalComponent = () => {
   useEffect(() => {
     const updateData = async() => {
       const { data, error } = await supabase
-      .from('profile')
+      .from('applicant')
       .update({
         first_name: userData.firstName,
         middle_name: userData.middleName,
@@ -19,23 +19,32 @@ const FinalComponent = () => {
         social_links: userData.socialLinks,
         cover_letter: userData.coverLetter,
         additional_notes: userData.additionalNotes, 
-        setup_finished: true
       })
       .eq('email', userData.email)
 
-      if (error) {
-        console.log(error)
-      }
+      const profileUpdate = await supabase
+      .from('profile')
+      .update({
+        setup_finished: true
+      })
+      .eq('email', userData.email)  
+
+      const { data: { user } } = await supabase.auth.getUser()   
 
       const addressResult = await supabase
-      .from('address')
-      .update({
+      .from('applicant_address')
+      .insert({
+        email: userData.email,
+        applicant_id: user.id,
         region: userData.region,
         region_code: userData.regionCode,
         cityOrProvince: userData.cityOrProvince,
         street_address: userData.streetAddress,
       })
-      .eq('email', userData.email)
+
+      if (error || profileUpdate.error) {
+        console.log(error)
+      }
 
       if (addressResult.error) {
         console.log(addressResult.error)
@@ -44,7 +53,6 @@ const FinalComponent = () => {
       const resumeFileExt = (userData.resume.name).split('.').pop()
       // const rawEmail = (userData.email).replace(/\.com$/, '')
       
-      const { data: { user } } = await supabase.auth.getUser()   
 
       if (user) {
         const resumeResult = await supabase

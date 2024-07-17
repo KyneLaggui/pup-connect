@@ -9,8 +9,9 @@ import Experience from "./userSteps/Experience";
 import CoverLetterResume from "./userSteps/CoverLetterResume";
 import Final from "./userSteps/Final";
 import { StepperContext } from "./StepperContext";
+import { supabase } from "@/utils/supabase/client";
 
-const FormUser = ({ email, firstName, lastName }) => {
+const FormUser = ({ email }) => {
   const [currentStep, setCurrentStep] = useState(1); // track current step
   const [userData, setUserData] = useState({
     firstName: "",
@@ -137,13 +138,27 @@ const FormUser = ({ email, firstName, lastName }) => {
   };
 
   useEffect(() => {
-    setUserData({
-      ...userData,
-      email: email,
-      firstName: firstName,
-      lastName: lastName
-    });
-  }, [email, firstName, lastName]);
+    const fetchCurrentData = async() => {
+      if (email) {
+        const { data } = await supabase
+        .from('applicant')
+        .select('email, first_name, last_name')
+        .eq('email', email)
+        .single()
+
+        if (data) {
+          setUserData({
+            ...userData,
+            email: data.email,
+            firstName: data.first_name,
+            lastName: data.last_name
+          });
+        }
+      }
+    }
+
+    fetchCurrentData();
+  }, [email]);
 
   return (
     <div className="wrapper">

@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import FetchUserProfileId from "@/app/custom_hooks/fetchUserProfileId";
-import FetchUserAddressId from "@/app/custom_hooks/FetchUserAddressId";
+import FetchApplicantProfileId from "@/app/custom_hooks/fetchApplicantProfileId";
+import FetchApplicantAddress from "@/app/custom_hooks/fetchApplicantAddress";
 import { dummyUser } from "../constants";
 import { Input } from "@/components/ui/input";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
@@ -62,8 +62,8 @@ const FormProfile = () => {
   const [provinceCityState, setProvincesCityState] = useState([]);
   
   const { id } = useParams();
-  const { userAddress } = FetchUserAddressId(id);
-  const { userData } = FetchUserProfileId(id);
+  const { userAddress } = FetchApplicantAddress(id);
+  const { userData } = FetchApplicantProfileId(id);
 
   const handleChange = (e, name) => {
     if (e && e.target) {
@@ -248,7 +248,7 @@ const FormProfile = () => {
       setInvalidFields(newInvalidFields);
     } else {      
       const profileUpdateResult = await supabase
-        .from('profile')
+        .from('applicant')
         .update({
           first_name: currentUserData.firstName,
           middle_name: currentUserData.middleName,
@@ -269,7 +269,7 @@ const FormProfile = () => {
       }
 
       const addressUpdateResult = await supabase
-        .from('address')
+        .from('applicant_address')
         .update({
           region: currentUserAddress.region,
           cityOrProvince: currentUserAddress.cityOrProvince,
@@ -372,7 +372,7 @@ const FormProfile = () => {
       }
     }
   }, [regionsState, userData]);
-
+  
   return (
     <div className="flex-1 rounded-xl p-8 border shadow-md bg-background content-end">
       <h1 className="mb-2 text-lg font-semibold">Basic Information</h1>
@@ -565,15 +565,15 @@ const FormProfile = () => {
       <h1 className="text-lg font-semibold">Resume or Curriculum Vitae</h1>
       <Button variant="default" size="sm" className="ml-auto relative cursor-pointer">
         Upload new
-        <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer text-[0]" id="resume" name="resume" onChange={handleChange}/>
+        <input type="file" className="absolute inset-0 w-full h-full opacity-0 
+          cursor-pointer text-[0]" id="resume" name="resume" accept="application/pdf" onChange={handleChange}/>
       </Button>
       </div>
       <div className="flex justify-end">
           {currentUserData.resumeName ? `Uploaded File: ${currentUserData.resumeName}` : ""}           
       </div>
       <iframe
-        // src={currentUserData['resumeDisplay'] || ""}
-        src="https://cmjneigcbfqgdcvlqswp.supabase.co/storage/v1/object/public/resume/public/ad803349-d89d-48c7-b875-041f20cf3b04.pdf"
+        src={currentUserData['resumeDisplay'] || ""}
         className="w-full h-[400px] rounded-lg border mb-6"
       ></iframe>
       <h1 className="mb-4 text-lg font-semibold">Cover Letter</h1>
