@@ -19,6 +19,8 @@ import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
 import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import { supabase } from '@/utils/supabase/client';
 import FetchUserProfile from '@/app/custom_hooks/fetchUserProfile';
+import VerificationCheck from "@/app/layouts/VerificationCheck";
+
 
 const page = () => {
     const [qualifications, setQualifications] = useState([""]);
@@ -182,186 +184,188 @@ const page = () => {
     }, [userData])
 
   return (
-    <div className="">
-      <div className="container flex items-center justify-center ">
-        <div className="flex flex-col gap-6 max-w-[800px] w-full px-2 pt-10 pb-[80px]">
-          <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
-            <h1 className="mb-3 text-lg font-medium">Job Information</h1>
-            <div className="flex flex-col gap-6">
-              <div className="flex justify-between gap-6">
-                <div className="flex flex-col gap-2 w-full">
-                  <FormsLabel text="Job Title" label="title" />
-                  <Input type="text" name="title" onInputHandleChange={handleChange} value={currentJobData['title'] || ""}/>
-                </div>
-                
-              </div>
+    <VerificationCheck>
+      <div className="">
+            <div className="container flex items-center justify-center ">
+              <div className="flex flex-col gap-6 max-w-[800px] w-full px-2 pt-10 pb-[80px]">
+                <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
+                  <h1 className="mb-3 text-lg font-medium">Job Information</h1>
+                  <div className="flex flex-col gap-6">
+                    <div className="flex justify-between gap-6">
+                      <div className="flex flex-col gap-2 w-full">
+                        <FormsLabel text="Job Title" label="title" />
+                        <Input type="text" name="title" onInputHandleChange={handleChange} value={currentJobData['title'] || ""}/>
+                      </div>
+                      
+                    </div>
 
-              <div className="flex justify-start gap-6 ">
-                <div className="flex flex-col gap-2 w-full">
-                  <FormsLabel text="Job Mode" label="mode" />
-                  <Select
-                    id="mode"
-                    name="mode"
-                    onValueChange={(value) => {
-                      handleChange(value, "mode");
-                    }}
-                    defaultValue={currentJobData["mode"] || ""}
-                    >
-                    <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Please select..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="remote">Remote</SelectItem>
-                        <SelectItem value="onSite">On-site</SelectItem>
-                        <SelectItem value="hybrid">Hybrid</SelectItem>
-                        
-                    </SelectContent>
-                    </Select>
-                </div>
-                <div className="flex flex-col gap-2 w-full">
-                  <FormsLabel text="Job Type" label="type" />
-                  <Select
-                    id="type"
-                    name="type"
-                    onValueChange={(value) => {
-                      handleChange(value, "type");
-                    }}
-                    defaultValue={currentJobData["type"] || ""}
-                    >
-                    <SelectTrigger className="mt-1">
-                        <SelectValue placeholder="Please select..." />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="internship">Internship</SelectItem>
-                        <SelectItem value="partTime">Part-Time</SelectItem>
-                        <SelectItem value="fullTime">Full-Time</SelectItem>
-                        
-                    </SelectContent>
-                    </Select>
-                </div>
-              </div>
+                    <div className="flex justify-start gap-6 ">
+                      <div className="flex flex-col gap-2 w-full">
+                        <FormsLabel text="Job Mode" label="mode" />
+                        <Select
+                          id="mode"
+                          name="mode"
+                          onValueChange={(value) => {
+                            handleChange(value, "mode");
+                          }}
+                          defaultValue={currentJobData["mode"] || ""}
+                          >
+                          <SelectTrigger className="mt-1">
+                              <SelectValue placeholder="Please select..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                              <SelectItem value="remote">Remote</SelectItem>
+                              <SelectItem value="onSite">On-site</SelectItem>
+                              <SelectItem value="hybrid">Hybrid</SelectItem>
+                              
+                          </SelectContent>
+                          </Select>
+                      </div>
+                      <div className="flex flex-col gap-2 w-full">
+                        <FormsLabel text="Job Type" label="type" />
+                        <Select
+                          id="type"
+                          name="type"
+                          onValueChange={(value) => {
+                            handleChange(value, "type");
+                          }}
+                          defaultValue={currentJobData["type"] || ""}
+                          >
+                          <SelectTrigger className="mt-1">
+                              <SelectValue placeholder="Please select..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                              <SelectItem value="internship">Internship</SelectItem>
+                              <SelectItem value="partTime">Part-Time</SelectItem>
+                              <SelectItem value="fullTime">Full-Time</SelectItem>
+                              
+                          </SelectContent>
+                          </Select>
+                      </div>
+                    </div>
 
-              <div className='flex flex-col gap-2'>
-                <FormsLabel text="Salary (Optional)" label="salary" />
-                <Input type="text" name="salary" onInputHandleChange={handleChange} value={currentJobData['salary'] || ""}/>
+                    <div className='flex flex-col gap-2'>
+                      <FormsLabel text="Salary (Optional)" label="salary" />
+                      <Input type="text" name="salary" onInputHandleChange={handleChange} value={currentJobData['salary'] || ""}/>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
+                      <h1 className="mb-3 text-lg font-medium">Job Information</h1>
+                      <div className="flex flex-col gap-6 w-full">
+                          <div className="flex flex-col gap-2">
+                              <FormsLabel text="About this Role" label="role" />
+                              <Textarea className="border border-input-border bg-input resize-none min-h-[120px]" 
+                              name="role" onChange={handleChange}  value={currentJobData['role'] || ""}/>
+                          </div>
+                          <div className="flex flex-col gap-2">
+                              <FormsLabel text="Qualifications" label="qualifications" />
+                              {qualifications.map((qualification, index) => (
+                                  <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
+                                      <div className="p-1 h-full border-r border-muted">
+                                          <WorkOutlineIcon className="w-[20px] h-[20px] text-drawer-icon" />
+                                      </div>
+                                      <Input
+                                          type="text"
+                                          value={qualification}
+                                          onInputHandleChange={(event) => handleQualificationInputChange(index, event)}
+                                          name={`qualification-${index}`}
+                                          className="border-0"
+                                      />
+                                      <div className="p-2">
+                                          <RemoveCircleIcon
+                                              className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
+                                              onClick={() => removeQualificationInput(index)}
+                                          />
+                                      </div>
+                                  </div>
+                              ))}
+                              <Button variant="outline" onClick={addQualificationInput}>Add Qualifications</Button>
+                          </div>
+                          <div className="flex flex-col gap-2">
+                              <FormsLabel text="Benefits" label="benefits" />
+                              {benefits.map((benefit, index) => (
+                                  <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
+                                      <div className="p-1 h-full border-r border-muted">
+                                          <HandshakeOutlinedIcon className="w-[20px] h-[20px] text-drawer-icon" />
+                                      </div>
+                                      <Input
+                                          type="text"
+                                          value={benefit}
+                                          onInputHandleChange={(event) => handleBenefitInputChange(index, event)}
+                                          name={`benefit-${index}`}
+                                          className="border-0"
+                                      />
+                                      <div className="p-2">
+                                          <RemoveCircleIcon
+                                              className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
+                                              onClick={() => removeBenefitInput(index)}
+                                          />
+                                      </div>
+                                  </div>
+                              ))}
+                              <Button variant="outline" onClick={addBenefitInput}>Add Benefits</Button>
+                          </div>
+                          <div className="flex flex-col gap-2">
+                              <FormsLabel text="Attachments" label="attachments" />
+                              {attachments.map((attachment, index) => (
+                                  <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
+                                      <div className="p-1 h-full border-r border-muted">
+                                          <FolderOutlinedIcon className="w-[20px] h-[20px] text-drawer-icon" />
+                                      </div>
+                                      <Input
+                                          type="file"
+                                          accept="image/*"
+                                          onInputHandleChange={(event) => handleChange(event, `attachment-${index}`)}
+                                          name={`attachment-${index}`}
+                                          className="border-0"
+                                      />
+                                      <div className="p-2">
+                                          <RemoveCircleIcon
+                                              className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
+                                              onClick={() => removeAttachmentInput(index)}
+                                          />
+                                      </div>
+                                  </div>
+                              ))}
+                              {attachments.length < 4 && (
+                                  <Button variant="outline" onClick={addAttachmentInput}>Add Attachments</Button>
+                              )}
+                          </div>
+                      </div>
+                  </div>
+
+                <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
+                  <h1 className="mb-3 text-lg font-medium">Tags</h1>
+                  <div className="flex flex-col items-center">
+                      
+                      <div
+                          className={`flex flex-wrap gap-3 justify-center mt-8 transition-all duration-500 ease-in-out`}
+                      >
+                          {companyTags.map((tag, index) => (
+                          <div key={index} className="flex items-center gap-2">
+                              <Tag
+                              variant="static"
+                              size="default"
+                              state={selectedTags.includes(tag) ? "selected" : "default"}
+                              onClick={() => handleTagClick(tag)}
+                              className="cursor-pointer"
+                              >
+                              {tag}
+                              </Tag>
+                          </div>
+                          ))}
+                      </div>
+                      
+                  </div>
+                </div>    
+
+                <Button onClick={handleSubmit}>Submit</Button>
               </div>
             </div>
           </div>
-
-          <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
-                <h1 className="mb-3 text-lg font-medium">Job Information</h1>
-                <div className="flex flex-col gap-6 w-full">
-                    <div className="flex flex-col gap-2">
-                        <FormsLabel text="About this Role" label="role" />
-                        <Textarea className="border border-input-border bg-input resize-none min-h-[120px]" 
-                        name="role" onChange={handleChange}  value={currentJobData['role'] || ""}/>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <FormsLabel text="Qualifications" label="qualifications" />
-                        {qualifications.map((qualification, index) => (
-                            <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
-                                <div className="p-1 h-full border-r border-muted">
-                                    <WorkOutlineIcon className="w-[20px] h-[20px] text-drawer-icon" />
-                                </div>
-                                <Input
-                                    type="text"
-                                    value={qualification}
-                                    onInputHandleChange={(event) => handleQualificationInputChange(index, event)}
-                                    name={`qualification-${index}`}
-                                    className="border-0"
-                                />
-                                <div className="p-2">
-                                    <RemoveCircleIcon
-                                        className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
-                                        onClick={() => removeQualificationInput(index)}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                        <Button variant="outline" onClick={addQualificationInput}>Add Qualifications</Button>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <FormsLabel text="Benefits" label="benefits" />
-                        {benefits.map((benefit, index) => (
-                            <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
-                                <div className="p-1 h-full border-r border-muted">
-                                    <HandshakeOutlinedIcon className="w-[20px] h-[20px] text-drawer-icon" />
-                                </div>
-                                <Input
-                                    type="text"
-                                    value={benefit}
-                                    onInputHandleChange={(event) => handleBenefitInputChange(index, event)}
-                                    name={`benefit-${index}`}
-                                    className="border-0"
-                                />
-                                <div className="p-2">
-                                    <RemoveCircleIcon
-                                        className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
-                                        onClick={() => removeBenefitInput(index)}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                        <Button variant="outline" onClick={addBenefitInput}>Add Benefits</Button>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <FormsLabel text="Attachments" label="attachments" />
-                        {attachments.map((attachment, index) => (
-                            <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
-                                <div className="p-1 h-full border-r border-muted">
-                                    <FolderOutlinedIcon className="w-[20px] h-[20px] text-drawer-icon" />
-                                </div>
-                                <Input
-                                    type="file"
-                                    accept="image/*"
-                                    onInputHandleChange={(event) => handleChange(event, `attachment-${index}`)}
-                                    name={`attachment-${index}`}
-                                    className="border-0"
-                                />
-                                <div className="p-2">
-                                    <RemoveCircleIcon
-                                        className="w-[15px] h-[15px] text-drawer-icon cursor-pointer"
-                                        onClick={() => removeAttachmentInput(index)}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                        {attachments.length < 4 && (
-                            <Button variant="outline" onClick={addAttachmentInput}>Add Attachments</Button>
-                        )}
-                    </div>
-                </div>
-            </div>
-
-          <div className="flex flex-col gap-2 p-5 border border-checkbox-border rounded-md">
-            <h1 className="mb-3 text-lg font-medium">Tags</h1>
-            <div className="flex flex-col items-center">
-                
-                <div
-                    className={`flex flex-wrap gap-3 justify-center mt-8 transition-all duration-500 ease-in-out`}
-                >
-                    {companyTags.map((tag, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                        <Tag
-                        variant="static"
-                        size="default"
-                        state={selectedTags.includes(tag) ? "selected" : "default"}
-                        onClick={() => handleTagClick(tag)}
-                        className="cursor-pointer"
-                        >
-                        {tag}
-                        </Tag>
-                    </div>
-                    ))}
-                </div>
-                
-            </div>
-          </div>    
-
-          <Button onClick={handleSubmit}>Submit</Button>
-        </div>
-      </div>
-    </div>
+    </VerificationCheck>    
   )
 }
 

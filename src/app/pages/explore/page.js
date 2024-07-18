@@ -32,48 +32,31 @@ import VerificationCheck from "@/app/layouts/VerificationCheck";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import { selectRole } from '@/redux/slice/authSlice'
 import { supabase } from "@/utils/supabase/client";
+import { useSelector } from "react-redux";
 
 
 const Explore = () => {   
-
   const [jobCardInfo, setJobCardInfo] = useState([]);
+  const [currentUserRole, setCurrentUserRole] = useState("")
 
-  // const jobCardInfo = [
-  //   {
-  //     number: "1",
-  //     mode: "Remote",
-  //     type: "Internship",
-  //     salary: "₱15,000 per month",
-  //     company: "Microsoft Philippines Inc.",
-  //     title: "Microsoft Student Program",
-  //     description:
-  //       "Dive into the world of tech with Microsoft internships! Gain hands-on experience on real projects across various fields, from coding to design. Explore programs designed for your experience level and learn from industry experts. Visit their Careers website to launch your journey!",
-  //     image: microsoftLogo,
-  //     tags: ["Advanced", "Explore", "Project-Based", "Diverse"],
-  //     location: "BGC, Philippines",
-  //     about:
-  //       "At Microsoft Philippines Inc., we believe in nurturing talent and fostering innovation. Our Microsoft Student Program offers a gateway to the dynamic world of technology. Immerse yourself in a collaborative environment where your ideas are valued and your skills are honed. Join us on a journey of exploration and growth, where every challenge is an opportunity to excel.",
-  //     qualifications: [
-  //       "Proficiency in coding or design (depending on the specific internship)",
-  //       "Strong communication and teamwork skills",
-  //       "Enthusiasm for technology and innovation",
-  //     ],
-  //     benefits: [
-  //       "Hands-on experience on real projects",
-  //       "Learning opportunities from industry experts",
-  //       "Career development and growth prospects",
-  //     ],
-  //   },
-  // ]
+  const userRole = useSelector(selectRole)
+
   const capitalizeFirstLetter = (str) => {
     // Check if the string is empty
     if (str === '') return '';
 
     // Capitalize the first letter and concatenate with the rest of the string
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
+    return str.charAt(0).toUpperCase() + str.slice(1);    
+  }
   
+  useEffect(() => {
+    if (userRole) {
+      setCurrentUserRole(userRole)
+    }
+  }, [])
+   
   useEffect(() => {
     const fetchJobs = async() => {
       const jobFetching = await supabase
@@ -126,6 +109,7 @@ const Explore = () => {
               });
 
               return {
+                number: job.id,
                 mode: capitalizeFirstLetter(job.mode),
                 type: capitalizeFirstLetter(job.type),
                 salary: job.salary,
@@ -174,20 +158,24 @@ const Explore = () => {
                           <h1 className="text-3xl font-semibold text-foreground">
                             {job.title}
                           </h1>
-                          <div className="flex items-center gap-2">
-                            <Button>
-                              <Link
-                                key={job.number}
-                                href={`/pages/apply/${job.number}`}
-                                className="px-10 py-3 text-sm font-medium"
-                              >
-                                Apply
-                              </Link>
-                            </Button>
-                            <div className="border border-buttonBorder p-3 rounded-md cursor-pointer">
-                              <Share2 className="text-buttonBorder" size={17} />
-                            </div>
-                          </div>
+                          {
+                            currentUserRole === 'applicant' && (
+                              <div className="flex items-center gap-2">
+                                <Button>
+                                  <Link
+                                    key={job.number}
+                                    href={`/pages/apply/${job.number}`}
+                                    className="px-10 py-3 text-sm font-medium"
+                                  >
+                                    Apply
+                                  </Link>
+                                </Button>
+                                <div className="border border-buttonBorder p-3 rounded-md cursor-pointer">
+                                  <Share2 className="text-buttonBorder" size={17} />
+                                </div>
+                              </div>
+                            )
+                          }                          
                         </div>
 
                         {/* Removed <div> around <Tag> */}

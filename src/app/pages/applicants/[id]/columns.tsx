@@ -3,19 +3,23 @@
 import { TableCell } from "@/app/custom_components/TableCell";
 import ViewApplication from "@/app/custom_components/applicants/ViewApplication";
 import { Button } from "@/components/ui/button";
+import { supabase } from "@/utils/supabase/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, Check, XIcon } from "lucide-react";
+import Swal from "sweetalert2"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  first_name: string;
-  middle_name: string;
-  last_name: string;
+  firstName: string;
+  middleName: string;
+  lastName: string;
   email: string;
-  role: string;
-  application_date: string;
+  applicationDate: string;
+  companyEmail: string;
+  jobId: number;
+  applicationId: number;
 };
 
 const formatDate = (date: string) => {
@@ -66,7 +70,7 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "first_name",
+    accessorKey: "firstName",
     header: ({ column }) => {
       return (
         <p
@@ -85,13 +89,13 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      let middleInitial = row.original.middle_name
-        ? row.original.middle_name.charAt(0) + "."
+      let middleInitial = row.original.middleName
+        ? row.original.middleName.charAt(0) + "."
         : "";
 
       return (
         <TableCell>
-          {row.original.first_name} {middleInitial} {row.original.last_name}
+          {row.original.firstName} {middleInitial} {row.original.lastName}
         </TableCell>
       );
     },
@@ -123,18 +127,53 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      return <TableCell>{formatDate(row.original.application_date)}</TableCell>;
+      return <TableCell>{row.original.applicationDate}</TableCell>;
     },
   },
   {
     accessorKey: "decision",
     header: "Decision",
     cell: ({ row }) => {
-      const user = row.original;
+      const user = row.original;      
+
+      const acceptApplicant = async() => {
+        Swal.fire({
+          title: "Confirmation",
+          text: "Do you want to approve this application?",
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, accept it!"
+        }).then(async(result) => {
+          if (result.isConfirmed) {
+            const confirmationResult = await supabase
+            .from('employee')
+            .insert({
+              applicant_email: user.email,
+              company_email: user.companyEmail,
+              job_id: user.jobId
+            })
+
+            const applicationDeletionResult = await supabase
+            .from('job_application')
+            .delete()
+            .eq('id', user.applicationId)
+            
+            if (!confirmationResult.error && !applicationDeletionResult.error) {
+              Swal.fire({
+                title: "Confirmed!",
+                text: "The applicant has been accepted.",
+                icon: "success"
+              });
+            }
+          }
+        });
+      }
 
       return (
         <div className="flex gap-2">
-          <Button variant="default" size="icon-sm" className="ml-2">
+          <Button variant="default" size="icon-sm" className="ml-2" onClick={acceptApplicant}>
             <Check className="h-4 w-4" />
           </Button>
           <Button variant="destructive" size="icon-sm" className="ml-2">

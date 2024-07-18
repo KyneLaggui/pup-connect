@@ -1,15 +1,58 @@
+"use client"
+import { useState, useEffect } from 'react'
 import { companyTable } from "@/app/constants";
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import VerificationCheck from "@/layouts/VerificationCheck";
+import { supabase } from '@/utils/supabase/client';
+// {
+//   id: 1,
+//   status: "Approved",
+//   company_name: "Kamba",
+//   email: "kbaldery0@geocities.jp",
+//   no_of_employees: 17,
+//   date: "2023-10-29T22:19:35Z",
+// },
 
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return companyTable;
-}
+export default function CompaniesPage() {
+  const [data, setData] = useState([])
 
-export default async function CompaniesPage() {
-  const data = await getData();
+  useEffect(() => {
+    async function getData(): Promise<Payment[]> {
+      // Fetch data from your API here.
+      const allCompany = await supabase 
+        .from('company')
+        .select('*')
+
+      let gatheredData = [];
+      if (allCompany.data) {
+        const companyDetails = await Promise.all(
+          (allCompany.data).map(async (company) => {
+              const date = new Date(company.created_at);
+              // Define options for formatting the date
+              const options = { year: 'numeric', month: 'long', day: 'numeric' };
+              // Format the date
+              const formattedDate = date.toLocaleDateString('en-US', options);
+
+              gatheredData = [
+                ...gatheredData,
+                {
+                  id: company.id,
+                  company_name: company.name,
+                  email: company.email,
+                  no_of_employees: 17,
+                  date: formattedDate,
+                }
+              ]  
+            })
+            )      
+          }
+
+        setData(gatheredData)
+        }
+        
+      getData()
+    }, [])
 
   return (
     <VerificationCheck>

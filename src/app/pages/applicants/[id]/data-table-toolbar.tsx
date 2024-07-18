@@ -22,10 +22,10 @@ export function DataTableToolbar<TData>({
         <Input
           placeholder="Search for first name..."
           value={
-            (table.getColumn("first_name")?.getFilterValue() as string) ?? ""
+            (table.getColumn("firstName")?.getFilterValue() as string) ?? ""
           }
           onInputHandleChange={(event) =>
-            table.getColumn("first_name")?.setFilterValue(event.target.value)
+            table.getColumn("firstName")?.setFilterValue(event.target.value)
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
