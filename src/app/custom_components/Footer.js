@@ -2,7 +2,7 @@ import { Globe, Facebook, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
-    <div className="w-full z-50">
+    <div className="w-full z-30">
       <div className="container flex justify-between items-center p-2 mt-2 py-6 border-t-[1.8px] border-muted">
         <div className="text-sm">©2024 PUP Connect. All rights reserved.</div>
         <div className="flex items-center gap-2">

@@ -1,23 +1,49 @@
 import { dummyUser } from "@/app/constants";
 import { dummyResume } from "@assets/index";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const EmployeeProfile = () => {
-  const [userData, setUserData] = useState({
-    firstName: dummyUser.firstName,
-    middleName: dummyUser.middleName,
-    lastName: dummyUser.lastName,
-    birthDate: dummyUser.birthDate,
-    gender: dummyUser.gender,
-    email: dummyUser.email,
-    phone: dummyUser.phone,
-    region: dummyUser.region,
-    province: dummyUser.province,
-    city: dummyUser.city,
-    barangay: dummyUser.barangay,
-    address: dummyUser.address,
-    socialLinks: dummyUser.socialLinks,
+const ApplicationView = ({ data }) => {
+  const [currentData, setCurrentData] = useState({
+    id: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    birthDate: null,
+    applicationDate: null,
+    gender: "",
+    phoneNumber: "",
+    socialLinks: [],
+    coverLetter: "",
+    additionalNotes: "",
+    region: "",
+    cityOrProvince: "",
+    streetAddress: "",
+    resume: null
   });
+
+  useEffect(() => {
+    if (data) {
+      setCurrentData({
+        id: data.id,
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        email: data.email,
+        birthDate: data.birthDate,
+        applicationDate: data.applicationDate,
+        gender: data.gender,
+        phoneNumber: data.phoneNumber,
+        socialLinks: data.socialLinks,
+        coverLetter: data.coverLetter,
+        additionalNotes: data.additionalNotes,
+        resume: data.resume,
+        region: data.region,
+        cityOrProvince: data.cityOrProvince,
+        streetAddress: data.streetAddress,
+      })
+    }
+  }, [data])
 
   return (
     <div className="max-w-[760px] px-4 pt-8 pb-12 space-y-6">
@@ -28,31 +54,31 @@ const EmployeeProfile = () => {
             <tr>
               <td className="w-[140px] text-muted-foreground">First Name:</td>
               <td>
-                <p>{userData.firstName}</p>
+                <p>{currentData.firstName}</p>
               </td>
             </tr>
             <tr>
               <td className="text-muted-foreground">Middle Name:</td>
               <td>
-                <p>{userData.middleName}</p>
+                <p>{currentData.middleName}</p>
               </td>
             </tr>
             <tr>
               <td className="text-muted-foreground">Last Name:</td>
               <td>
-                <p>{userData.lastName}</p>
+                <p>{currentData.lastName}</p>
               </td>
             </tr>
             <tr>
               <td className="text-muted-foreground">Birthdate:</td>
               <td>
-                <p>{userData.birthDate}</p>
+                <p>{currentData.birthDate}</p>
               </td>
             </tr>
             <tr>
               <td className="text-muted-foreground">Gender:</td>
               <td>
-                <p>{userData.gender}</p>
+                <p>{currentData.gender}</p>
               </td>
             </tr>
           </tbody>
@@ -66,13 +92,13 @@ const EmployeeProfile = () => {
             <tr>
               <td className="w-[140px] text-muted-foreground">Email:</td>
               <td>
-                <p>{userData.email}</p>
+                <p>{currentData.email}</p>
               </td>
             </tr>
             <tr>
               <td className="text-muted-foreground">Phone:</td>
               <td>
-                <p>{userData.phone}</p>
+                <p>{currentData.phoneNumber}</p>
               </td>
             </tr>
           </tbody>
@@ -85,31 +111,19 @@ const EmployeeProfile = () => {
             <tr>
               <td className="w-[140px] text-muted-foreground">Region:</td>
               <td>
-                <p>{userData.region}</p>
+                <p>{currentData.region}</p>
               </td>
             </tr>
             <tr>
-              <td className="text-muted-foreground">Province:</td>
+              <td className="text-muted-foreground">City/Province:</td>
               <td>
-                <p>{userData.province}</p>
+                <p>{currentData.cityOrProvince}</p>
               </td>
             </tr>
             <tr>
-              <td className="text-muted-foreground">City:</td>
+              <td className="text-muted-foreground">Street Address:</td>
               <td>
-                <p>{userData.city}</p>
-              </td>
-            </tr>
-            <tr>
-              <td className="text-muted-foreground">Barangay:</td>
-              <td>
-                <p>{userData.barangay}</p>
-              </td>
-            </tr>
-            <tr>
-              <td className="text-muted-foreground">Street:</td>
-              <td>
-                <p>{userData.address}</p>
+                <p>{currentData.streetAddress}</p>
               </td>
             </tr>
           </tbody>
@@ -120,24 +134,21 @@ const EmployeeProfile = () => {
           Resume or Curriculum Vitae
         </h1>
         <iframe
-          src={dummyResume}
+          src={currentData.resume}
           className="w-full h-[400px] rounded-lg border mb-6"
         ></iframe>
       </div>
       <div>
         <h1 className="mb-2 text-lg font-semibold">Cover Letter</h1>
         <p className="mb-6">
-          Ad quis proident officia id ex commodo dolore commodo qui proident id.
-          Eiusmod cupidatat amet laboris nisi est officia eu Lorem nisi aute.
-          Aliquip id tempor dolor enim incididunt consectetur cillum excepteur
-          officia.
+          {currentData.coverLetter}
         </p>
       </div>
 
       <div>
         <h1 className="mb-2 text-lg font-semibold">Social Links</h1>
         <ol className="list-disc">
-          {dummyUser.socialLinks.map((link, index) => (
+          {currentData.socialLinks && currentData.socialLinks.map((link, index) => (
             <li key={index} className="ml-6 mb-1">
               <a
                 className="text-primary underline"
@@ -155,4 +166,4 @@ const EmployeeProfile = () => {
   );
 };
 
-export default EmployeeProfile;
+export default ApplicationView;
