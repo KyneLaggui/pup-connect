@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabase } from '@/supabase/client';
 
-const FetchUserProfile = (id) => {
+const FetchApplicantProfileId = (id) => {
     const [user, setUser] = useState(null);
     const [isLoadingProfile, setIsLoadingProfile] = useState(false);  
 
@@ -10,7 +10,7 @@ const FetchUserProfile = (id) => {
         const getProfile = async() => {
 
             if (id) {
-                let userData = await supabase.from("profile")
+                let userData = await supabase.from("applicant")
                 .select("*")
                 .eq('id', id)
                 .single();                   
@@ -25,4 +25,4 @@ const FetchUserProfile = (id) => {
     return {userData: user, isLoadingProfile}
 }
 
-export default FetchUserProfile
+export default FetchApplicantProfileId

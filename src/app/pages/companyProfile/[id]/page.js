@@ -44,7 +44,7 @@ const CompanyProfile = () => {
               </p>
   
               <div className="flex gap-4">
-                <FormProfileCompany id={id} />
+                <FormProfileCompany />
               </div>
             </div>
           </div> 

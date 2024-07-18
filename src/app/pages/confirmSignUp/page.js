@@ -13,8 +13,7 @@ import FormCompany from '../../custom_components/FormCompany';
 const Page = () => {
   const [userData, setUserData] = useState({
     email: null,
-    firstName: null,
-    lastName: null,
+    role: null,
   })
 
   const userEmail = useSelector(selectEmail)
@@ -23,18 +22,17 @@ const Page = () => {
 
 
   useEffect(() => {
+
     const getData = async() => {
       const { data } = await supabase
       .from('profile')
-      .select('email, first_name, last_name, role')
+      .select('email, role')
       .eq('email', userEmail)
       .single()
 
       if (data) {
         setUserData({
           email: data.email,
-          firstName: data.first_name,
-          lastName: data.last_name,
           role: data.role
         })
       }
@@ -55,7 +53,7 @@ const Page = () => {
         {
           userData.role === 'applicant' && (
             <ApplicantOnlyPage>
-              <FormUser email={userData.email} firstName={userData.firstName} lastName={userData.lastName}/>
+              <FormUser email={userData.email} />
             </ApplicantOnlyPage>
           )
         }
