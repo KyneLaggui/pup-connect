@@ -1,71 +1,54 @@
 "use client";
 
-import JobCard from "@/app/custom_components/JobCard";
-import React, { useEffect, useState } from "react";
-import NavBar from "@/app/custom_components/NavBar";
+import ImageZoom from "@/app/custom_components/ImageZoom";
 import FilterJob from "@/app/custom_components/FilterJob";
 import Footer from "@/app/custom_components/Footer";
-import { AccordionProgress } from "@/app/custom_components/AccordionProgress";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
-import { Button } from "@/components/ui/button";
-import {
-  AlarmClock,
-  Cog,
-  Navigation,
-  Share2,
-  Star,
-  WalletMinimal,
-} from "lucide-react";
-import Image from "next/image";
+import JobCard from "@/app/custom_components/JobCard";
 import { Tag } from "@/app/custom_components/Tag";
-import Link from "next/link";
 import VerificationCheck from "@/app/layouts/VerificationCheck";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/ui/button";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import { selectRole } from "@/redux/slice/authSlice";
+import { supabase } from "@/utils/supabase/client";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
-import { selectRole } from '@/redux/slice/authSlice'
-import { supabase } from "@/utils/supabase/client";
+import { Navigation, Share2, WalletMinimal } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import FmdGoodOutlinedIcon from "@mui/icons-material/FmdGoodOutlined";
+import PaidOutlinedIcon from "@mui/icons-material/PaidOutlined";
+import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
+import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 
-
-const Explore = () => {   
+const Explore = () => {
   const [jobCardInfo, setJobCardInfo] = useState([]);
-  const [currentUserRole, setCurrentUserRole] = useState("")
+  const [currentUserRole, setCurrentUserRole] = useState("");
 
-  const userRole = useSelector(selectRole)
+  const userRole = useSelector(selectRole);
 
   const capitalizeFirstLetter = (str) => {
     // Check if the string is empty
-    if (str === '') return '';
+    if (str === "") return "";
 
     // Capitalize the first letter and concatenate with the rest of the string
-    return str.charAt(0).toUpperCase() + str.slice(1);    
-  }
-  
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
   useEffect(() => {
     if (userRole) {
-      setCurrentUserRole(userRole)
+      setCurrentUserRole(userRole);
     }
-  }, [])
-   
+  }, []);
+
   useEffect(() => {
-    const fetchJobs = async() => {
-      const jobFetching = await supabase
-      .from('job')
-      .select('*')
+    const fetchJobs = async () => {
+      const jobFetching = await supabase.from("job").select("*");
 
       if (jobFetching.data) {
         const jobsWithCompany = await Promise.all(
-          (jobFetching.data).map(async (job) => {
+          jobFetching.data.map(async (job) => {
             const { data: companyData, error: companyError } = await supabase
               .from("company")
               .select("*")
@@ -75,36 +58,32 @@ const Explore = () => {
             if (companyError) {
               throw companyError;
             } else {
-              const { data: companyAddress, error: companyAddressError } = await supabase
-              .from("company_address")
-              .select("*")
-              .eq("email", companyData.email)
-              .single();
+              const { data: companyAddress, error: companyAddressError } =
+                await supabase
+                  .from("company_address")
+                  .select("*")
+                  .eq("email", companyData.email)
+                  .single();
 
-              const { data: profileData, error: profileError} = await supabase
-              .from("profile")
-              .select("id")
-              .eq("email", companyData.email)
-              .single();
+              const { data: profileData, error: profileError } = await supabase
+                .from("profile")
+                .select("id")
+                .eq("email", companyData.email)
+                .single();
 
-              const companyLogo = await supabase
-              .storage
-              .from('companyLogo')
-              .getPublicUrl(`public/${profileData.id}.png`)
+              const companyLogo = await supabase.storage
+                .from("companyLogo")
+                .getPublicUrl(`public/${profileData.id}.png`);
 
               const folderPath = job.id;
-              
-              const jobAttachments = await supabase
-              .storage
-              .from('jobAttachments')
-              .list(folderPath);
 
+              const jobAttachments = await supabase.storage
+                .from("jobAttachments")
+                .list(folderPath);
 
-              const publicUrls = jobAttachments['data'].map(file => {
-
-                return supabase
-                  .storage
-                  .from('jobAttachments')
+              const publicUrls = jobAttachments["data"].map((file) => {
+                return supabase.storage
+                  .from("jobAttachments")
                   .getPublicUrl(`${folderPath}/${file.name}`).data.publicUrl;
               });
 
@@ -119,22 +98,21 @@ const Explore = () => {
                 image: companyLogo.data.publicUrl,
                 attachments: publicUrls,
                 tags: job.tags,
-                location: `${companyAddress.street_address} | ${companyAddress.cityOrProvince}| ${companyAddress.region}`,
+                location: `${companyAddress.street_address}, ${companyAddress.cityOrProvince}, ${companyAddress.region}`,
                 about: companyData.description,
                 qualifications: job.qualifications,
-                benefits: job.benefits
+                benefits: job.benefits,
               };
             }
           })
-        )
+        );
 
         setJobCardInfo(jobsWithCompany);
       }
-
-    }
+    };
 
     fetchJobs();
-  }, [])
+  }, []);
 
   return (
     <VerificationCheck>
@@ -143,7 +121,7 @@ const Explore = () => {
           <FilterJob />
           <div className="flex flex-col gap-4 py-5 px-5">
             {/* <AccordionProgress /> */}
-            <div className="w-full flex justify-start flex-wrap flex-grow gap-4">
+            <div className="w-full flex items-start flex-wrap gap-4">
               {jobCardInfo.map((job) => (
                 <Drawer key={job.number}>
                   {" "}
@@ -158,24 +136,25 @@ const Explore = () => {
                           <h1 className="text-3xl font-semibold text-foreground">
                             {job.title}
                           </h1>
-                          {
-                            currentUserRole === 'applicant' && (
-                              <div className="flex items-center gap-2">
-                                <Button>
-                                  <Link
-                                    key={job.number}
-                                    href={`/pages/apply/${job.number}`}
-                                    className="px-10 py-3 text-sm font-medium"
-                                  >
-                                    Apply
-                                  </Link>
-                                </Button>
-                                <div className="border border-buttonBorder p-3 rounded-md cursor-pointer">
-                                  <Share2 className="text-buttonBorder" size={17} />
-                                </div>
+                          {currentUserRole === "applicant" && (
+                            <div className="flex items-center gap-2">
+                              <Button>
+                                <Link
+                                  key={job.number}
+                                  href={`/pages/apply/${job.number}`}
+                                  className="px-10 py-3 text-sm font-medium"
+                                >
+                                  Apply
+                                </Link>
+                              </Button>
+                              <div className="border border-buttonBorder p-3 rounded-md cursor-pointer">
+                                <Share2
+                                  className="text-buttonBorder"
+                                  size={17}
+                                />
                               </div>
-                            )
-                          }                          
+                            </div>
+                          )}
                         </div>
 
                         {/* Removed <div> around <Tag> */}
@@ -209,7 +188,7 @@ const Explore = () => {
                             </div> */}
                           </div>
                         </div>
-                        <div>
+                        <div className="space-y-1">
                           <div className="flex items-center gap-2">
                             <AccessTimeIcon
                               size={14}
@@ -224,26 +203,23 @@ const Explore = () => {
                               size={14}
                               className="text-drawer-icon text-[20px]"
                             />
-                            <span class="material-symbols-outlined">
-                              near_me
-                            </span>
                             <p className="text-base text-drawer-icon font-base">
                               {job.mode}
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <Navigation
+                            <FmdGoodOutlinedIcon
                               size={14}
-                              className="text-drawer-icon"
+                              className="text-drawer-icon text-[20px]"
                             />
                             <p className="text-base text-drawer-icon font-base">
                               {job.location}
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
-                            <WalletMinimal
+                            <MonetizationOnOutlinedIcon
                               size={14}
-                              className="text-drawer-icon"
+                              className="text-drawer-icon text-[20px]"
                             />
                             <p className="text-base text-drawer-icon font-base">
                               {job.salary}
@@ -296,22 +272,25 @@ const Explore = () => {
                             Attachments
                           </h1>
                           <div className="flex gap-4">
-                            {
-                              job.attachments && (
-                                job.attachments.map((attachment) => {
-                                  return (
-                                    <img
+                            {job.attachments &&
+                              job.attachments.map((attachment, index) => {
+                                return (
+                                  // <Image
+                                  //   key={index}
+                                  //   alt={`attachment-${index}`}
+                                  //   src={attachment}
+                                  //   className="object-cover aspect-square rounded-lg border border-tertiary-border shadow-md cursor-pointer"
+                                  //   width="180"
+                                  //   height="180"
+                                  // ></Image>
+                                  <ImageZoom
                                     src={attachment}
-                                    className="object-contain"
-                                    width="300"
-                                    height="300"
-                                  ></img>
-                                  )
-                                })
-                              )
-                            }
+                                    alt={`attachment-${index}`}
+                                    key={index}
+                                  />
+                                );
+                              })}
                           </div>
-                         
                         </div>
                       </div>
 
@@ -360,7 +339,3 @@ const Explore = () => {
 };
 
 export default Explore;
-
-
-
-

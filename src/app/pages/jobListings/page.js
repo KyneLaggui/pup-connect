@@ -116,7 +116,7 @@ const JobListings = () => {
                   image: companyLogo.data.publicUrl,
                   attachments: publicUrls,
                   tags: job.tags,
-                  location: `${companyAddress.street_address} | ${companyAddress.cityOrProvince}| ${companyAddress.region}`,
+                  location: `${companyAddress.street_address}, ${companyAddress.cityOrProvince}, ${companyAddress.region}`,
                   about: companyData.description,
                   qualifications: job.qualifications,
                   benefits: job.benefits,
@@ -168,7 +168,7 @@ const JobListings = () => {
                 <div className="flex justify-evenly xl:p-14 p-12 items-start overflow-y-scroll ">
                   <div className="flex flex-col justify-start items-start gap-5 lg:min-w-[940px]">
                     <div className="flex justify-between items-center w-full ">
-                      <h1 className="text-3xl font-semibold text-foreground">
+                      <h1 className="text-3xl font-semibold text-foreground capitalize">
                         {job.title}
                       </h1>
                       <div className="flex items-center gap-2">
