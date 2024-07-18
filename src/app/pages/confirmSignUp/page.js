@@ -9,6 +9,8 @@ import { useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation'
 import FetchUserStatus from '@/app/custom_hooks/FetchUserStatus';
 import FormCompany from '../../custom_components/FormCompany';
+import VerificationCheck from "@/app/layouts/VerificationCheck";
+
 
 const Page = () => {
   const [userData, setUserData] = useState({
@@ -48,7 +50,7 @@ const Page = () => {
   }, [userStatus])
 
   return (
-   
+    <VerificationCheck>
       <div className='mt-20 mb-20'>
         {
           userData.role === 'applicant' && (
@@ -63,9 +65,9 @@ const Page = () => {
               <FormCompany email={userData.email} />
             </CompanyOnlyPage>
           )
-        }
-          
-        </div>
+        }          
+      </div>
+    </VerificationCheck>      
   )
 }
 

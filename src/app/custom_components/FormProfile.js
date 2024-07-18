@@ -35,6 +35,7 @@ const FormProfile = () => {
     resumeDisplay: null,
     resumeName: null
   });
+
   const [currentUserAddress, setCurrentUserAddress] = useState({
     region: "",
     regionCode: "",

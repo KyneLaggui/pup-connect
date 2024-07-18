@@ -10,15 +10,22 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import { Navigation, Share2, WalletMinimal } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { supabase } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { selectEmail } from "@/redux/slice/authSlice";
 
 const JobListings = () => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [publishedJobs, setPublishedJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
   const jobs = jobTableV2;
 
-  const filteredJobs = jobs.filter((job) =>
-    job.job_title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const userEmail = useSelector(selectEmail)
+
+  // const filteredJobs = jobs.filter((job) =>
+  //   job.job_title.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   const formatJobType = (jobType) => {
     switch (jobType) {
@@ -45,6 +52,97 @@ const JobListings = () => {
         return jobMode; // Return the original value if it doesn't match any case
     }
   };
+
+  const capitalizeFirstLetter = (str) => {
+    // Check if the string is empty
+    if (str === '') return '';
+
+    // Capitalize the first letter and concatenate with the rest of the string
+    return str.charAt(0).toUpperCase() + str.slice(1);    
+  }
+
+  useEffect(() => {
+    if (userEmail) {
+      const fetchJobs = async() => {
+        const { data: companyData, error: companyError } = await supabase
+        .from("company")
+        .select("*")
+        .eq("email", userEmail)
+        .single();
+
+        if (companyError) {
+          throw companyError;
+        } else {
+          const { data: companyAddress, error: companyAddressError } = await supabase
+          .from("company_address")
+          .select("*")
+          .eq("email", companyData.email)
+          .single();
+  
+          const companyLogo = await supabase
+          .storage
+          .from('companyLogo')
+          .getPublicUrl(`public/${companyData.id}.png`)
+          
+          // Getting all published jobs by the logged in company
+          const jobFetching = await supabase
+          .from('job')
+          .select('*')
+          .eq('email', userEmail)
+          
+        
+        if (jobFetching.data) {
+          const publishedJobs = await Promise.all(
+            (jobFetching.data).map(async(job) => {  
+              const folderPath = job.id;
+
+              const jobAttachments = await supabase
+              .storage
+              .from('jobAttachments')
+              .list(folderPath);
+
+              const publicUrls = jobAttachments['data'].map(file => {
+                return supabase
+                  .storage
+                  .from('jobAttachments')
+                  .getPublicUrl(`${folderPath}/${file.name}`).data.publicUrl;
+              });
+
+              return {
+                number: job.id,
+                mode: capitalizeFirstLetter(job.mode),
+                type: capitalizeFirstLetter(job.type),
+                salary: job.salary,
+                company: companyData.name,
+                title: job.title,
+                description: job.role,
+                image: companyLogo.data.publicUrl,
+                attachments: publicUrls,
+                tags: job.tags,
+                location: `${companyAddress.street_address} | ${companyAddress.cityOrProvince}| ${companyAddress.region}`,
+                about: companyData.description,
+                qualifications: job.qualifications,
+                benefits: job.benefits,
+                createdAt: job.created_at
+              };
+            }) 
+          )
+
+          setPublishedJobs(publishedJobs);
+      }
+      }
+    }
+    fetchJobs()
+    }
+
+  }, [userEmail])
+
+  useEffect(() => {
+    setFilteredJobs(publishedJobs.filter((job) =>
+      job.title.toLowerCase().includes(searchTerm.toLowerCase())
+    ))
+
+  }, [searchTerm, publishedJobs])
 
   return (
     <div className="flex">
@@ -73,16 +171,16 @@ const JobListings = () => {
                   <div className="flex flex-col justify-start items-start gap-5 lg:min-w-[940px]">
                     <div className="flex justify-between items-center w-full ">
                       <h1 className="text-3xl font-semibold text-foreground">
-                        {job.job_title}
+                        {job.title}
                       </h1>
                       <div className="flex items-center gap-2">
                         <Button>
                           <Link
                             key={job.id}
-                            href={`/pages/applicants/${job.id}`} // Change this to the correct path
+                            href={`/pages/applicants/${job.number}`} // Change this to the correct path
                             className="px-2"
                           >
-                            Applicants
+                            Applicant
                           </Link>
                         </Button>
                         <div className="border border-buttonBorder p-3 rounded-md cursor-pointer">
@@ -121,7 +219,7 @@ const JobListings = () => {
                           className="text-drawer-icon text-[20px]"
                         />
                         <p className="text-base text-drawer-icon font-base">
-                          {formatJobType(job.job_type)}
+                          {formatJobType(job.type)}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
@@ -130,7 +228,7 @@ const JobListings = () => {
                           className="text-drawer-icon text-[20px]"
                         />
                         <p className="text-base text-drawer-icon font-base">
-                          {formatJobMode(job.job_mode)}
+                          {formatJobMode(job.mode)}
                         </p>
                       </div>
                       <div className="flex items-center gap-2">
