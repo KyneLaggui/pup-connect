@@ -12,9 +12,9 @@ import Image from "next/image";
 const formatDate = (date_created) => {
   const date = new Date(date_created);
   // Define options for formatting the date
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: "numeric", month: "long", day: "numeric" };
   // Format the date
-  const formattedDate = date.toLocaleDateString('en-US', options);
+  const formattedDate = date.toLocaleDateString("en-US", options);
   return formattedDate;
 };
 
@@ -85,7 +85,7 @@ const JobCardSmall = ({ title, image, company, location }) => {
 
 const JobCardCompany = ({ title, createdAt, no_of_applicant }) => {
   return (
-    <div className="slide-parent flex flex-col justify-between items-start p-5 border shadow-sm rounded-lg hover:shadow-md transition-shadow ease-in-out h-[120px]">
+    <div className="slide-parent flex flex-col justify-between items-start p-5 border shadow-sm rounded-lg hover:shadow-md transition-shadow ease-in-out h-[120px] sm:max-w-[400px] sm:w-[300px]">
       <div className="overflow-hidden flex flex-col items-start">
         <h3 className="text-base font-semibold truncate max-w-[55ch]">
           {title}

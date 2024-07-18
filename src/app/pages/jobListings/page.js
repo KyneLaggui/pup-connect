@@ -21,7 +21,7 @@ const JobListings = () => {
   const [filteredJobs, setFilteredJobs] = useState([]);
   const jobs = jobTableV2;
 
-  const userEmail = useSelector(selectEmail)
+  const userEmail = useSelector(selectEmail);
 
   // const filteredJobs = jobs.filter((job) =>
   //   job.job_title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -55,94 +55,91 @@ const JobListings = () => {
 
   const capitalizeFirstLetter = (str) => {
     // Check if the string is empty
-    if (str === '') return '';
+    if (str === "") return "";
 
     // Capitalize the first letter and concatenate with the rest of the string
-    return str.charAt(0).toUpperCase() + str.slice(1);    
-  }
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
 
   useEffect(() => {
     if (userEmail) {
-      const fetchJobs = async() => {
+      const fetchJobs = async () => {
         const { data: companyData, error: companyError } = await supabase
-        .from("company")
-        .select("*")
-        .eq("email", userEmail)
-        .single();
+          .from("company")
+          .select("*")
+          .eq("email", userEmail)
+          .single();
 
         if (companyError) {
           throw companyError;
         } else {
-          const { data: companyAddress, error: companyAddressError } = await supabase
-          .from("company_address")
-          .select("*")
-          .eq("email", companyData.email)
-          .single();
-  
-          const companyLogo = await supabase
-          .storage
-          .from('companyLogo')
-          .getPublicUrl(`public/${companyData.id}.png`)
-          
+          const { data: companyAddress, error: companyAddressError } =
+            await supabase
+              .from("company_address")
+              .select("*")
+              .eq("email", companyData.email)
+              .single();
+
+          const companyLogo = await supabase.storage
+            .from("companyLogo")
+            .getPublicUrl(`public/${companyData.id}.png`);
+
           // Getting all published jobs by the logged in company
           const jobFetching = await supabase
-          .from('job')
-          .select('*')
-          .eq('email', userEmail)
-          
-        
-        if (jobFetching.data) {
-          const publishedJobs = await Promise.all(
-            (jobFetching.data).map(async(job) => {  
-              const folderPath = job.id;
+            .from("job")
+            .select("*")
+            .eq("email", userEmail);
 
-              const jobAttachments = await supabase
-              .storage
-              .from('jobAttachments')
-              .list(folderPath);
+          if (jobFetching.data) {
+            const publishedJobs = await Promise.all(
+              jobFetching.data.map(async (job) => {
+                const folderPath = job.id;
 
-              const publicUrls = jobAttachments['data'].map(file => {
-                return supabase
-                  .storage
-                  .from('jobAttachments')
-                  .getPublicUrl(`${folderPath}/${file.name}`).data.publicUrl;
-              });
+                const jobAttachments = await supabase.storage
+                  .from("jobAttachments")
+                  .list(folderPath);
 
-              return {
-                number: job.id,
-                mode: capitalizeFirstLetter(job.mode),
-                type: capitalizeFirstLetter(job.type),
-                salary: job.salary,
-                company: companyData.name,
-                title: job.title,
-                description: job.role,
-                image: companyLogo.data.publicUrl,
-                attachments: publicUrls,
-                tags: job.tags,
-                location: `${companyAddress.street_address} | ${companyAddress.cityOrProvince}| ${companyAddress.region}`,
-                about: companyData.description,
-                qualifications: job.qualifications,
-                benefits: job.benefits,
-                createdAt: job.created_at
-              };
-            }) 
-          )
+                const publicUrls = jobAttachments["data"].map((file) => {
+                  return supabase.storage
+                    .from("jobAttachments")
+                    .getPublicUrl(`${folderPath}/${file.name}`).data.publicUrl;
+                });
 
-          setPublishedJobs(publishedJobs);
-      }
-      }
+                return {
+                  number: job.id,
+                  mode: capitalizeFirstLetter(job.mode),
+                  type: capitalizeFirstLetter(job.type),
+                  salary: job.salary,
+                  company: companyData.name,
+                  title: job.title,
+                  description: job.role,
+                  image: companyLogo.data.publicUrl,
+                  attachments: publicUrls,
+                  tags: job.tags,
+                  location: `${companyAddress.street_address} | ${companyAddress.cityOrProvince}| ${companyAddress.region}`,
+                  about: companyData.description,
+                  qualifications: job.qualifications,
+                  benefits: job.benefits,
+                  createdAt: job.created_at,
+                };
+              })
+            );
+
+            setPublishedJobs(publishedJobs);
+          }
+        }
+      };
+      fetchJobs();
     }
-    fetchJobs()
-    }
-
-  }, [userEmail])
+  }, [userEmail]);
 
   useEffect(() => {
-    setFilteredJobs(publishedJobs.filter((job) =>
-      job.title.toLowerCase().includes(searchTerm.toLowerCase())
-    ))
-
-  }, [searchTerm, publishedJobs])
+    setFilteredJobs(
+      publishedJobs.filter((job) =>
+        job.title.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, publishedJobs]);
 
   return (
     <div className="flex">
@@ -160,7 +157,8 @@ const JobListings = () => {
           className="mb-5"
         />
 
-        <div className="grid auto-fit-[300px] gap-4">
+        {/* <div className="grid auto-fit-[300px] gap-4"> */}
+        <div className="flex gap-4 flex-col flex-wrap sm:flex-row">
           {filteredJobs.map((job, index) => (
             <Drawer key={job.id}>
               <DrawerTrigger>
