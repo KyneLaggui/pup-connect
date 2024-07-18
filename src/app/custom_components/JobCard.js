@@ -26,7 +26,7 @@ const JobCard = ({ title, description, image, tags }) => {
 
   return (
     <Card className="slide-parent w-full sm:max-w-[296px] h-[160px] sm:min-w-[296px] flex justify-between items-center flex-col p-5 border border-blue-100 bg-background">
-      <div className="flex flex-col justify-start items-center gap-3">
+      <div className="flex flex-col justify-start items-center gap-3 w-full">
         <div className="w-full flex items-center gap-2 flex-row">
           <Image
             src={image}
@@ -35,11 +35,11 @@ const JobCard = ({ title, description, image, tags }) => {
             alt="Company Logo"
             className="rounded-[1px]"
           />
-          <CardTitle className="text-base --obsidian-950 font-medium">
+          <CardTitle className="text-base --obsidian-950 font-medium capitalize">
             {title}
           </CardTitle>
         </div>
-        <CardDescription className="text-xs max-h-[42px] truncate-lines font-normal text-muted-foreground text-start tracking-wide">
+        <CardDescription className="text-xs max-h-[42px] w-full truncate-lines font-normal text-muted-foreground text-start tracking-wide">
           {description}
         </CardDescription>
       </div>
@@ -87,7 +87,7 @@ const JobCardCompany = ({ title, createdAt, no_of_applicant }) => {
   return (
     <div className="slide-parent flex flex-col justify-between items-start p-5 border shadow-sm rounded-lg hover:shadow-md transition-shadow ease-in-out h-[120px] sm:max-w-[400px] sm:w-[300px]">
       <div className="overflow-hidden flex flex-col items-start">
-        <h3 className="text-base font-semibold truncate max-w-[55ch]">
+        <h3 className="text-base font-semibold truncate max-w-[55ch] capitalize">
           {title}
         </h3>
         <p className="text-sm text-muted-foreground tracking-wide">
@@ -96,7 +96,7 @@ const JobCardCompany = ({ title, createdAt, no_of_applicant }) => {
       </div>
 
       <p className="text-sm text-muted-foreground tracking-wide">
-        {no_of_applicant} applicants
+        {no_of_applicant > 0 ? `${no_of_applicant}` : "No Applicants"}
       </p>
     </div>
   );
