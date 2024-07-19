@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { X, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { signUpWithEmailAndPasswordOnly } from "@/utils/supabase/actions";
+import { Alert } from "@/app/custom_components/Alert";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -67,9 +68,13 @@ export function DataTableToolbar<TData>({
     const { error } = JSON.parse(result);
 
     if (error) {
-      console.log('Failed to add account.')
+      Alert(
+        "error",
+        "An error has occured",
+        "Company registration failed!"
+      );
     } else {
-      console.log('Account successfully added!');
+      Alert("success", "Registration successful", "Please check the designated email for the confirmation.");
     }
   };
 

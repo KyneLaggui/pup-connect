@@ -5,6 +5,7 @@ import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import VerificationCheck from "@/layouts/VerificationCheck";
 import { supabase } from '@/utils/supabase/client';
+import AdminOnlyPage from '@/app/layouts/AdminOnlyPage';
 // {
 //   id: 1,
 //   status: "Approved",
@@ -16,7 +17,7 @@ import { supabase } from '@/utils/supabase/client';
 
 export default function CompaniesPage() {
   const [data, setData] = useState([])
-
+  
   useEffect(() => {
     async function getData(): Promise<Payment[]> {
       // Fetch data from your API here.
@@ -56,6 +57,7 @@ export default function CompaniesPage() {
 
   return (
     <VerificationCheck>
+      <AdminOnlyPage>
       <div className="flex">
         <div className="container-sidebar">
           <h1 className="text-2xl font-semibold tracking-tight">Companies</h1>
@@ -66,6 +68,7 @@ export default function CompaniesPage() {
           <DataTable columns={columns} data={data} />
         </div>
       </div>
+      </AdminOnlyPage>      
     </VerificationCheck>
 
   );

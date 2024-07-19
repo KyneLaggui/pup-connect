@@ -14,10 +14,10 @@ import FormProfile from "../../FormProfile";
 // You can use a Zod schema here if you want.
 export type Payment = {
   id: string;
-  first_name: string;
-  last_name: string;
-  job: string;
+  firstName: string;
+  lastName: string;
   email: string;
+  jobTitle: string;
 };
 
 export const columns: ColumnDef<Payment>[] = [
@@ -45,7 +45,7 @@ export const columns: ColumnDef<Payment>[] = [
     },
   },
   {
-    accessorKey: "first_name",
+    accessorKey: "firstName",
     header: ({ column }) => {
       return (
         <p
@@ -64,11 +64,11 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      return <TableCell>{row.original.first_name}</TableCell>;
+      return <TableCell>{row.original.firstName}</TableCell>;
     },
   },
   {
-    accessorKey: "last_name",
+    accessorKey: "lastName",
     header: ({ column }) => {
       return (
         <p
@@ -87,14 +87,14 @@ export const columns: ColumnDef<Payment>[] = [
       );
     },
     cell: ({ row }) => {
-      return <TableCell>{row.original.last_name}</TableCell>;
+      return <TableCell>{row.original.lastName}</TableCell>;
     },
   },
   {
     accessorKey: "job",
     header: "Job",
     cell: ({ row }) => {
-      return <TableCell>{row.original.job}</TableCell>;
+      return <TableCell>{row.original.jobTitle}</TableCell>;
     },
   },
   {
@@ -108,7 +108,9 @@ export const columns: ColumnDef<Payment>[] = [
     accessorKey: "action",
     header: "Action",
     cell: ({ row }) => {
-      return <ViewModal />;
+      const data = row.original;
+
+      return <ViewModal data={data}/>;
     },
   },
 ];
