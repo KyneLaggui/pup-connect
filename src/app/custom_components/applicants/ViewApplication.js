@@ -26,7 +26,8 @@ const ViewApplication = ({ data }) => {
     region: "",
     cityOrProvince: "",
     streetAddress: "",
-    resume: null
+    resume: null,
+    updateUI: null
   });
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
@@ -49,6 +50,7 @@ const ViewApplication = ({ data }) => {
         region: data.region,
         cityOrProvince: data.cityOrProvince,
         streetAddress: data.streetAddress,
+        updateUI: data.updateUI
       })
     }
   }, [data])

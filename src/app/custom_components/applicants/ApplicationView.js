@@ -19,7 +19,8 @@ const ApplicationView = ({ data }) => {
     region: "",
     cityOrProvince: "",
     streetAddress: "",
-    resume: null
+    resume: null,
+    updateUI: null
   });
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const ApplicationView = ({ data }) => {
         region: data.region,
         cityOrProvince: data.cityOrProvince,
         streetAddress: data.streetAddress,
+        updateUI: data.updateUI
       })
     }
   }, [data])
