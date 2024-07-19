@@ -3,7 +3,7 @@
 import { supabase } from "@/utils/supabase/client";
 import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
-import AdminOnlyPage from "@/layouts/AdminOnlyPage";
+import AdminFacultyOnlyPage from "@/layouts/AdminFacultyOnlyPage";
 import { useState, useEffect } from "react";
 
 // {
@@ -74,7 +74,7 @@ export default function AccountsPage() {
   }, [])
 
   return (
-    <AdminOnlyPage>
+    <AdminFacultyOnlyPage>
       <div className="flex">
         <div className="container-sidebar">
           <h1 className="text-2xl font-semibold tracking-tight">Accounts</h1>
@@ -85,7 +85,7 @@ export default function AccountsPage() {
           <DataTable columns={columns} data={data} />
         </div>
       </div>
-    </AdminOnlyPage>
+    </AdminFacultyOnlyPage>
 
   );
 }
