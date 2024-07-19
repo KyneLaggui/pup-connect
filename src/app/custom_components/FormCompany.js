@@ -7,7 +7,8 @@ import AccountInfo from "./companySteps/AccountInfo";
 import Tags from "./companySteps/Tags";
 import { CompanyContext } from "./StepperContext";
 import Final from "./companySteps/Final";
-
+import { useRouter } from "next/navigation";
+  
 const FormCompany = ({ email }) => {
   const [currentStep, setCurrentStep] = useState(1); // track current step
   const [companyData, setCompanyData] = useState({
@@ -42,6 +43,8 @@ const FormCompany = ({ email }) => {
   // Initializing all the possible steps titles
   const steps = ["Basic Info", "Account Info", "Tags", "Complete"];
 
+  const router = useRouter();
+
   // Displaying the step based on the current step
   const displayStep = (step) => {
     switch (step) {
@@ -60,7 +63,15 @@ const FormCompany = ({ email }) => {
   // Handling the next and previous button
   const handleClick = (direction) => {
     let newStep = currentStep;
-    direction === "next" ? newStep++ : newStep--;
+
+    if (direction === "confirm") {
+      router.push('/');
+    } else if (direction === "next") {
+      newStep++
+    } else {
+      newStep--
+    }
+
     newStep > 0 && newStep <= steps.length && setCurrentStep(newStep); // update the current step
   };
 

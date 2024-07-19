@@ -26,6 +26,10 @@ export default function ApplicantsPage() {
     return formattedDate;
   };
 
+  const capitalizeFirstLetter = (str) => {
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+  };
+
   const updateUI = (applicationId) => {
     setData(data.filter(application => application.applicationId !== applicationId))
   }
@@ -92,7 +96,7 @@ export default function ApplicantsPage() {
                         birthDate: applicantData.birth_date,
                         applicationId: application.id, 
                         applicationDate: formatDate(application.created_at),
-                        gender: applicantData.gender,
+                        gender: capitalizeFirstLetter(applicantData.gender),
                         phoneNumber: applicantData.phone_number,
                         socialLinks: applicantData.social_links,
                         coverLetter: applicantData.cover_letter,
@@ -101,6 +105,7 @@ export default function ApplicantsPage() {
                         region: applicantAddressData.region,
                         cityOrProvince: applicantAddressData.cityOrProvince,
                         streetAddress: applicantAddressData.street_address,
+                        updateUI: updateUI
                       }
                     }                              
                   }

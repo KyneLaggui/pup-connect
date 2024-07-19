@@ -8,17 +8,25 @@ import { Button } from "@/components/ui/button";
 import { X, Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { signUpWithEmailAndPasswordOnly } from "@/utils/supabase/actions";
+import { Alert } from "@/app/custom_components/Alert";
+import { useSelector } from "react-redux";
+import { selectRole } from "@/redux/slice/authSlice";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
+  allData: TData[];
 }
 
 export function DataTableToolbar<TData>({
   table,
+  allData
 }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [tableState, setTableState] = useState(null)
+  const [role, setRole] = useState(null)
+  const userRole = useSelector(selectRole)
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -46,6 +54,38 @@ export function DataTableToolbar<TData>({
     return emailRegex.test(email);
   }
 
+  const downloadCSV = () => {
+        // Step 1: Convert objects to CSV format
+    const csvRows = [];
+    const headers = Object.keys(tableState[0]);
+    csvRows.push(headers.join(','));
+
+    for (const obj of tableState) {
+        const values = headers.map(header => JSON.stringify(obj[header], replacer));
+        csvRows.push(values.join(','));
+    }
+
+    const csvString = csvRows.join('\n');
+
+    // Step 2: Create a Blob from the CSV string
+    const blob = new Blob([csvString], { type: 'text/csv' });
+
+    // Step 3: Create a link element, set its href to the Blob URL, and trigger a download
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `companies.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function replacer(key, value) {
+    // Handle null values
+    return value === null ? '' : value;
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     
@@ -67,15 +107,27 @@ export function DataTableToolbar<TData>({
     const { error } = JSON.parse(result);
 
     if (error) {
-      console.log('Failed to add account.')
+      Alert(
+        "error",
+        "An error has occured",
+        "Company registration failed!"
+      );
     } else {
-      console.log('Account successfully added!');
+      Alert("success", "Registration successful", "Please check the designated email for the confirmation.");
     }
   };
 
   useEffect(() => {
-    console.log(formData)
-  }, [formData])
+    if (userRole) {
+      setRole(userRole)
+    }
+  }, [userRole])
+
+  useEffect(() => {
+    if (allData) {
+      setTableState(allData)
+    }
+  }, [allData])
 
   return (
     <div className="flex items-center justify-between w-full">
@@ -109,10 +161,19 @@ export function DataTableToolbar<TData>({
             <p>Reset</p>
           </Button>
         )}
-
-        <Button variant="default" size="sm" className="ml-auto" onClick={toggleModal}>
+        {
+          role === 'admin' && (
+            <Button variant="default" size="sm" className="ml-auto" onClick={toggleModal}>
+            <div className="flex items-center gap-2">
+              Add company
+              <Plus className="h-4 w-4" />
+            </div>
+          </Button>
+          )
+        }
+        <Button variant="green" size="sm" className="ml-auto" onClick={downloadCSV}>
           <div className="flex items-center gap-2">
-            Add company
+            Export data to CSV
             <Plus className="h-4 w-4" />
           </div>
         </Button>

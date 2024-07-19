@@ -20,6 +20,9 @@ import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 import { supabase } from '@/utils/supabase/client';
 import FetchUserProfile from '@/app/custom_hooks/fetchUserProfile';
 import VerificationCheck from "@/app/layouts/VerificationCheck";
+import { useRouter } from 'next/navigation';
+import { Alert } from "@/app/custom_components/Alert";
+
 
 
 const page = () => {
@@ -38,6 +41,7 @@ const page = () => {
     })
 
     const { userData } = FetchUserProfile();
+    const router = useRouter();
 
     const handleChange = (e, name) => {
       if (e && e.target) {
@@ -136,10 +140,15 @@ const page = () => {
           .select('id'); // Assuming 'id' is the primary key
       
         if (jobDataError) {
-          console.error('Error inserting job data:', jobDataError);
+          console.log(jobDataError)
+          Alert(
+            "error",
+            "Creation Failed",
+            "Job listing unsuccessful"
+          );
           return;
         } else {
-          console.log('Job created successfully!')
+          Alert("success", "Creation Successful", "Job listed successfully!");
         }
       
         const jobId = jobDataResult[0].id; // Extract the job ID
@@ -163,8 +172,7 @@ const page = () => {
         try {
           // Wait for all upload promises to complete
           await Promise.all(uploadPromises);
-          console.log('All attachments uploaded successfully.');
-          
+          router.push('/pages/explore')
           // Perform the next steps here if all uploads are successful
         } catch (error) {
           console.error('One or more attachments failed to upload:', error);

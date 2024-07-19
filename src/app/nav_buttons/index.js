@@ -48,18 +48,6 @@ const fetchRoleButtons = () => {
             href: "/pages/accounts",
             tooltip: "List of Accounts",
           },
-          // {
-          //   name: "MOA Status",
-          //   icon: <DoneOutlineOutlinedIcon />,
-          //   href: "/pages/moa-status",
-          //   tooltip: "MOA Status",
-          // },
-          // {
-          //   name: "Changelog",
-          //   icon: <TextSnippetOutlinedIcon />,
-          //   href: "/pages/changelog",
-          //   tooltip: "Changelog",
-          // },
         ])
       } else if (userRole === "faculty") {
         setRoleButtons([
@@ -71,17 +59,18 @@ const fetchRoleButtons = () => {
             tooltip: "List of Careers",
           },
           {
-            name: "MOA Status",
-            icon: <DoneOutlineOutlinedIcon />,
-            href: "/pages/moa-status",
-            tooltip: "MOA Status",
+            name: "Companies",
+            icon: <BusinessOutlinedIcon />,
+            href: "/pages/companies",
+            tooltip: "List of Companies",
           },
           {
-            name: "Changelog",
-            icon: <TextSnippetOutlinedIcon />,
-            href: "/pages/changelog",
-            tooltip: "Changelog",
+            name: "Accounts",
+            icon: <GroupOutlinedIcon />,
+            href: "/pages/accounts",
+            tooltip: "List of Accounts",
           },
+
         ])
       } else if (userRole === "company") {
         setRoleButtons([

@@ -47,7 +47,6 @@ const EmployeesPage = () => {
 
         <div className={`${activeTab === "charts" ? "" : "hidden"}`}>
           <ChartsResult />
-          Hello World
         </div>
 
         <div className={`${activeTab === "table" ? "" : "hidden"}`}>

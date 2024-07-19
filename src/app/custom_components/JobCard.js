@@ -64,10 +64,10 @@ const JobCard = ({ title, description, image, tags }) => {
   );
 };
 
-const JobCardSmall = ({ title, image, company, location }) => {
+const JobCardSmall = ({ title, image, company, location, onClick }) => {
   return (
-    <div className="flex items-center p-4 border shadow-sm rounded-lg hover:shadow-md transition-shadow ease-in-out cursor-pointer mb-4">
-      <Image src={image} alt="logo" className="h-[56px] w-[56px] rounded-lg" />
+    <div className="flex items-center p-4 border shadow-sm rounded-lg hover:shadow-md transition-shadow ease-in-out cursor-pointer mb-4" onClick={onClick}>
+      <Image src={image} alt="logo" className="h-[56px] w-[56px] rounded-lg" width={150} height={150}/>
       <div className="ml-4 overflow-hidden">
         <h3 className="text-base font-semibold truncate max-w-[55ch]">
           {title}

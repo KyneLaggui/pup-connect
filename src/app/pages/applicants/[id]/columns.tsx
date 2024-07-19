@@ -20,6 +20,7 @@ export type Payment = {
   companyEmail: string;
   jobId: number;
   applicationId: number;
+  updateUI: () => void;
 };
 
 const formatDate = (date: string) => {
@@ -135,7 +136,6 @@ export const columns: ColumnDef<Payment>[] = [
     header: "Decision",
     cell: ({ row }) => {
       const user = row.original;      
-
       const acceptApplicant = async() => {
         Swal.fire({
           title: "Confirmation",
@@ -159,6 +159,8 @@ export const columns: ColumnDef<Payment>[] = [
             .from('job_application')
             .delete()
             .eq('id', user.applicationId)
+
+            user.updateUI(user.applicationId)
             
             if (!confirmationResult.error && !applicationDeletionResult.error) {
               Swal.fire({

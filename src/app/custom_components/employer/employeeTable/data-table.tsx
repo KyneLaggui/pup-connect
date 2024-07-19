@@ -60,10 +60,10 @@ export function DataTable<TData, TValue>({
         <Input
           placeholder="Search for last name"
           value={
-            (table.getColumn("last_name")?.getFilterValue() as string) ?? ""
+            (table.getColumn("lastName")?.getFilterValue() as string) ?? ""
           }
           onInputHandleChange={(event) =>
-            table.getColumn("last_name")?.setFilterValue(event.target.value)
+            table.getColumn("lastName")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
