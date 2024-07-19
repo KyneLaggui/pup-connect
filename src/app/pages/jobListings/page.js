@@ -14,6 +14,7 @@ import { supabase } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectEmail } from "@/redux/slice/authSlice";
+import ImageZoom from "@/app/custom_components/ImageZoom";
 
 const JobListings = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -284,16 +285,30 @@ const JobListings = () => {
                     </div>
 
                     <div className="flex flex-col gap-3 lg:max-w-[740px] ">
-                      <h1 className="text-lg font-medium text-foreground">
-                        Attachments
-                      </h1>
-                      <iframe
-                        src="https://drive.google.com/file/d/1ZZcxn5ulphyXE7vL1yt5QpiuUXTew1_y/preview"
-                        className="rounded-md"
-                        width="150"
-                        height="150"
-                      ></iframe>
-                    </div>
+                          <h1 className="text-lg font-medium text-foreground">
+                            Attachments
+                          </h1>
+                          <div className="flex gap-4">
+                            {job.attachments &&
+                              job.attachments.map((attachment, index) => {
+                                return (
+                                  // <Image
+                                  //   key={index}
+                                  //   alt={`attachment-${index}`}
+                                  //   src={attachment}
+                                  //   className="object-cover aspect-square rounded-lg border border-tertiary-border shadow-md cursor-pointer"
+                                  //   width="180"
+                                  //   height="180"
+                                  // ></Image>
+                                  <ImageZoom
+                                    src={attachment}
+                                    alt={`attachment-${index}`}
+                                    key={index}
+                                  />
+                                );
+                              })}
+                          </div>
+                        </div>
                   </div>
                 </div>
               </DrawerContent>

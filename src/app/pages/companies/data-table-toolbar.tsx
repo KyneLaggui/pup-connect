@@ -131,7 +131,7 @@ export function DataTableToolbar<TData>({
 
   return (
     <div className="flex items-center justify-between w-full">
-      <div className="flex flex-1 items-center gap-2 w-full">
+      <div className="flex flex-1 items-center gap-2 w-full justify-between">
         <Input
           placeholder="Search for company..."
           value={
@@ -161,22 +161,25 @@ export function DataTableToolbar<TData>({
             <p>Reset</p>
           </Button>
         )}
-        {
-          role === 'admin' && (
-            <Button variant="default" size="sm" className="ml-auto" onClick={toggleModal}>
+        <div className="flex gap-1">
+          {
+            role === 'admin' && (
+              <Button variant="default" size="sm" className="ml-auto" onClick={toggleModal}>
+              <div className="flex items-center gap-2">
+                Add company
+                <Plus className="h-4 w-4" />
+              </div>
+            </Button>
+            )
+          }
+          <Button variant="green" size="sm" className="ml-auto" onClick={downloadCSV}>
             <div className="flex items-center gap-2">
-              Add company
+              Export data to CSV
               <Plus className="h-4 w-4" />
             </div>
           </Button>
-          )
-        }
-        <Button variant="green" size="sm" className="ml-auto" onClick={downloadCSV}>
-          <div className="flex items-center gap-2">
-            Export data to CSV
-            <Plus className="h-4 w-4" />
-          </div>
-        </Button>
+        </div>
+    
       </div>
       {/* <DataTableViewOptions table={table} /> */}
       {/* Modal */}
