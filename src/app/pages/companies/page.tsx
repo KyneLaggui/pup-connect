@@ -5,7 +5,7 @@ import { Payment, columns } from "./columns";
 import { DataTable } from "./data-table";
 import VerificationCheck from "@/layouts/VerificationCheck";
 import { supabase } from '@/utils/supabase/client';
-import AdminOnlyPage from '@/app/layouts/AdminOnlyPage';
+import AdminFacultyOnlyPage from '@/app/layouts/AdminFacultyOnlyPage';
 // {
 //   id: 1,
 //   status: "Approved",
@@ -34,6 +34,7 @@ export default function CompaniesPage() {
               const options = { year: 'numeric', month: 'long', day: 'numeric' };
               // Format the date
               const formattedDate = date.toLocaleDateString('en-US', options);
+              const randomEmployeeNumber =  Math.floor(Math.random() * (30 - 10 + 1)) + 10;
 
               gatheredData = [
                 ...gatheredData,
@@ -41,7 +42,7 @@ export default function CompaniesPage() {
                   id: company.id,
                   company_name: company.name,
                   email: company.email,
-                  no_of_employees: 17,
+                  no_of_employees: randomEmployeeNumber,
                   date: formattedDate,
                 }
               ]  
@@ -57,7 +58,7 @@ export default function CompaniesPage() {
 
   return (
     <VerificationCheck>
-      <AdminOnlyPage>
+      <AdminFacultyOnlyPage>
       <div className="flex">
         <div className="container-sidebar">
           <h1 className="text-2xl font-semibold tracking-tight">Companies</h1>
@@ -68,7 +69,7 @@ export default function CompaniesPage() {
           <DataTable columns={columns} data={data} />
         </div>
       </div>
-      </AdminOnlyPage>      
+      </AdminFacultyOnlyPage>      
     </VerificationCheck>
 
   );

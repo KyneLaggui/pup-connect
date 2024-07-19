@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/table";
 import { DataTablePagination } from "@/app/custom_components/table/data-table-pagination";
 import * as React from "react";
+import { useState, useEffect } from 'react'
 import { Input } from "@/components/ui/input";
 import { DataTableToolbar } from "./data-table-toolbar";
 
@@ -39,6 +40,7 @@ export function DataTable<TData, TValue>({
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
   ); // filtering
+  const [allData, setAllData] = useState([])
 
   const table = useReactTable({
     data,
@@ -57,9 +59,15 @@ export function DataTable<TData, TValue>({
     },
   });
 
+  useEffect(() => {
+    if (data) {
+      setAllData(data)
+    }
+  }, [data])
+
   return (
     <div className="flex flex-col gap-4">
-      <DataTableToolbar table={table} />
+      <DataTableToolbar table={table} allData={allData}/>
       <div className="rounded-md border">
         <Table>
           <TableHeader>
