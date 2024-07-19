@@ -10,6 +10,7 @@ import LinkIcon from "@mui/icons-material/Link";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useParams } from 'next/navigation'
+import { Alert } from "@/app/custom_components/Alert";
 
 import {
   Select,
@@ -263,10 +264,14 @@ const FormProfile = () => {
         .eq('email', currentUserData.email)
       
       if (profileUpdateResult.error) {
-        console.log('An error has occured!');
-        console.log(profileUpdateResult.error);
+        Alert(
+          "error",
+          "Profile Update Failed",
+          "An error has occured."
+        );
       } else {
-        console.log('Profile updated successfully!')
+        Alert("success", "Profile Update Successful", "You have successfully updated your profile.");            
+
       }
 
       const addressUpdateResult = await supabase
