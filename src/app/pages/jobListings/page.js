@@ -106,6 +106,11 @@ const JobListings = () => {
                     .getPublicUrl(`${folderPath}/${file.name}`).data.publicUrl;
                 });
 
+                const { error, data, count } = await supabase
+                .from('job_application')
+                .select('*', { count: 'exact' })
+                .eq('job_id', job.id)
+                
                 return {
                   number: job.id,
                   mode: capitalizeFirstLetter(job.mode),
@@ -122,6 +127,7 @@ const JobListings = () => {
                   qualifications: job.qualifications,
                   benefits: job.benefits,
                   createdAt: job.created_at,
+                  no_of_applicant: count
                 };
               })
             );
@@ -163,7 +169,7 @@ const JobListings = () => {
           {filteredJobs.map((job, index) => (
             <Drawer key={job.id}>
               <DrawerTrigger>
-                <JobCardCompany key={job.id} {...job} />
+                <JobCardCompany key={job.id} {...job} no_of_applicant={job.no_of_applicant}/>
               </DrawerTrigger>
               <DrawerContent className="lg:h-[95%] h-screen ">
                 <div className="flex justify-evenly xl:p-14 p-12 items-start overflow-y-scroll ">
