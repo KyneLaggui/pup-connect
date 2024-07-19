@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useParams } from "next/navigation";
 import { dummyImage } from "@assets/index";
 import Image from "next/image";
+import { Alert } from "@/app/custom_components/Alert";
 
 import {
   Select,
@@ -23,7 +24,6 @@ import {
 } from "@/components/ui/select";
 
 import { supabase } from "@/utils/supabase/client";
-import FormsLabel from "./FormsLabel";
 
 const FormProfileCompany = () => {
   const [currentUserData, setCurrentUserData] = useState({
@@ -248,10 +248,14 @@ const FormProfileCompany = () => {
       .eq("email", currentUserData.email);
 
     if (companyUpdateResult.error) {
-      console.log("An error has occured!");
-      console.log(companyUpdateResult.error);
-    } else {
-      console.log("Profile updated successfully!");
+
+      Alert(
+        "error",
+        "Profile Update Failed",
+        "An error has occured."
+      );
+        } else {
+        Alert("success", "Profile Update Successful", "You have successfully updated your company profile.");            
     }
 
     const addressUpdateResult = await supabase

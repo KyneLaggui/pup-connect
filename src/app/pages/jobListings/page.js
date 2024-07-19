@@ -14,6 +14,7 @@ import { supabase } from "@/utils/supabase/client";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectEmail } from "@/redux/slice/authSlice";
+import ImageZoom from "@/app/custom_components/ImageZoom";
 
 const JobListings = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -105,6 +106,11 @@ const JobListings = () => {
                     .getPublicUrl(`${folderPath}/${file.name}`).data.publicUrl;
                 });
 
+                const { error, data, count } = await supabase
+                .from('job_application')
+                .select('*', { count: 'exact' })
+                .eq('job_id', job.id)
+                
                 return {
                   number: job.id,
                   mode: capitalizeFirstLetter(job.mode),
@@ -121,6 +127,7 @@ const JobListings = () => {
                   qualifications: job.qualifications,
                   benefits: job.benefits,
                   createdAt: job.created_at,
+                  no_of_applicant: count
                 };
               })
             );
@@ -162,7 +169,7 @@ const JobListings = () => {
           {filteredJobs.map((job, index) => (
             <Drawer key={job.id}>
               <DrawerTrigger>
-                <JobCardCompany key={job.id} {...job} />
+                <JobCardCompany key={job.id} {...job} no_of_applicant={job.no_of_applicant}/>
               </DrawerTrigger>
               <DrawerContent className="lg:h-[95%] h-screen ">
                 <div className="flex justify-evenly xl:p-14 p-12 items-start overflow-y-scroll ">
@@ -284,16 +291,30 @@ const JobListings = () => {
                     </div>
 
                     <div className="flex flex-col gap-3 lg:max-w-[740px] ">
-                      <h1 className="text-lg font-medium text-foreground">
-                        Attachments
-                      </h1>
-                      <iframe
-                        src="https://drive.google.com/file/d/1ZZcxn5ulphyXE7vL1yt5QpiuUXTew1_y/preview"
-                        className="rounded-md"
-                        width="150"
-                        height="150"
-                      ></iframe>
-                    </div>
+                          <h1 className="text-lg font-medium text-foreground">
+                            Attachments
+                          </h1>
+                          <div className="flex gap-4">
+                            {job.attachments &&
+                              job.attachments.map((attachment, index) => {
+                                return (
+                                  // <Image
+                                  //   key={index}
+                                  //   alt={`attachment-${index}`}
+                                  //   src={attachment}
+                                  //   className="object-cover aspect-square rounded-lg border border-tertiary-border shadow-md cursor-pointer"
+                                  //   width="180"
+                                  //   height="180"
+                                  // ></Image>
+                                  <ImageZoom
+                                    src={attachment}
+                                    alt={`attachment-${index}`}
+                                    key={index}
+                                  />
+                                );
+                              })}
+                          </div>
+                        </div>
                   </div>
                 </div>
               </DrawerContent>

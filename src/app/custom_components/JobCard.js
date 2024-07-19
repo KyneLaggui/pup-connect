@@ -96,7 +96,7 @@ const JobCardCompany = ({ title, createdAt, no_of_applicant }) => {
       </div>
 
       <p className="text-sm text-muted-foreground tracking-wide">
-        {no_of_applicant > 0 ? `${no_of_applicant}` : "No Applicants"}
+        {no_of_applicant > 0 ? `${no_of_applicant} Applicants` : "No Applicants"}
       </p>
     </div>
   );
