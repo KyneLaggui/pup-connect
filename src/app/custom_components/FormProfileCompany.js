@@ -10,7 +10,7 @@ import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import LinkIcon from "@mui/icons-material/Link";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { useParams } from 'next/navigation'
+import { useParams } from "next/navigation";
 import { dummyImage } from "@assets/index";
 import Image from "next/image";
 import { Alert } from "@/app/custom_components/Alert";
@@ -24,7 +24,6 @@ import {
 } from "@/components/ui/select";
 
 import { supabase } from "@/utils/supabase/client";
-
 
 const FormProfileCompany = () => {
   const [currentUserData, setCurrentUserData] = useState({
@@ -54,7 +53,9 @@ const FormProfileCompany = () => {
     streetAddress: false,
   }); // track invalid fields
 
-  const [socialLinks, setSocialLinks] = useState(currentUserData.socialLinks || [""]);
+  const [socialLinks, setSocialLinks] = useState(
+    currentUserData.socialLinks || [""]
+  );
   const [selectedTags, setSelectedTags] = useState([]);
   const [regionsState, setRegionsState] = useState([]);
   const [provinceCityState, setProvincesCityState] = useState([]);
@@ -67,18 +68,18 @@ const FormProfileCompany = () => {
 
   const handleChange = (e, name) => {
     if (e && e.target) {
-        if (e.target.type === "file") {
-            // For file input events
-            const { name } = e.target;
-            const file = e.target.files[0];
-            setCurrentUserData({ ...currentUserData, [name]: file });
-        } else {
+      if (e.target.type === "file") {
+        // For file input events
+        const { name } = e.target;
+        const file = e.target.files[0];
+        setCurrentUserData({ ...currentUserData, [name]: file });
+      } else {
         // For regular input events
         const { name, value } = e.target;
         if (name === "streetAddress") {
-            setCurrentUserAddress({ ...currentUserAddress, [name]: value });
+          setCurrentUserAddress({ ...currentUserAddress, [name]: value });
         } else {
-            setCurrentUserData({ ...currentUserData, [name]: value });
+          setCurrentUserData({ ...currentUserData, [name]: value });
         }
       }
     } else if (name) {
@@ -90,10 +91,17 @@ const FormProfileCompany = () => {
   const handleLocationChange = async (e, name) => {
     if (name === "region") {
       await findProvince(e);
-      setCurrentUserAddress((prevCurrentAddress) => ({ ...prevCurrentAddress, [name]: e, cityOrProvince: "" }));
+      setCurrentUserAddress((prevCurrentAddress) => ({
+        ...prevCurrentAddress,
+        [name]: e,
+        cityOrProvince: "",
+      }));
     } else if (name === "cityOrProvince") {
-      setCurrentUserAddress((prevCurrentAddress) => ({ ...prevCurrentAddress, [name]: e }));
-    } 
+      setCurrentUserAddress((prevCurrentAddress) => ({
+        ...prevCurrentAddress,
+        [name]: e,
+      }));
+    }
   };
 
   const handleImageUploadClick = () => {
@@ -156,11 +164,18 @@ const FormProfileCompany = () => {
 
   async function findProvince(regionName) {
     const region = regionsState.find((region) => region.name === regionName);
-    setCurrentUserAddress((prevUserData) => ({ ...prevUserData, regionCode: region.code }));
+    setCurrentUserAddress((prevUserData) => ({
+      ...prevUserData,
+      regionCode: region.code,
+    }));
 
-    const response = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/provinces.json`);
+    const response = await fetch(
+      `https://psgc.gitlab.io/api/regions/${region.code}/provinces.json`
+    );
     const provinces = await response.json();
-    const secondResponse = await fetch(`https://psgc.gitlab.io/api/regions/${region.code}/cities.json`);
+    const secondResponse = await fetch(
+      `https://psgc.gitlab.io/api/regions/${region.code}/cities.json`
+    );
     const cities = await secondResponse.json();
 
     const provincesStorage = provinces.map((province) => ({
@@ -191,48 +206,49 @@ const FormProfileCompany = () => {
 
     // Check if the given date is greater than or equal to the current date
     if (checkDate >= currentDate) {
-        return true;
+      return true;
     } else {
-        return false;
+      return false;
     }
-  }
+  };
 
   const isValidPhilippinesMobileNumber = (phoneNumber) => {
     // Define the regular expression pattern for mobile numbers
     const mobilePattern = /^(?:\+63|0)9\d{9}$/;
 
     // Remove spaces from the phone number for easier matching
-    phoneNumber = phoneNumber.replace(/\s+/g, '');
+    phoneNumber = phoneNumber.replace(/\s+/g, "");
 
     // Check if the phone number matches the mobile pattern
     return mobilePattern.test(phoneNumber);
-  }
+  };
 
   const checkInputErrors = async () => {
     let newInvalidFields = {
-        name: false,
-        email: false,
-        description: false,
-        tags: false,
-        logo: false,
-        region: false,
-        regionCode: false,
-        cityOrProvince: false,
-        streetAddress: false,
-    }
+      name: false,
+      email: false,
+      description: false,
+      tags: false,
+      logo: false,
+      region: false,
+      regionCode: false,
+      cityOrProvince: false,
+      streetAddress: false,
+    };
 
     const companyUpdateResult = await supabase
-    .from('company')
-    .update({
+      .from("company")
+      .update({
         name: currentUserData.name,
         email: currentUserData.email,
         description: currentUserData.description,
         tags: currentUserData.tags,
         logo: currentUserData.gender,
-    })
-    .eq('email', currentUserData.email)
+      })
+      .eq("email", currentUserData.email);
 
     if (companyUpdateResult.error) {
+
       Alert(
         "error",
         "Profile Update Failed",
@@ -243,48 +259,49 @@ const FormProfileCompany = () => {
     }
 
     const addressUpdateResult = await supabase
-    .from('company_address')
-    .update({
-      region: currentUserAddress.region,
-      cityOrProvince: currentUserAddress.cityOrProvince,
-      street_address: currentUserAddress.streetAddress,
-      region_code: currentUserAddress.regionCode
-    })
-    .eq('email', currentUserData.email)
-
-  if (addressUpdateResult.error) {
-    console.log('An error has occured!');
-  } else {
-    console.log('Address updated successfully!')
-  }
-
-  if (currentUserData.logo && (currentUserData["logo"] instanceof File )) {
-    const logoFileExt = (currentUserData.logo.name).split('.').pop()
-    // const rawEmail = (userData.email).replace(/\.com$/, '')
-    
-    const { data: { user } } = await supabase.auth.getUser()   
-
-    if (user) {
-      const logoResult = await supabase
-      .storage 
-      .from('companyLogo')
-      .upload(`public/${user.id}.${logoFileExt}`, currentUserData.logo, {
-        cacheControl: '3600',
-        upsert: true
+      .from("company_address")
+      .update({
+        region: currentUserAddress.region,
+        cityOrProvince: currentUserAddress.cityOrProvince,
+        street_address: currentUserAddress.streetAddress,
+        region_code: currentUserAddress.regionCode,
       })
+      .eq("email", currentUserData.email);
 
-      if (logoResult.error) {
-        console.log(logoResult.error)
-      } else {
-        console.log(logoResult.data)
+    if (addressUpdateResult.error) {
+      console.log("An error has occured!");
+    } else {
+      console.log("Address updated successfully!");
+    }
+
+    if (currentUserData.logo && currentUserData["logo"] instanceof File) {
+      const logoFileExt = currentUserData.logo.name.split(".").pop();
+      // const rawEmail = (userData.email).replace(/\.com$/, '')
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      if (user) {
+        const logoResult = await supabase.storage
+          .from("companyLogo")
+          .upload(`public/${user.id}.${logoFileExt}`, currentUserData.logo, {
+            cacheControl: "3600",
+            upsert: true,
+          });
+
+        if (logoResult.error) {
+          console.log(logoResult.error);
+        } else {
+          console.log(logoResult.data);
+        }
       }
     }
-  }
-  }
+  };
 
   const handleSubmit = () => {
     checkInputErrors();
-  }
+  };
 
   useEffect(() => {
     if (userData) {
@@ -295,11 +312,11 @@ const FormProfileCompany = () => {
         email: userData.email,
         tags: userData.tags,
         socialLinks: userData.social_links,
-        id: userData.id
+        id: userData.id,
       });
 
-      setSelectedTags(userData.tags)
-      setSocialLinks(userData.social_links)
+      setSelectedTags(userData.tags);
+      setSocialLinks(userData.social_links);
     }
 
     if (userAddress) {
@@ -313,30 +330,33 @@ const FormProfileCompany = () => {
   }, [userAddress, userData]);
 
   useEffect(() => {
-    const getResume = async() => {
+    const getResume = async () => {
       if (userData) {
-        const result = await supabase
-        .storage
-        .from('companyLogo')
-        .getPublicUrl(`public/${userData.id}.png`)
+        const result = await supabase.storage
+          .from("companyLogo")
+          .getPublicUrl(`public/${userData.id}.png`);
 
         if (result.data) {
-          setCurrentUserData({...currentUserData, logo: result.data.publicUrl})
-        }  
+          setCurrentUserData({
+            ...currentUserData,
+            logo: result.data.publicUrl,
+          });
+        }
       }
-    } 
+    };
 
-    getResume()
-    
-  }, [userData])
-
-    useEffect(() => {
-      generateRegions();
-    }, []);
+    getResume();
+  }, [userData]);
 
   useEffect(() => {
-    if (regionsState.length > 0 && userAddress) {      
-      const region = regionsState.find((region) => region.name === userAddress.region);
+    generateRegions();
+  }, []);
+
+  useEffect(() => {
+    if (regionsState.length > 0 && userAddress) {
+      const region = regionsState.find(
+        (region) => region.name === userAddress.region
+      );
       if (region) {
         findProvince(region.name);
       }
@@ -351,9 +371,8 @@ const FormProfileCompany = () => {
   }, [selectedTags, setCurrentUserData]);
 
   useEffect(() => {
-    console.log(currentUserData)
-  }, [currentUserData])
-
+    console.log(currentUserData);
+  }, [currentUserData]);
 
   return (
     <div className="flex-1 rounded-xl p-8 border shadow-md bg-background content-end max-w-screen-sm">
@@ -376,7 +395,11 @@ const FormProfileCompany = () => {
             <Image
               className="aspect-square object-cover"
               alt="logo"
-              src={currentUserData["logo"] instanceof File ? URL.createObjectURL(currentUserData["logo"]) : currentUserData["logo"]}
+              src={
+                currentUserData["logo"] instanceof File
+                  ? URL.createObjectURL(currentUserData["logo"])
+                  : currentUserData["logo"]
+              }
               width={100}
               height={100}
             />
@@ -395,174 +418,203 @@ const FormProfileCompany = () => {
         Upload new
         <input type="file" className="absolute inset-0 w-full h-full opacity-0 cursor-pointer text-[0]" id="logo" name="logo" onChange={handleChange}/>
       </Button> */}
-      <h1 className="mb-2 text-lg font-semibold">Basic Information</h1>
-      <table className="table-fixed w-full mb-6 border-separate border-spacing-y-2">
-        <tbody>
-          <tr>
-            <td className="w-[140px] text-muted-foreground">Company Name:</td>
-            <td>
-              <div className="w-full mb-2">
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="e.g. John"
-                  name="name"
-                  onInputHandleChange={handleChange}
-                  value={currentUserData["name"] || ""}
-                  className="mt-1"
-                />
-              </div>
-            </td>
-          </tr>
-          
-        </tbody>
-      </table>
-
-      <h1 className="mb-2 text-lg font-semibold">Contact Information</h1>
-      <table className="table-fixed w-full mb-6 border-separate border-spacing-y-2">
-        <tbody>
-          <tr>
-            <td className="w-[140px] text-muted-foreground">Email:</td>
-            <td>
-              <Input
-                id="email"
-                type="text"
-                placeholder="e.g. johndoe@mail.com"
-                name="email"
-                onInputHandleChange={handleChange}
-                value={currentUserData["email"] || ""}
-                className="mt-1"
-                disabled
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h1 className="mb-2 text-lg font-semibold">Address</h1>
-      <table className="table-fixed w-full mb-6 border-separate border-spacing-y-2">
-        <tbody>
-          <tr>
-            <td className="w-[140px] text-muted-foreground">Region:</td>
-            <td>
-              <Select
-                id="region"
-                name="region"
-                onValueChange={(value) => {
-                  handleLocationChange(value, "region");
-                }}
-                value={currentUserAddress.region || ""}
-                >
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Please select..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {
-                    regionsState.map((region, i) => <SelectItem value={region.name} key={i}>{region.name}</SelectItem> )
-                  }
-                </SelectContent>
-              </Select>
-            </td>
-          </tr>
-          <tr>
-            <td className="text-muted-foreground">City/Province:</td>
-            <td>
-              <Select
-                id="cityOrProvince"
-                name="cityOrProvince"
-                onValueChange={(value) => {
-                  handleLocationChange(value, "cityOrProvince");
-                }}
-                value={currentUserAddress["cityOrProvince"] || ""}
-              >
-                <SelectTrigger className="mt-1">
-                  <SelectValue placeholder="Please select..." />
-                </SelectTrigger>
-                <SelectContent>
-                  {
-                    provinceCityState.map((provinceCity, i) => <SelectItem value={provinceCity.name} key={i}>{provinceCity.name}</SelectItem>)
-                  }
-                </SelectContent>
-              </Select>
-            </td>
-          </tr>
-          <tr>
-            <td className="text-muted-foreground">Street Address:</td>
-            <td>
-              <Input
-                id="streetAddress"
-                type="text"
-                // placeholder="e.g. John"
-                name="streetAddress"
-                onInputHandleChange={handleChange}
-                value={currentUserAddress["streetAddress"] || ""}
-                className="mt-1"
-              ></Input>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div className="flex justify-end">
-          {currentUserData.resumeName ? `Uploaded File: ${currentUserData.resumeName}` : ""}           
-      </div>
-      <h1 className="mb-2 text-lg font-semibold">Company Tags</h1>
-      <div className="flex flex-col items-center">
-      <div className={`flex flex-wrap gap-3 justify-center mb-6 transition-all duration-500 ease-in-out`}>
-        {companyTags.map((tag, index) => (
-          <div key={index} className="flex items-center gap-2">
-            <Tag
-              variant="static"
-              size="default"
-              state={selectedTags.includes(tag) ? "selected" : "default"}
-              onClick={() => handleTagClick(tag)}
-              className="cursor-pointer"
-            >
-              {tag}
-            </Tag>
-          </div>
-        ))}
-      </div>
-     </div>
-      <h1 className="mb-4 text-lg font-semibold">Description</h1>
-      <Textarea
-        id="description"
-        name="description"
-        className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
-        onChange={handleChange}
-        value={currentUserData["description"] || ""}
-      />
-      <h1 className="mb-4 text-lg font-semibold">Social Links</h1>
-      <div className="w-full mb-6">
-        <div className="flex flex-col gap-2 mt-1">
-        {socialLinks.map((link, index) => (
-            <div key={index} className="flex items-center rounded-md border border-input-border bg-input">
-              <div className="p-1 h-full border-r border-muted">
-                <LinkIcon className="rotate-90 w-[20px] h-[20px] text-drawer-icon" />
-              </div>
-              <Input
-                type="text"
-                value={link}
-                onInputHandleChange={(event) => handleSocialLinkInputChange(index, event)}
-                name={`socialLink-${index}`}
-                className="border-0"
-              />
-              <div className="group p-2 cursor-pointer">
-                <RemoveCircleIcon
-                  className="w-[15px] h-[15px] text-drawer-icon group-hover:text-red-500 duration-500 transition-colors ease-in-out"
-                  onClick={() => removeSocialLinkInput(index)}
-                />
-              </div>
-            </div>
-          ))}
-          <button onClick={addSocialLinkInput} className="text-xs text-checkbox-text">
-            Add Social Link
-          </button>
+      <div class="space-y-6">
+        <div>
+          <h1 className="mb-2 text-lg font-semibold">Basic Information</h1>
+          <table className="table-fixed w-full border-separate border-spacing-y-2">
+            <tbody>
+              <tr>
+                <td className="w-[140px] text-muted-foreground">
+                  Company Name:
+                </td>
+                <td>
+                  <div className="w-full mb-2">
+                    <Input
+                      id="name"
+                      type="text"
+                      placeholder="e.g. John"
+                      name="name"
+                      onInputHandleChange={handleChange}
+                      value={currentUserData["name"] || ""}
+                      className="mt-1"
+                    />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-      </div>
-      <div className="flex justify-end">
-        <Button variant="default" size="sm" onClick={handleSubmit}>
+        <div>
+          <h1 className="mb-2 text-lg font-semibold">Contact Information</h1>
+          <table className="table-fixed w-full mb-6 border-separate border-spacing-y-2">
+            <tbody>
+              <tr>
+                <td className="w-[140px] text-muted-foreground">Email:</td>
+                <td>
+                  <Input
+                    id="email"
+                    type="text"
+                    placeholder="e.g. johndoe@mail.com"
+                    name="email"
+                    onInputHandleChange={handleChange}
+                    value={currentUserData["email"] || ""}
+                    className="mt-1"
+                    disabled
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div>
+          <h1 className="mb-2 text-lg font-semibold">Address</h1>
+          <table className="table-fixed w-full mb-6 border-separate border-spacing-y-2">
+            <tbody>
+              <tr>
+                <td className="w-[140px] text-muted-foreground">Region:</td>
+                <td>
+                  <Select
+                    id="region"
+                    name="region"
+                    onValueChange={(value) => {
+                      handleLocationChange(value, "region");
+                    }}
+                    value={currentUserAddress.region || ""}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Please select..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {regionsState.map((region, i) => (
+                        <SelectItem value={region.name} key={i}>
+                          {region.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="text-muted-foreground">City/Province:</td>
+                <td>
+                  <Select
+                    id="cityOrProvince"
+                    name="cityOrProvince"
+                    onValueChange={(value) => {
+                      handleLocationChange(value, "cityOrProvince");
+                    }}
+                    value={currentUserAddress["cityOrProvince"] || ""}
+                  >
+                    <SelectTrigger className="mt-1">
+                      <SelectValue placeholder="Please select..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {provinceCityState.map((provinceCity, i) => (
+                        <SelectItem value={provinceCity.name} key={i}>
+                          {provinceCity.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </td>
+              </tr>
+              <tr>
+                <td className="text-muted-foreground">Street Address:</td>
+                <td>
+                  <Input
+                    id="streetAddress"
+                    type="text"
+                    // placeholder="e.g. John"
+                    name="streetAddress"
+                    onInputHandleChange={handleChange}
+                    value={currentUserAddress["streetAddress"] || ""}
+                    className="mt-1"
+                  ></Input>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="flex justify-end">
+          {currentUserData.resumeName
+            ? `Uploaded File: ${currentUserData.resumeName}`
+            : ""}
+        </div>
+        <div>
+          <h1 className="mb-2 text-lg font-semibold">Company Tags</h1>
+          <div className="flex flex-col items-center">
+            <div
+              className={`flex flex-wrap gap-3 justify-center mb-6 transition-all duration-500 ease-in-out`}
+            >
+              {companyTags.map((tag, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <Tag
+                    variant="static"
+                    size="default"
+                    state={selectedTags.includes(tag) ? "selected" : "default"}
+                    onClick={() => handleTagClick(tag)}
+                    className="cursor-pointer"
+                  >
+                    {tag}
+                  </Tag>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div>
+          <h1 className="mb-4 text-lg font-semibold">Description</h1>
+          <Textarea
+            id="description"
+            name="description"
+            className="border border-input-border bg-input resize-none min-h-[120px] mt-1"
+            onChange={handleChange}
+            value={currentUserData["description"] || ""}
+          />
+        </div>
+        <div>
+          <h1 className="mb-4 text-lg font-semibold">Social Links</h1>
+          <div className="w-full mb-6">
+            <div className="flex flex-col gap-2 mt-1">
+              {socialLinks.map((link, index) => (
+                <div
+                  key={index}
+                  className="flex items-center rounded-md border border-input-border bg-input"
+                >
+                  <div className="p-1 h-full border-r border-muted">
+                    <LinkIcon className="rotate-90 w-[20px] h-[20px] text-drawer-icon" />
+                  </div>
+                  <Input
+                    type="text"
+                    value={link}
+                    onInputHandleChange={(event) =>
+                      handleSocialLinkInputChange(index, event)
+                    }
+                    name={`socialLink-${index}`}
+                    className="border-0"
+                  />
+                  <div className="group p-2 cursor-pointer">
+                    <RemoveCircleIcon
+                      className="w-[15px] h-[15px] text-drawer-icon group-hover:text-red-500 duration-500 transition-colors ease-in-out"
+                      onClick={() => removeSocialLinkInput(index)}
+                    />
+                  </div>
+                </div>
+              ))}
+              <button
+                onClick={addSocialLinkInput}
+                className="text-xs text-checkbox-text"
+              >
+                Add Social Link
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="flex justify-end">
+          <Button variant="default" size="sm" onClick={handleSubmit}>
             Save Changes
-        </Button>
+          </Button>
+        </div>
       </div>
     </div>
   );
