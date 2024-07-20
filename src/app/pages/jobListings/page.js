@@ -17,6 +17,7 @@ import { selectEmail } from "@/redux/slice/authSlice";
 import ImageZoom from "@/app/custom_components/ImageZoom";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
 const JobListings = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -158,13 +159,15 @@ const JobListings = () => {
           Here are the jobs listed by your company.
         </p>
 
-        <Input
-          type="text"
-          value={searchTerm}
-          onInputHandleChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Search job"
-          className="mb-5"
-        />
+        <div class="flex items-center mb-5 space-x-3">
+          <Input
+            type="text"
+            value={searchTerm}
+            onInputHandleChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search job"
+          />
+          <Button className="flex items-center space-x-2 px-8">Add Job</Button>
+        </div>
 
         {/* <div className="grid auto-fit-[300px] gap-4"> */}
         <div className="flex gap-4 flex-col flex-wrap sm:flex-row">

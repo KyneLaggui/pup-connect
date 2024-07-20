@@ -175,6 +175,8 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>Change role</DropdownMenuItem>
             <DropdownMenuItem>View evaluation</DropdownMenuItem>
+            {/* Add delete function */}
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
