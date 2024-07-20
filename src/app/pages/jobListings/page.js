@@ -18,6 +18,8 @@ import ImageZoom from "@/app/custom_components/ImageZoom";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
+import { Alert } from "@/app/custom_components/Alert";
+import { useRouter } from "next/navigation";
 
 const JobListings = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -26,6 +28,7 @@ const JobListings = () => {
   const jobs = jobTableV2;
 
   const userEmail = useSelector(selectEmail);
+  const router = useRouter();
 
   // const filteredJobs = jobs.filter((job) =>
   //   job.job_title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -64,6 +67,24 @@ const JobListings = () => {
     // Capitalize the first letter and concatenate with the rest of the string
     return str.charAt(0).toUpperCase() + str.slice(1);
   };
+
+  const deleteJob = async(id) => {
+    const jobDeletion = await supabase
+      .from('job')
+      .delete()
+      .eq('id', id)
+
+    console.log(jobDeletion)
+    if (!jobDeletion.error) {
+      Alert("success", "Deletion Successful", "You have successfully deleted a job.");            
+    } else {
+      Alert(
+        "error",
+        "Deletion Failed",
+        "An error has occured."
+      );
+    }
+  }
 
   useEffect(() => {
     if (userEmail) {
@@ -158,24 +179,27 @@ const JobListings = () => {
         <p className="text-md font-medium text-muted-foreground mb-4">
           Here are the jobs listed by your company.
         </p>
-
-        <div class="flex items-center mb-5 space-x-3">
+        <div className="flex gap-3">
           <Input
             type="text"
             value={searchTerm}
             onInputHandleChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search job"
+            className="mb-5"
           />
-          <Button className="flex items-center space-x-2 px-8">Add Job</Button>
+          <Link href='/pages/jobCreation' className="w-full max-w-36"> 
+            <Button size="default" className="bg-green-500 w-full">
+              Add Job
+            </Button>
+          </Link>
         </div>
-
         {/* <div className="grid auto-fit-[300px] gap-4"> */}
         <div className="flex gap-4 flex-col flex-wrap sm:flex-row">
           {filteredJobs.map((job, index) => (
-            <Drawer key={job.id}>
+            <Drawer key={job.number}>
               <DrawerTrigger>
                 <JobCardCompany
-                  key={job.id}
+                  key={job.number}
                   {...job}
                   no_of_applicant={job.no_of_applicant}
                 />
@@ -197,10 +221,10 @@ const JobListings = () => {
                             Applicant
                           </Link>
                         </Button>
-                        <Button variant="edit" size="icon">
+                        <Button variant="edit" size="icon" onClick={() => router.push(`/pages/jobEdit/${job.number}`)}>
                           <EditOutlinedIcon size={17} />
                         </Button>
-                        <Button variant="delete" size="icon">
+                        <Button variant="delete" size="icon" onClick={() => deleteJob(job.number)}>
                           <DeleteOutlineOutlinedIcon size={17} />
                         </Button>
                         <Button variant="outline" size="icon">
