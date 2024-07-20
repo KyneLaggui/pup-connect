@@ -94,6 +94,10 @@ const ChangeStatus = ({ data }) => {
           <DropdownMenuItem onClick={() => setIsViewEvaluationDialogOpen(true)}>
             View evaluation
           </DropdownMenuItem>
+          {/* Change the function to delete function */}
+          <DropdownMenuItem onClick={() => console.log("Delete")}>
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 

@@ -17,6 +17,7 @@ import { selectEmail } from "@/redux/slice/authSlice";
 import ImageZoom from "@/app/custom_components/ImageZoom";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { Alert } from "@/app/custom_components/Alert";
 import { useRouter } from "next/navigation";
 
@@ -186,7 +187,6 @@ const JobListings = () => {
             placeholder="Search job"
             className="mb-5"
           />
-
           <Link href='/pages/jobCreation' className="w-full max-w-36"> 
             <Button size="default" className="bg-green-500 w-full">
               Add Job
