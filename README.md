@@ -1,36 +1,66 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📌 PUP Connect
 
-## Getting Started
+## 🛠 Tech Stack
 
-First, run the development server:
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![ShadCN UI](https://img.shields.io/badge/ShadCN_UI-%2314171A?style=for-the-badge&logo=vercel&logoColor=white)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📄 Description
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**PUP Connect** is a web platform designed to bridge the gap between students/alumni of the Polytechnic University of the Philippines and potential employers. It simplifies job and internship discovery with features such as:
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+- 💼 Job posting system
+- 📄 Streamlined application workflows
+- 📊 Data-driven candidate management
+- 🎯 Clean, accessible user interface
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+The platform enhances visibility for PUP talents while making it easier for companies to connect with qualified applicants.
 
-## Learn More
+## 🚀 How to Use
 
-To learn more about Next.js, take a look at the following resources:
+1. Clone the repository:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   git clone https://github.com/KyneLaggui/pup-connect.git
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+2. Navigate into the project directory:
 
-## Deploy on Vercel
+   ```bash
+   cd pup-connect
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Install dependencies:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   npm install
+   ```
+
+4. Run the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open your browser and go to:
+   ```
+   http://localhost:3000
+   ```
+
+> ⚠️ This project uses [Next.js](https://nextjs.org/). Ensure Node.js and npm are installed on your machine.
+
+## 🎥 Video Demo
+
+[![Watch the Demo](https://img.shields.io/badge/Watch%20on-YouTube-red?style=for-the-badge&logo=youtube)](https://youtu.be/g27NEqgLgI8)
+
+## 👨‍💻 Author
+
+| Name                    | GitHub                                           |
+| ----------------------- | ------------------------------------------------ |
+| Kyne Laggui             | [@KyneLaggui](https://github.com/KyneLaggui)     |
+| Joseph Jason Buhain     | [@josephh27](https://github.com/josephh27)       |
+| Amado Niño Rei Punzalan | [@PUP-Punzalan](https://github.com/PUP-Punzalan) |
+
+---
